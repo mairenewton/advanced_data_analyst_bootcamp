@@ -98,105 +98,85 @@ view: order_items {
 
   dimension: order_id {
 #     hidden:  yes
-    type: number
-    sql: ${TABLE}.order_id ;;
-  }
+  type: number
+  sql: ${TABLE}.order_id ;;
+}
 
-  dimension: user_id {
-    type: number
-    hidden: yes
-    sql: ${TABLE}.user_id ;;
-  }
+dimension: user_id {
+  type: number
+  hidden: yes
+  sql: ${TABLE}.user_id ;;
+}
 
-  dimension: profit {
-    description: "Profit made on any one item"
-    hidden:  yes
-    type: number
-    value_format_name: usd
-    sql: ${sale_price} - ${inventory_items.cost} ;;
-  }
+dimension: profit {
+  description: "Profit made on any one item"
+  hidden:  yes
+  type: number
+  value_format_name: usd
+  sql: ${sale_price} - ${inventory_items.cost} ;;
+}
 
 ## MEASURES ##
 
-
-
-
-measure: count {
-  label: "Number of Items Ordered"
+measure: order_item_count {
   type: count
-
+  drill_fields: [detail*]
 }
 
-measure: number_of_orders {
+measure: total_revenue {
+  type: sum
+  value_format_name: usd
+  sql: ${sale_price} ;;
+  drill_fields: [detail*]
+}
+
+measure: order_count {
+  description: "A count of unique orders"
   type: count_distinct
   sql: ${order_id} ;;
 }
 
-measure: total_sales {
-  type:  sum
+measure: average_sale_price {
+  type: average
+  value_format_name: usd
   sql: ${sale_price} ;;
+  drill_fields: [detail*]
+}
+
+measure: average_spend_per_user {
+  type: number
+  value_format_name: usd
+  sql: 1.0 * ${total_revenue} / NULLIF(${users.count},0) ;;
+}
+
+measure: total_profit {
+  type: sum
+  sql: ${profit} ;;
+  value_format_name: usd
+}
+
+measure: profit_margin {
+  type: number
+  sql: ${total_profit}/NULLIF(${total_revenue}, 0) ;;
+  value_format_name: percent_2
+}
+
+measure: average_shipping_time {
+  type: average
+  sql: ${shipping_time} ;;
+  value_format: "0\" days\""
 }
 
 
-  measure: order_item_count {
-    type: count
-    drill_fields: [detail*]
-  }
-
-  measure: total_revenue {
-    type: sum
-    value_format_name: usd
-    sql: ${sale_price} ;;
-    drill_fields: [detail*]
-  }
-
-  measure: order_count {
-    description: "A count of unique orders"
-    type: count_distinct
-    sql: ${order_id} ;;
-  }
-
-  measure: average_sale_price {
-    type: average
-    value_format_name: usd
-    sql: ${sale_price} ;;
-    drill_fields: [detail*]
-  }
-
-  measure: average_spend_per_user {
-    type: number
-    value_format_name: usd
-    sql: 1.0 * ${total_revenue} / NULLIF(${users.count},0) ;;
-  }
-
-  measure: total_profit {
-    type: sum
-    sql: ${profit} ;;
-    value_format_name: usd
-  }
-
-  measure: profit_margin {
-    type: number
-    sql: ${total_profit}/NULLIF(${total_revenue}, 0) ;;
-    value_format_name: percent_2
-  }
-
-  measure: average_shipping_time {
-    type: average
-    sql: ${shipping_time} ;;
-    value_format: "0\" days\""
-  }
-
-
-  # ----- Sets of fields for drilling ------
-  set: detail {
-    fields: [
-      id,
-      users.id,
-      users.first_name,
-      users.last_name,
-      inventory_items.id,
-      inventory_items.product_name
-    ]
-  }
+# ----- Sets of fields for drilling ------
+set: detail {
+  fields: [
+    id,
+    users.id,
+    users.first_name,
+    users.last_name,
+    inventory_items.id,
+    inventory_items.product_name
+  ]
+}
 }
