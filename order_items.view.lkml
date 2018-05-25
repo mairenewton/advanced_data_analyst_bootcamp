@@ -118,6 +118,26 @@ view: order_items {
 
 ## MEASURES ##
 
+
+
+
+measure: count {
+  label: "Number of Items Ordered"
+  type: count
+
+}
+
+measure: number_of_orders {
+  type: count_distinct
+  sql: ${order_id} ;;
+}
+
+measure: total_sales {
+  type:  sum
+  sql: ${sale_price} ;;
+}
+
+
   measure: order_item_count {
     type: count
     drill_fields: [detail*]
