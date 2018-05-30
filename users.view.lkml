@@ -8,6 +8,9 @@ view: users {
     sql: ${TABLE}.id ;;
   }
 
+
+
+
   dimension: age {
     type: number
     value_format_name: decimal_0
