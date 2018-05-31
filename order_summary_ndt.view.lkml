@@ -10,10 +10,15 @@
           to_field: order_items.create_date
         }
       }
-    datagroup_trigger: order_item_datagroup
-    sortkeys: ["id"]
-    distribution: "id"
+    #datagroup_trigger: order_item_datagroup
+    #sortkeys: ["id"]
+    #distribution: "id"
     }
+
+    filter: date {
+      type: date
+    }
+
     dimension: order_items_count {
       type: number
     }

@@ -24,6 +24,8 @@ explore: order_facts {}
 
 explore: user_order_summary {}
 
+explore: order_summary_ndt {}
+
 explore: order_items {
   join: users {
     type: left_outer
