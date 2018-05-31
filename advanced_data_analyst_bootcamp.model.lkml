@@ -27,14 +27,14 @@ explore: user_order_summary {}
 explore: order_summary_ndt {}
 
 
-explore: users_ext {
+explore: users_advanced_ext {
   label: "Users Advanced"
   extends: [users]
   from: users_ext
   view_name: users
 }
 
-
+explore: users_ext {}
 
 explore: order_items {
   join: users {
