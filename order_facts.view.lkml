@@ -6,10 +6,16 @@ view: order_facts {
       , sum(sale_price) as order_value
       , count(*) as item_count
       FROM public.order_items
+      WHERE {% condition date %} created_at {% endcondition %}
       group by
       order_id
 
        ;;
+  }
+
+  #add dynmic date
+  filter: date {
+    type: date
   }
 
   measure: count {
