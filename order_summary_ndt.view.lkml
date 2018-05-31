@@ -5,6 +5,10 @@
         column: order_item_count {}
         column: total_revenue {}
         column: order_id {}
+        bind_filters: {
+          from_field: order_summary_ndt.date
+          to_field: order_items.create_date
+        }
       }
     datagroup_trigger: order_item_datagroup
     sortkeys: ["id"]
