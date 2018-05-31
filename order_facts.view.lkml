@@ -6,8 +6,15 @@ view: order_facts {
         ,SUM(sale_price)::DECIMAL(12,2) AS order_value
         ,count(*) AS item_count
       FROM public.order_items
+      WHERE {% condition date %} created_at {% endcondition %}
+      ELSE 'Other'
+      END
       GROUP BY order_id
        ;;
+  }
+
+  filter: date {
+    type: date
   }
 
   measure: count {

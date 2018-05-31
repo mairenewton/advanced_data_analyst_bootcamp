@@ -10,8 +10,8 @@ view: user_facts_ndt {
       column: total_revenue {}
     }
     datagroup_trigger: user_facts_datagroup
-    sortkeys: ["id"]
-    distribution: "id"
+    sortkeys: ["order_id"]
+    distribution: "order_id"
   }
 
 

@@ -1,11 +1,100 @@
 view: order_items {
   sql_table_name: public.order_items ;;
 
-  dimension: id {
-    hidden:  yes
-    primary_key: yes
+  parameter: select_timeframe {
+    label: "Choose a timeframe"
+    description:  "Select a timeframe for viewimng the data"
+    type: string
+    default_value: "year"
+    allowed_value: {
+      label: "Year"
+      value: "year"
+    }
+    allowed_value: {
+      label: "Week"
+      value: "week"
+    }
+    allowed_value: {
+      label: "Week (num)"
+      value: "week_w"
+    }
+    allowed_value: {
+      label: "Month"
+      value: "month"
+    }
+    allowed_value: {
+      label: "Month Name"
+      value: "month_name"
+    }
+  }
+
+  dimension: dynamic_timeframe{
+    description: "Timeframe"
+    label_from_parameter: select_timeframe
+    type: string
+    sql: CASE
+      WHEN {% parameter select_timeframe %} = 'month' THEN ${created_month}
+      WHEN {% parameter select_timeframe %} = 'week' THEN ${created_week}
+      WHEN {% parameter select_timeframe %} = 'week_w' THEN ${week_w}
+      WHEN {% parameter select_timeframe %} = 'month_name' THEN ${created_month_name}
+      ELSE TO_CHAR(${created_year},'9999')
+      END
+    ;;
+  }
+
+  filter: select_order_id {
+    type:  string
+    suggest_dimension: order_id
+
+  }
+
+  dimension: similar_order_id {
+    type:  string
+    sql: CASE
+      WHEN {% condition select_order_id %} ${order_id} {% endcondition %} THEN ${order_id}
+      ELSE NULL
+      END
+      ;;
+  }
+
+  parameter: select_measure {
+    label: "Choose a measure"
+    description:  "Select a measure"
+    type: string
+    default_value: "year"
+    allowed_value: {
+      label: "Total Revenue"
+      value: "total revenue"
+    }
+    allowed_value: {
+      label: "Order Count"
+      value: "order count"
+    }
+    allowed_value: {
+      label: "Average Sale Price"
+      value: "average sale price"
+    }
+  }
+
+  measure: dynamic_measure{
+    description: "Measure"
+    label_from_parameter: select_measure
     type: number
-    sql: ${TABLE}.id ;;
+    sql: CASE
+      WHEN {% parameter select_measure %} = 'total revenue' THEN ${total_revenue}::DECIMAL(12,2)
+      WHEN {% parameter select_measure %} = 'order count' THEN ${order_count}::INT
+      WHEN {% parameter select_measure %} = 'average sale price' THEN ${average_sale_price}::DECIMAL(12,2)
+      ELSE ${total_revenue}
+      END
+    ;;
+  }
+
+  dimension: week_w {
+    group_label: "Created Date"
+    hidden:  no
+    primary_key: no
+    type: string
+    sql: 'W_'||(EXTRACT('week' FROM ${created_date}))::VARCHAR(24) ;;
   }
 
   dimension_group: created {
@@ -18,10 +107,18 @@ view: order_items {
       week,
       month,
       month_num,
+      month_name,
       quarter,
       year
     ]
     sql: ${TABLE}.created_at ;;
+  }
+
+  dimension: id {
+    hidden:  yes
+    primary_key: yes
+    type: number
+    sql: ${TABLE}.id ;;
   }
 
   dimension_group: delivered {
