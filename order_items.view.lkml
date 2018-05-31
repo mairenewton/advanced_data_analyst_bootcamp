@@ -1,6 +1,64 @@
 view: order_items {
   sql_table_name: public.order_items ;;
 
+  parameter: select_a_timeframe {
+    label: "Choose a Timeframe"
+    description: "Select a timeframe for viewing the data"
+    type: string
+    allowed_value: {
+      label: "Year"
+      value: "year"
+    }
+    allowed_value: {
+      label: "Month"
+      value: "month"
+    }
+    allowed_value: {
+      label: "Week"
+      value: "week"
+    }
+  }
+
+  dimension:  dynamic_timeframe {
+    label_from_parameter: select_a_timeframe
+    sql: case
+          when {% parameter select_a_timeframe %} = 'month' then ${created_month}
+          when {% parameter select_a_timeframe %} = 'week' then ${created_week}
+        else TO_CHAR(${created_year}, '9999')
+        END
+
+    ;;
+  }
+
+  parameter: : select_a_measure {
+    label: "Choose a measure"
+    description: "Select a measure for viewing the data"
+    type: string
+    allowed_value: {
+      label:"Total Revenue"
+      value: "total_revenue"
+    }
+    allowed_value: {
+      label: "Order Count"
+      value: "order_count"
+    }
+    allowed_value: {
+      label: "Average Sale Price"
+      value: "average_sale_price"
+    }
+  }
+
+  measure: dynamic_measure {
+    label_from_parameter: select_a_measure
+    value_format_name: usd
+    sql: case
+          WHEN {% parameter select_a_measure %} = 'order_count' THEN ${order_count}
+          WHEN {% parameter select_a_measure %} = 'total_revenue' THEN ${total_revenue}
+          ELSE ${average_sale_price}
+          END
+          ;;
+  }
+
   dimension: id {
     hidden:  yes
     primary_key: yes
