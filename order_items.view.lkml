@@ -24,7 +24,7 @@ parameter: select_a_timestamp {
     label_from_parameter: select_a_timestamp
     sql: CASE
     WHEN {% parameter select_a_timestamp %} = "month" THEN ${created_month}
-    WHEN {% parameter select_a_timestamp %} = "month" THEN ${created_week}
+    WHEN {% parameter select_a_timestamp %} = "week" THEN ${created_week}
     ELSE TO_CHAR(${created_year}, '9999')
     END
     ;;
