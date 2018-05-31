@@ -22,11 +22,12 @@ parameter: select_a_timestamp {
 
   dimension: dynamic_timeframe {
     label_from_parameter: select_a_timestamp
-    sql: CASE WHEN {% parameter select_a_timestamp %} = "month" THEN ${created_month}
-    CASE WHEN {% parameter select_a_timestamp %} = "month" THEN ${created_week}
+    sql: CASE
+    WHEN {% parameter select_a_timestamp %} = "month" THEN ${created_month}
+    WHEN {% parameter select_a_timestamp %} = "month" THEN ${created_week}
     ELSE TO_CHAR(${created_year}, '9999')
     END
-      } ;;
+    ;;
   }
 
   dimension: id {
