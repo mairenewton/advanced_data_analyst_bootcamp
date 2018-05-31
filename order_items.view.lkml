@@ -1,6 +1,15 @@
 view: order_items {
   sql_table_name: public.order_items ;;
 
+parameter: select_a_timestamp {
+  label: "Choose a Timeframe"
+  description: "Select a timesframe for viewing the data"
+  allowed_value: {
+    label: "Year"
+    value: "year"
+  }
+}
+
   dimension: id {
     hidden:  yes
     primary_key: yes
