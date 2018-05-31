@@ -20,6 +20,35 @@ parameter: select_a_timeframe {
   }
 }
 
+parameter: select_a_metric {
+  label: "Choose a metric"
+  description: "Select a metric to analyse"
+  type: string
+  default_value: "Total revenue"
+  allowed_value: {
+    label:"Total revenue"
+    value: "total_revenue"
+  }
+  allowed_value: {
+    label: "Order count"
+    value: "order_count"
+  }
+  allowed_value: {
+    label: "Avg sale price"
+    value: "average_sale_price"
+  }
+}
+
+measure: dynamic_measure {
+  label_from_parameter: select_a_metric
+  sql: CASE
+  WHEN {%parameter select_a_metric %} = 'order_count' THEN ${order_count}
+  WHEN {%parameter select_a_metric %} = 'total_revenue' THEN ${total_revenue}
+  ELSE ${average_sale_price}
+  END
+  ;;
+}
+
 dimension: dynamic_timeframe{
   label_from_parameter: select_a_timeframe
   sql: CASE
