@@ -6,8 +6,11 @@
         column: total_revenue {}
         column: order_id {}
       }
+    datagroup_trigger: order_item_datagroup
+    sortkeys: ["id"]
+    distribution: "id"
     }
-    dimension: order_item_count {
+    dimension: order_items_count {
       type: number
     }
     dimension: total_revenue {

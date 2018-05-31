@@ -9,6 +9,10 @@ view: user_order_summary {
       FROM public.order_items
       group by user_id
        ;;
+    datagroup_trigger: user_order_summary_datagroup
+    sortkeys: ["id"]
+    distribution: "id"
+
   }
 
   measure: count {
