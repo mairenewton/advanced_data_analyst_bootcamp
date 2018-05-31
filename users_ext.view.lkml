@@ -1,6 +1,7 @@
 include: "users.view.lkml"
 
 view: users_ext {
+  extends: [users]
 
   dimension: email {
     type: string

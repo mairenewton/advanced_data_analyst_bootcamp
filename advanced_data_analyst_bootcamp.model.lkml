@@ -26,7 +26,14 @@ explore: user_order_summary {}
 
 explore: order_summary_ndt {}
 
-explore: users_ext {}
+
+explore: users_ext {
+  extends: [users]
+  from: users_ext
+  view_name: users
+}
+
+
 
 explore: order_items {
   join: users {
