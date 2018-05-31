@@ -30,6 +30,37 @@ parameter: select_a_timestamp {
     ;;
   }
 
+  parameter: select_a_measure{
+    label: "Choose a Measure"
+    description: "Select a measure for viewing the data"
+    type: string
+    default_value: "order_count"
+    allowed_value: {
+      label: "Order Count"
+      value: "order_count"
+    }
+    allowed_value: {
+      label: "Total Revenue"
+      value: "total_revenue"
+    }
+    allowed_value: {
+      label: "Average Sale Price"
+      value: "average_sale_price"
+    }
+  }
+
+  measure: dynamic_measure {
+    label_from_parameter: select_a_measure
+    type: number
+    sql: CASE
+      WHEN {% parameter select_a_measure %} = 'total_revenue' THEN ${total_revenue}
+      WHEN {% parameter select_a_measure %} = 'average_sale_price' THEN ${average_sale_price}
+      ELSE ${order_count}
+      END
+      ;;
+    value_format_name: decimal_0
+  }
+
   dimension: id {
     hidden:  yes
     primary_key: yes
