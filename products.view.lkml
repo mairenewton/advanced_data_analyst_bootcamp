@@ -7,6 +7,16 @@ view: products {
 
   }
 
+  dimension:  brand_comparison{
+    type: string
+    sql: CASE WHEN {%condition ${select_a_brand} %} ${brand} {% endcondition %}
+      THEN ${brand}
+      ELSE 'Other'
+    END
+    ;;
+
+  }
+
   dimension: id {
     hidden:  yes
     primary_key: yes
