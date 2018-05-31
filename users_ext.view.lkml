@@ -24,4 +24,8 @@ view: users_ext {
     sql: ${first_name} || ' ' || ${last_name} ;;
   }
 
+  dimension: gender {
+    hidden: yes
+  }
+
   }
