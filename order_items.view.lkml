@@ -4,11 +4,29 @@ view: order_items {
 parameter: select_a_timestamp {
   label: "Choose a Timeframe"
   description: "Select a timesframe for viewing the data"
+  type:  string
+  default_value: "year"
   allowed_value: {
     label: "Year"
     value: "year"
   }
+  allowed_value: {
+    label: "Month"
+    value: "month"
+  }
+  allowed_value: {
+    label: "Week"
+    value: "week"
+  }
 }
+
+  dimension: dynamic_timeframe {
+    label_from_parameter: select_a_timestamp
+    sql: CASE WHEN {% parameter select_a_timestamp %} = "month" THEN ${created_month}
+    CASE WHEN {% parameter select_a_timestamp %} = "month" THEN ${created_week}
+    ELSE TO_CHAR(${created_year}, '9999')
+      } ;;
+  }
 
   dimension: id {
     hidden:  yes
