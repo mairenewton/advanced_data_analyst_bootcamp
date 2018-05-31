@@ -1,6 +1,12 @@
 view: products {
   sql_table_name: public.products ;;
 
+  filter: select_a_brand {
+    type: string
+    suggest_dimension: brand
+
+  }
+
   dimension: id {
     hidden:  yes
     primary_key: yes
