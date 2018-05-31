@@ -28,6 +28,7 @@ explore: order_summary_ndt {}
 
 
 explore: users_ext {
+  label: "Users Advanced"
   extends: [users]
   from: users_ext
   view_name: users
