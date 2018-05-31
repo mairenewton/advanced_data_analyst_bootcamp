@@ -1,6 +1,20 @@
 view: products {
   sql_table_name: public.products ;;
 
+  filter: select_a_brand {
+    type: string
+    suggest_dimension: brand
+  }
+
+  dimension: brand_comparison {
+    type:  string
+    sql: CASE WHEN {%condition select_a_brand%} ${brand} {% endcondition %}
+        THEN ${brand}
+        ELSE 'Other'
+        END
+        ;;
+  }
+
   dimension: id {
     hidden:  yes
     primary_key: yes

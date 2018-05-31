@@ -12,6 +12,14 @@ datagroup: default {
   max_cache_age: "24 hours"
 }
 
+datagroup: order_items_datagroup {
+  sql_trigger: select count(*) FROM public.order_items ;;
+}
+
+
+datagroup: order_facts_datagroup {
+  sql_trigger: select count(*) FROM public.order_items ;;
+}
 
 
 explore: order_items {
