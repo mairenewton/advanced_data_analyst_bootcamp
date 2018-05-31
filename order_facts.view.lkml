@@ -7,8 +7,6 @@ view: order_facts {
         ,count(*) AS item_count
       FROM public.order_items
       WHERE {% condition date %} created_at {% endcondition %}
-      ELSE 'Other'
-      END
       GROUP BY order_id
        ;;
   }

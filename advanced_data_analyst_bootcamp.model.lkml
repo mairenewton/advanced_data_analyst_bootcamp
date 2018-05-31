@@ -99,4 +99,6 @@ explore: order_facts {}
 
 explore: user_facts {}
 
+explore: user_facts_ndt {}
+
 explore: order_facts_ndt {}

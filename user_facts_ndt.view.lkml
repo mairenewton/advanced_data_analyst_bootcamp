@@ -8,10 +8,18 @@ view: user_facts_ndt {
       column: order_count {}
       column: order_item_count {}
       column: total_revenue {}
+      bind_filters: {
+        from_field: user_facts_ndt.date
+        to_field: order_items.created_date
+      }
     }
-    datagroup_trigger: user_facts_datagroup
-    sortkeys: ["order_id"]
-    distribution: "order_id"
+#    datagroup_trigger: user_facts_datagroup
+#    sortkeys: ["order_id"]
+#    distribution: "order_id"
+  }
+
+  filter: date {
+    type: date
   }
 
 
@@ -27,6 +35,12 @@ view: user_facts_ndt {
   }
   dimension: total_revenue {
     value_format: "$#,##0.00"
+    type: number
+  }
+
+  measure: revenue {
+    value_format_name: usd
+    sql: SUM(${total_revenue}) ;;
     type: number
   }
 }
