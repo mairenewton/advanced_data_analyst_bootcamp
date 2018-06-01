@@ -83,10 +83,17 @@ END
       month,
       month_num,
       quarter,
+      millisecond,
       year
     ]
     sql: ${TABLE}.created_at ;;
   }
+
+dimension: created_db_raw{
+  group_label: "Created Date"
+  type: string
+  sql: ${created_raw} ;;
+}
 
   dimension_group: delivered {
     description: "When the order was delivered"
