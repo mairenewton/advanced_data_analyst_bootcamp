@@ -1,6 +1,10 @@
 view: order_items {
   sql_table_name: public.order_items ;;
 
+  filter: select_a_period {
+
+  }
+
 parameter: select_a_timeframe {
   label:"Choose a timeframe "
   description: "Selected a timeframe for viewing the data"
@@ -24,7 +28,7 @@ parameter: select_a_metric {
   label: "Choose a metric"
   description: "Select a metric to analyse"
   type: string
-  default_value: "Total revenue"
+  default_value: "total_revenue"
   allowed_value: {
     label:"Total revenue"
     value: "total_revenue"
@@ -39,14 +43,17 @@ parameter: select_a_metric {
   }
 }
 
+
 measure: dynamic_measure {
   label_from_parameter: select_a_metric
+  type: number
   sql: CASE
   WHEN {%parameter select_a_metric %} = 'order_count' THEN ${order_count}
   WHEN {%parameter select_a_metric %} = 'total_revenue' THEN ${total_revenue}
   ELSE ${average_sale_price}
   END
   ;;
+  value_format_name: decimal_0
 }
 
 dimension: dynamic_timeframe{

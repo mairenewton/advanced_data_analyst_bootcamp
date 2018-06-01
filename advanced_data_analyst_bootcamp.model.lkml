@@ -17,13 +17,15 @@ datagroup: order_items_datagroup {
 }
 
 datagroup: test_order_items_datagroup  {
-  sql_trigger: select count(*) from poblic.oreder_items ;;
+  sql_trigger: select count(*) from public.order_items ;;
 }
 explore: order_facts_ndt {}
 
 explore: user_facts_1 {}
 
 explore: order_facts {}
+
+explore: users_ext {}
 
 explore: order_items {
   join: users {
@@ -95,3 +97,17 @@ explore: users {
     relationship: many_to_one
   }
 }
+
+explore: users_advanced {
+  label: "Super Cool Users Extend"
+  extends: [users]
+  from: users_ext
+  view_name: users
+}
+
+#Another syntax
+#explore: users_ext {
+#  label: "Super Cool Users Extend"
+#  extends: [users]
+#  view_name: users
+#}

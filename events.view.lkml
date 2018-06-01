@@ -1,5 +1,12 @@
 view: events {
-  sql_table_name: public.events ;;
+  sql_table_name:
+  {% if events.id._in_query%} events
+  {%elsif created_time._in_query %} events
+  {%elsif created_date._in_query %} ${events_daily_summary.SQL_TABLE_NAME}
+  {%else%} ${events_monthly_summary.SQL_TABLE_NAME}
+  {% endif %}
+
+  -- public.events ;;
 
   dimension: id {
     primary_key: yes

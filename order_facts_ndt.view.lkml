@@ -4,7 +4,15 @@ view: order_facts_ndt {
         column: order_id {}
         column: order_item_count {}
         column: total_revenue {}
+        bind_filters: {
+          from_field: order_facts_ndt.date
+          to_field: order_items.created_date
+        }
       }
+    }
+
+    filter: date {
+      type: date
     }
     dimension: order_id {
       primary_key: yes

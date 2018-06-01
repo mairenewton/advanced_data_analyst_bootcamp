@@ -6,12 +6,14 @@ view: order_facts {
       sum(sale_price) as order_value,
       count(*) as item_count
       FROM public.order_items
+      WHERE {% condition date %}created_at {%endcondition%}
       Group by 1
-
-      LIMIT 10
        ;;
   }
 
+filter: date {
+  type: date
+}
   measure: count {
     type: count
     drill_fields: [detail*]
