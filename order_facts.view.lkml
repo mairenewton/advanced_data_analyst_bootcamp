@@ -5,8 +5,15 @@ view: order_facts {
       sum(sale_price) as total_order_value,
       count(*) as item_count
       FROM public.order_items
+      where created_at = {%parameter todays_date%}
       group by 1
        ;;
+  }
+
+  parameter: todays_date {
+    allowed_value: {
+    value: "max(created_at)"
+    }
   }
 
   measure: count {
