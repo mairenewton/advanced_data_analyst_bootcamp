@@ -5,9 +5,17 @@ view: order_facts {
       sum(sale_price) as total_order_value,
       count(*) as item_count
       FROM public.order_items
+      where ({% condition date %} order_facts.created_at
+{% endcondition %})
       group by 1
        ;;
   }
+
+filter: date {
+  label: "Date"
+  type: date
+
+}
 
   measure: count {
     type: count
