@@ -6,11 +6,12 @@ view: practice1 {
         column: order_item_count {}
         column: total_revenue {}
         derived_column: rev_rank  {
-          sql: row_number () OVER(PARTITION BY order_id ORDER BY total_revenue DESC)  ;;
+          sql: rank () OVER(ORDER BY total_revenue DESC)  ;;
         }
       }
     }
     dimension: order_id {
+      primary_key: yes
       type: number
     }
     dimension: order_item_count {
@@ -20,4 +21,7 @@ view: practice1 {
       value_format: "$#,##0.00"
       type: number
     }
+  dimension: rev_rank {
+    type: number
+  }
   }
