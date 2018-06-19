@@ -9,6 +9,10 @@ view: order_facts {
        ;;
   }
 
+filter: date_filter {
+  type: date
+}
+
   measure: count {
     type: count
     drill_fields: [detail*]
