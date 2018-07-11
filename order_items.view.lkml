@@ -159,9 +159,9 @@ view: order_items {
     type: number
     sql: ${total_profit}*100/NULLIF(${total_revenue}, 0) ;;
     value_format_name: percent_2
-    html:     {% if value > 0.55 %}
+    html:     {% if value > 55 %}
     <p style="color: white; background-color: blue; margin: 0; text-align:center">
-    {{value }}</p>    {% elsif value < 0.51 %}
+    {{value }}</p>    {% elsif value < 51 %}
     <p style="color: black; background-color: orange; margin: 0; text-align:center">
     {{ value }}</p>    {% else %}      <p style="color: black; background-color: white; margin: 0; text-align:center">
     {{ value }}</p>    {% endif %}    ;;
