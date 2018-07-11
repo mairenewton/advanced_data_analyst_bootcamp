@@ -157,8 +157,14 @@ view: order_items {
 
   measure: profit_margin {
     type: number
-    sql: ${total_profit}/NULLIF(${total_revenue}, 0) ;;
+    sql: ${total_profit}*100/NULLIF(${total_revenue}, 0) ;;
     value_format_name: percent_2
+    html:     {% if value > 0.55 %}
+    <p style="color: white; background-color: blue; margin: 0; text-align:center">
+    {{value }}</p>    {% elsif value < 0.51 %}
+    <p style="color: black; background-color: orange; margin: 0; text-align:center">
+    {{ value }}</p>    {% else %}      <p style="color: black; background-color: white; margin: 0; text-align:center">
+    {{ value }}</p>    {% endif %}    ;;
   }
 
   measure: average_shipping_time {
@@ -166,6 +172,7 @@ view: order_items {
     sql: ${shipping_time} ;;
     value_format: "0\" days\""
   }
+
 
 parameter:  select_measure_type_parameter {
   label: "Select a measure"
