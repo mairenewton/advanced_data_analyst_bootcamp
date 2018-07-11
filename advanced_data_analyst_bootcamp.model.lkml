@@ -90,3 +90,10 @@ explore: users {
     relationship: many_to_one
   }
 }
+
+
+explore: users_extended {
+  extends: [users]
+  from:users_extended
+  view_name: users
+}
