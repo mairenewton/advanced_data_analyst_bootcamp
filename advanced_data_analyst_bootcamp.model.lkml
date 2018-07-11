@@ -57,6 +57,11 @@ explore: events {
     sql_on: ${events.user_id} = ${users.id} ;;
     relationship: many_to_one
   }
+  join: users_extended {
+    type: left_outer
+    sql_on: ${events.user_id} = $users.id;;
+    relationship: many_to_one
+  }
 }
 
 explore: inventory_items {
