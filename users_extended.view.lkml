@@ -1,100 +1,102 @@
-view: users {
+include: "users.view.lkml"
+view: users_extended {
   sql_table_name: public.users ;;
+  extends: [users]
 
   dimension: id {
 #     hidden:  yes
-    primary_key: yes
-    type: number
-    sql: ${TABLE}.id ;;
-  }
+  primary_key: yes
+  type: number
+  sql: ${TABLE}.id ;;
+}
 
-  dimension: age {
-    type: number
-    value_format_name: decimal_0
-    sql: ${TABLE}.age ;;
-  }
+dimension: age {
+  type: number
+  value_format_name: decimal_0
+  sql: ${TABLE}.age ;;
+}
 
-  dimension: age_tier {
-    type: tier
-    style: integer
-    sql: ${TABLE}.age ;;
-    tiers: [10, 20, 30, 40, 50, 60, 70, 80, 90]
-  }
+dimension: age_tier {
+  type: tier
+  style: integer
+  sql: ${TABLE}.age ;;
+  tiers: [10, 20, 30, 40, 50, 60, 70, 80, 90]
+}
 
-  dimension: city {
-    type: string
-    sql: ${TABLE}.city ;;
-  }
+dimension: city {
+  type: string
+  sql: ${TABLE}.city ;;
+}
 
-  dimension: country {
-    type: string
-    map_layer_name: countries
-    sql: ${TABLE}.country ;;
-  }
+dimension: country {
+  type: string
+  map_layer_name: countries
+  sql: ${TABLE}.country ;;
+}
 
-  dimension_group: created {
-    type: time
-    timeframes: [
-      raw,
-      time,
-      date,
-      week,
-      month,
-      quarter,
-      year
-    ]
-    sql: ${TABLE}.created_at ;;
-  }
+dimension_group: created {
+  type: time
+  timeframes: [
+    raw,
+    time,
+    date,
+    week,
+    month,
+    quarter,
+    year
+  ]
+  sql: ${TABLE}.created_at ;;
+}
 
-  dimension: years_a_customer {
-    type: number
-    value_format_name: decimal_0
-    sql: DATEDIFF(year, ${created_date}, current_date) ;;
-  }
+dimension: years_a_customer {
+  type: number
+  value_format_name: decimal_0
+  sql: DATEDIFF(year, ${created_date}, current_date) ;;
+}
 
-  dimension: gender {
-    type: string
-    sql: ${TABLE}.gender ;;
-  }
+dimension: gender {
+  type: string
+  sql: ${TABLE}.gender ;;
+}
 
 
 
-  dimension: state {
-    type: string
-    sql: ${TABLE}.state ;;
-  }
+dimension: state {
+  type: string
+  sql: ${TABLE}.state ;;
+}
 
-  dimension: traffic_source {
-    type: string
-    sql: ${TABLE}.traffic_source ;;
-  }
+dimension: traffic_source {
+  type: string
+  sql: ${TABLE}.traffic_source ;;
+}
 
-  dimension: zip {
-    type: zipcode
-    sql: ${TABLE}.zip ;;
-  }
+dimension: zip {
+  type: zipcode
+  sql: ${TABLE}.zip ;;
+}
 
-  dimension: latitude {
-    hidden:  yes
-    type: number
-    sql: ${TABLE}.latitude ;;
-  }
+dimension: latitude {
+  hidden:  yes
+  type: number
+  sql: ${TABLE}.latitude ;;
+}
 
-  dimension: longitude {
-    hidden:  yes
-    type: number
-    sql: ${TABLE}.longitude ;;
-  }
+dimension: longitude {
+  hidden:  yes
+  type: number
+  sql: ${TABLE}.longitude ;;
+}
 
-  dimension: map_location {
-    type: location
-    sql_latitude: ${latitude} ;;
-    sql_longitude: ${longitude} ;;
-  }
+dimension: map_location {
+  type: location
+  sql_latitude: ${latitude} ;;
+  sql_longitude: ${longitude} ;;
+}
 
-  dimension: region {
+dimension: region {
 #     map_layer_name: map_regions
-    sql: CASE WHEN ${state} = 'Maine' THEN 'Northeast'
+sql: CASE WHEN ${state} = 'Maine' THEN 'Northeast'
               WHEN ${state} = 'Massachusetts' THEN 'Northeast'
               WHEN ${state} = 'Rhode Island' THEN 'Northeast'
               WHEN ${state} = 'Connecticut' THEN 'Northeast'
@@ -146,23 +148,42 @@ view: users {
               WHEN ${state} = 'Hawaii' THEN 'West'
               ELSE 'Outside US'
           END ;;
-  }
+}
 
-  measure: max_age {
-    type: max
-    sql: ${age} ;;
-  }
+measure: max_age {
+  type: max
+  sql: ${age} ;;
+}
 
-  measure: average_age {
-    type: average
-    sql: ${age} ;;
-  }
+measure: average_age {
+  type: average
+  sql: ${age} ;;
+}
 
-  measure: count {
-    type: count
-    drill_fields: [id, events.count, order_items.count]
-  }
+measure: count {
+  type: count
+  drill_fields: [id, events.count, order_items.count]
+}
 
+dimension: email {
+  type: string
+  sql: ${TABLE}.email ;;
+}
 
+dimension: first_name {
+  hidden:  yes
+  type: string
+  sql: ${TABLE}.first_name ;;
+}
 
+dimension: last_name {
+  hidden:  yes
+  type: string
+  sql: ${TABLE}.last_name ;;
+}
+
+dimension: name {
+  type: string
+  sql: ${first_name} || ' ' || ${last_name} ;;
+}
 }
