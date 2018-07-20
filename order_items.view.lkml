@@ -24,6 +24,31 @@ view: order_items {
     sql: ${TABLE}.created_at ;;
   }
 
+  parameter: choose_timeframe{
+    type: string
+    default_value: "date"
+    allowed_value: {
+      label: "date"
+      value: "date"
+      }
+    allowed_value: {
+      label: "week"
+      value: "week"
+    }
+    allowed_value: {
+      label: "month"
+      value: "month"
+    }
+  }
+  dimension: dynamic_timeframe{
+    type: string
+    sql: case
+      when {% parameter choose_timeframe %} = 'date' then to_char(${created_date},'YYYY-MM-DD')
+      when {% parameter choose_timeframe %} = 'week' then ${created_week}
+      when {% parameter choose_timeframe %} = 'month' then ${created_month}
+      end;;
+  }
+
   dimension_group: delivered {
     description: "When the order was delivered"
     type: time
@@ -85,6 +110,12 @@ view: order_items {
     description: "Shipping time in days"
     type: number
     sql: DATEDIFF(day, ${order_items.shipped_date}, ${order_items.delivered_date}) ;;
+  }
+
+  dimension: shipping_dates {
+    description: "Number of days between the order date and the shipping date"
+    type: number
+    sql: DATEDIFF(day, ${shipped_date}, ${delivered_date}) ;;
   }
 
 ## HIDDEN DIMENSIONS ##

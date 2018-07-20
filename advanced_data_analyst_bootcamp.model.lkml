@@ -5,13 +5,21 @@ persist_with: default
 include: "*.view"
 
 # include all the dashboards
-include: "*.dashboard"
+# include: "*.dashboard"
 
 datagroup: default {
   sql_trigger: select current_date ;;
   max_cache_age: "24 hours"
 }
 
+datagroup: midnight {
+  sql_trigger: select current_date;;
+  max_cache_age: "24 hours"
+}
+
+datagroup: etl_order_items {
+  sql_trigger: select count(*) from public.order_items  ;;
+}
 
 
 explore: order_items {
@@ -82,5 +90,10 @@ explore: users {
     type: left_outer
     sql_on: ${order_items.inventory_item_id} = ${inventory_items.id} ;;
     relationship: many_to_one
+  }
+  join: user_order_fact {
+    type: inner
+    relationship: one_to_one
+    sql_on: ${users.id} = ${user_order_fact.id} ;;
   }
 }

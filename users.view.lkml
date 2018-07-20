@@ -57,7 +57,10 @@ view: users {
     sql: ${TABLE}.gender ;;
   }
 
-
+ dimension: city_state {
+   type: string
+   sql: ${city} || ${state} ;;
+ }
 
   dimension: state {
     type: string
@@ -167,6 +170,8 @@ view: users {
     type: string
     sql: ${TABLE}.email ;;
   }
+
+
 
   dimension: first_name {
     hidden:  yes
