@@ -5,7 +5,7 @@ persist_with: default
 include: "*.view"
 
 # include all the dashboards
-include: "*.dashboard"
+#include: "*.dashboard"
 
 datagroup: default {
   sql_trigger: select current_date ;;
