@@ -24,6 +24,11 @@ view: order_items {
     sql: ${TABLE}.created_at ;;
   }
 
+  dimension: shipping_days {
+    type: number
+    sql: datediff(day,${shipped_date},${delivered_date}) ;;
+  }
+
   dimension_group: delivered {
     description: "When the order was delivered"
     type: time
@@ -141,6 +146,23 @@ view: order_items {
     value_format_name: usd
     sql: ${sale_price} ;;
     drill_fields: [detail*]
+  }
+
+  measure: distinct_number_of_orders{
+    type:  count_distinct
+    sql: ${order_id} ;;
+  }
+
+  measure: total_sales{
+    type:  sum
+
+    sql:  ${sale_price};;
+  }
+
+  measure: average_sales{
+    type:  average
+
+    sql:  ${sale_price};;
   }
 
   measure: average_spend_per_user {
