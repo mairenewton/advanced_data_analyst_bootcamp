@@ -1,4 +1,3 @@
-explore: event_session_facts {}
 view: event_session_facts {
   derived_table: {
     sql:
