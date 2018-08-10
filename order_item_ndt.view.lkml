@@ -5,7 +5,7 @@ view: order_item_ndt {
         column: order_item_count {}
         column: total_revenue {}
         derived_column: sales_rank {
-          sql:  RANK(total_sales) OVER (ORDER BY total_sales DESC) ;;
+          sql:  RANK(total_revenue) OVER (ORDER BY total_revenue DESC) ;;
         }
       }
     }

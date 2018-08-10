@@ -1,4 +1,4 @@
-view: user_facts_4 {
+view: user_facts {
     derived_table: {
       explore_source: order_items {
         column: id { field: users.id }
