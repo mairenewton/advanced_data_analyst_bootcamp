@@ -1,14 +1,25 @@
+## Basic view for user details.
+## Scroll down to line ~208 for the user extended view.
 view: users {
+#   view_label: "Customers"
   sql_table_name: public.users ;;
+
+  filter: user_state {
+    type: string
+    suggest_explore: users
+    suggest_dimension: state
+    sql: {% condition user_state %} ${state} {% endcondition %} ;;
+  }
 
   dimension: id {
 #     hidden:  yes
-    primary_key: yes
+#     primary_key: yes
     type: number
     sql: ${TABLE}.id ;;
   }
 
   dimension: age {
+    label: "Years Lived"
     type: number
     value_format_name: decimal_0
     sql: ${TABLE}.age ;;
@@ -163,25 +174,40 @@ view: users {
     drill_fields: [id, events.count, order_items.count]
   }
 
-  dimension: email {
-    type: string
-    sql: ${TABLE}.email ;;
+  measure: count_users_from_state {
+    type: number
+    sql: COUNT(DISTINCT case when {% condition user_state %} ${state} {% endcondition %}
+            then ${id} else null end) ;;
   }
 
-  dimension: first_name {
-    hidden:  yes
-    type: string
-    sql: ${TABLE}.first_name ;;
-  }
-
-  dimension: last_name {
-    hidden:  yes
-    type: string
-    sql: ${TABLE}.last_name ;;
-  }
-
-  dimension: name {
-    type: string
-    sql: ${first_name} || ' ' || ${last_name} ;;
-  }
+#   dimension: email {
+#     hidden: yes
+#     type: string
+#     sql: ${TABLE}.email ;;
+#   }
+#
+#   dimension: first_name {
+#     hidden:  no
+#     type: string
+#     sql: ${TABLE}.first_name ;;
+#     html: <b>{{value}}</b> ;;
+#   }
+#
+#   dimension: last_name {
+#     hidden:  no
+#     type: string
+#     sql: ${TABLE}.last_name ;;
+#   }
+#
+#   dimension: pk {
+#     hidden: yes
+#     sql: ${first_name} || '-'  || ${last_name} || ${created_date};;
+#     primary_key: yes
+#   }
+#
+#   dimension: name {
+#     hidden: yes
+#     type: string
+#     sql: ${first_name} || ' ' || ${last_name} ;;
+#   }
 }

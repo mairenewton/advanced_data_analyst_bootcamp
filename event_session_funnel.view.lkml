@@ -25,6 +25,14 @@ view: event_session_funnel {
  ;;
   }
 
+  parameter: time_display_type_filter {
+    label: "Time Filter"
+    type: string
+    allowed_value: {value:"min" label: "Minutes"}
+    allowed_value: {value:"sec" label: "Seconds"}
+    default_value: "sec"
+  }
+
   measure: count {
     type: count
     drill_fields: [detail*]
@@ -65,8 +73,9 @@ view: event_session_funnel {
   }
 
   dimension: time_in_funnel {
+    description: "Use Time Filter to pick minutes vs. seconds. Default is seconds."
     type: number
-    sql: datediff(min, ${event1_raw},COALESCE(${event3_raw},${event2_raw})) ;;
+    sql: datediff({% parameter time_display_type_filter %}, ${event1_raw},COALESCE(${event3_raw},${event2_raw})) ;;
   }
 
   measure: count_sessions {

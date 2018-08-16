@@ -10,10 +10,16 @@ view: event_session_facts {
           ,FIRST_VALUE (event_type) OVER (PARTITION BY session_id ORDER BY created_at ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING) AS session_landing_page
           ,LAST_VALUE  (event_type) OVER (PARTITION BY session_id ORDER BY created_at ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING) AS session_exit_page
         FROM events
+        WHERE {% condition session_start_date_range %} created_at {% endcondition %}
       )
       SELECT * FROM session_facts
+      WHERE {% condition session_start_date_range %} session_start {% endcondition %}
       GROUP BY 1, 2, 3, 4, 5, 6
        ;;
+  }
+  filter: session_start_date_range {
+    type: date
+    label: "Session Start Date Range"
   }
 
   measure: count {

@@ -1,6 +1,33 @@
 view: order_items {
   sql_table_name: public.order_items ;;
 
+#   parameter: p_period {
+#     label: "Date Period Selection"
+#     type: string
+#     allowed_value: { label: "Date" value: "date"}
+#     allowed_value: { label: "Month" value: "month" }
+#     allowed_value: { label: "Quarter" value: "quarter" }
+#     default_value: "month"
+#   }
+
+  parameter: dummy_measure_filter {
+    allowed_value: {value:"Total Revenue"}
+    allowed_value: {value:"Total Profit"}
+    allowed_value: {value:"Average Sales Price"}
+  }
+
+  parameter: dynamic_function {
+    type: unquoted
+    allowed_value: { label: "Sum" value: "SUM" }
+    allowed_value: { label: "Average" value: "AVG" }
+    allowed_value: { label: "Count" value: "COUNT" }
+  }
+
+#   filter: f_range {
+#     label: "Date Range Selection"
+#     type: date
+#   }
+
   dimension: id {
     hidden:  yes
     primary_key: yes
@@ -117,6 +144,19 @@ view: order_items {
   }
 
 ## MEASURES ##
+  measure: dummy_measure {
+    type: number
+    sql: case when {% parameter dummy_measure_filter %} = 'Total Revenue' then ${total_revenue}
+       when {% parameter dummy_measure_filter %} = 'Total Profit' then ${total_profit}
+      when {% parameter dummy_measure_filter %} = 'Average Sales Price' then ${total_revenue}
+      else null end ;;
+  }
+
+  measure: users_aggregation {
+    label: "User's Aggregation"
+    type: number
+    sql: {% parameter dynamic_function %}(${sale_price}) ;;
+  }
 
   measure: order_item_count {
     type: count
@@ -128,43 +168,57 @@ view: order_items {
     value_format_name: usd
     sql: ${sale_price} ;;
     drill_fields: [detail*]
+    hidden: yes
   }
 
   measure: order_count {
     description: "A count of unique orders"
     type: count_distinct
     sql: ${order_id} ;;
+    hidden: yes
   }
+
+#   measure: count_orders_made_in_user_range {
+#     type: number
+#     sql: COUNT(DISTINCT CASE WHEN {% condition f_range %} ${created_date} {% endcondition %}
+#               THEN order_id
+#               else null end) ;;
+#   }
 
   measure: average_sale_price {
     type: average
     value_format_name: usd
     sql: ${sale_price} ;;
-    drill_fields: [detail*]
+    drill_fields: [order_info*]
+    hidden: no
   }
 
   measure: average_spend_per_user {
     type: number
     value_format_name: usd
     sql: 1.0 * ${total_revenue} / NULLIF(${users.count},0) ;;
+    hidden: yes
   }
 
   measure: total_profit {
     type: sum
     sql: ${profit} ;;
     value_format_name: usd
+    hidden: yes
   }
 
   measure: profit_margin {
     type: number
     sql: ${total_profit}/NULLIF(${total_revenue}, 0) ;;
     value_format_name: percent_2
+    hidden: yes
   }
 
   measure: average_shipping_time {
     type: average
     sql: ${shipping_time} ;;
     value_format: "0\" days\""
+    hidden: yes
   }
 
 
@@ -178,5 +232,13 @@ view: order_items {
       inventory_items.id,
       inventory_items.product_name
     ]
+  }
+
+  set: order_info {
+    fields: [order_id, created_date, total_revenue]
+  }
+
+  set: external_ref {
+    fields: [average_spend_per_user]
   }
 }
