@@ -1,11 +1,16 @@
 connection: "events_ecommerce"
 persist_with: default
+label: ""
 
+
+datagroup: david_test {
+  sql_trigger: select max(id) from tableb  ;;
+}
 # include all the views
 include: "*.view"
 
 # include all the dashboards
-include: "*.dashboard"
+# include: "*.dashboard"
 
 datagroup: default {
   sql_trigger: select current_date ;;
@@ -15,6 +20,8 @@ datagroup: default {
 
 
 explore: order_items {
+  label: "xyz"
+  description: "abc"
   join: users {
     type: left_outer
     sql_on: ${order_items.user_id} = ${users.id} ;;
@@ -41,6 +48,7 @@ explore: order_items {
 }
 
 explore: events {
+#   fields: [ALL_FIELDS*, -users.days_to_first_order]
   join: event_session_facts {
     type: left_outer
     sql_on: ${events.session_id} = ${event_session_facts.session_id} ;;
@@ -52,10 +60,12 @@ explore: events {
     relationship: many_to_one
   }
   join: users {
+#     fields: [users.age,users.age_tier,etc....]
     type: left_outer
     sql_on: ${events.user_id} = ${users.id} ;;
     relationship: many_to_one
   }
+#   join: order_items {}
 }
 
 explore: inventory_items {

@@ -184,4 +184,33 @@ view: users {
     type: string
     sql: ${first_name} || ' ' || ${last_name} ;;
   }
+
+  dimension: history {
+    sql: ${name} ;;
+    html:
+        <a href="/explore/advanced_data_analyst_bootcamp/users?fields=users.detail*&f[users.id]={{ id._value }}">User Details</a>
+      | <a href="/explore/advanced_data_analyst_bootcamp/order_items?fields=order_items.detail*&f[users.id]={{ id._value }}">Items</a>
+      ;;
+    }
+
+  set: detail {
+    fields: [name, city, country, age, email]
+  }
+
+}
+
+view: users_extended {
+  extends: [users]
+
+  measure: created_min {
+    type: date
+    sql: min(${created_date}) ;;
+  }
+
+  measure: days_to_first_order {
+    description: "Num of days from signup to first order"
+    type: number
+    sql: DATEDIFF(day, ${created_min}, ${order_items.first_order}) ;;
+  }
+
 }

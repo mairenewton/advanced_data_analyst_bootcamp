@@ -118,6 +118,11 @@ view: order_items {
 
 ## MEASURES ##
 
+  measure: first_order {
+    type: date
+    sql: min(${created_date}) ;;
+  }
+
   measure: order_item_count {
     type: count
     drill_fields: [detail*]
@@ -159,7 +164,22 @@ view: order_items {
     type: number
     sql: ${total_profit}/NULLIF(${total_revenue}, 0) ;;
     value_format_name: percent_2
-  }
+    html:
+      {% if value > 0.55 %}
+        <p style="color: white; background-color: blue; margin: 0; text-align:center">
+        {{value }}</p>
+      {% elsif value < 0.51 %}
+        <p style="color: black; background-color: orange; margin: 0; text-align:center">
+        {{ value }}</p>
+      {% else %}
+        <p style="color: black; background-color: white; margin: 0; text-align:center">
+        {{ value }}</p>
+      {% endif %}
+      ;;
+    }
+
+
+
 
   measure: average_shipping_time {
     type: average
@@ -180,3 +200,27 @@ view: order_items {
     ]
   }
 }
+
+
+
+# view: orders {
+#   sql_table_name: {{ _user_attributes["custom_schema"] }}.orders ;; # dynamic schema
+#
+#
+#   sql_table_name: # agg awareness
+#     {% if orders.created_date._in_query %}
+#       orders
+#     {% elsif orders.created_week._in_query %}
+#       orders_smry_week
+#     {% elsif orders.created_month._in_query %}
+#       orders_smry_month
+#     {% else %}
+#       orders_smry_year
+#     {% endif %} ;;
+#
+#     dimension_group: created {
+#       type: time
+#       timeframes: [date, week, month, year]
+#       sql: ${TABLE}.created_at ;;
+#     }
+# }

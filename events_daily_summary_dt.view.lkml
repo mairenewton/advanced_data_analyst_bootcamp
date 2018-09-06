@@ -15,5 +15,13 @@ view: events_daily_summary {
       FROM PUBLIC.EVENTS
       GROUP BY 1,2,3,4,5,6,7,8
        ;;
+      sql_trigger_value: select current_date() ;;
+      distribution: "time"
+#       distribution_style: all
+      sortkeys: ["time"]
+  }
+  dimension: city {
+    type: string
+    sql: ${TABLE}.city ;;
   }
 }

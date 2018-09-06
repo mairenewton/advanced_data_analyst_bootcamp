@@ -116,6 +116,15 @@ view: events {
 
   measure: count {
     type: count
+    html:
+        {% if value > 3200 %}
+        <b><p style="color: white; background-color: darkgreen; margin: 0; text-align:center">{{ value }}</p></b>
+        {% elsif value > 3000 %}
+        <b><p style="color: white; background-color: goldenrod; margin: 0; text-align:center">{{ value }}</p></b>
+        {% else %}
+        <b><p style="color: white; background-color: darkred; margin: 0; text-align:center">{{ value }}</p></b>
+        {% endif %}
+        ;;
     drill_fields: [id, users.id, users.first_name, users.last_name]
   }
 
