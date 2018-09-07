@@ -1,7 +1,6 @@
 view: event_session_facts {
   derived_table: {
     sql:
-      WITH session_facts AS (
         SELECT
            session_id
           ,COALESCE(user_id::varchar, ip_address) as identifier
@@ -10,10 +9,17 @@ view: event_session_facts {
           ,FIRST_VALUE (event_type) OVER (PARTITION BY session_id ORDER BY created_at ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING) AS session_landing_page
           ,LAST_VALUE  (event_type) OVER (PARTITION BY session_id ORDER BY created_at ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING) AS session_exit_page
         FROM events
-      )
-      SELECT * FROM session_facts
-      GROUP BY 1, 2, 3, 4, 5, 6
+        WHERE {% condition date_filter %} created_at {% endcondition %}
+        AND {% condition session_id_filter %} session_id {% endcondition %}
        ;;
+  }
+
+  filter: date_filter {
+    type: date
+  }
+
+  filter: session_id_filter {
+    type: number
   }
 
   measure: count {

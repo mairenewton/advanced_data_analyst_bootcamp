@@ -14,6 +14,12 @@ datagroup: default {
 
 
 
+
+# explore: this_will_error {
+#   from: order_items
+# }
+
+
 explore: order_items {
   join: users {
     type: left_outer
@@ -73,6 +79,7 @@ explore: inventory_items {
 }
 
 explore: users {
+  view_name: users
   join: order_items {
     type: left_outer
     sql_on: ${users.id} = ${order_items.user_id} ;;
@@ -83,4 +90,13 @@ explore: users {
     sql_on: ${order_items.inventory_item_id} = ${inventory_items.id} ;;
     relationship: many_to_one
   }
+}
+
+explore: users_no_pii {
+  extends: [users]
+}
+
+explore: xyz {
+  extends: [users]
+  from: users_no_pii
 }
