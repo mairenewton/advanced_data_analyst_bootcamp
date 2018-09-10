@@ -54,6 +54,7 @@ view: order_items {
     sql: ${TABLE}.returned_at ;;
   }
 
+
   dimension: sale_price {
     type: number
     value_format_name: usd
