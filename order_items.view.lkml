@@ -8,6 +8,7 @@ view: order_items {
     sql: ${TABLE}.id ;;
   }
 
+
   dimension_group: created {
     description: "When the order was created"
     type: time
@@ -60,6 +61,7 @@ view: order_items {
     value_format_name: usd
     sql: ${TABLE}.sale_price ;;
   }
+
 
   dimension_group: shipped {
     description: "When the order was shipped"
