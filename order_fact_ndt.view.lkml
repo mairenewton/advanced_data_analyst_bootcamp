@@ -1,5 +1,8 @@
 view: order_fact_ndt {
    derived_table: {
+    distribution: "order_id"
+    sortkeys: ["order_id"]
+    datagroup_trigger: order_items_trigger
       explore_source: order_items {
         column: id { field: users.id }
         column: order_id {}
@@ -10,6 +13,8 @@ view: order_fact_ndt {
         }
       }
     }
+
+
     dimension: id {
       type: number
     }

@@ -2,6 +2,8 @@ explore: user_order_fact {}
 
 view: user_order_fact {
   derived_table: {
+    distribution: "user_id"
+    sortkeys: ["user_id"]
     sql: SELECT user_id,
         COUNT(DISTINCT order_id) AS order_count,
         SUM(sale_price) AS total_rev,
@@ -10,6 +12,8 @@ view: user_order_fact {
 FROM order_items
 GROUP BY 1
  ;;
+
+sql_trigger_value: select current_date ;;
   }
 
   measure: count {
