@@ -13,9 +13,18 @@ datagroup: default {
   max_cache_age: "24 hours"
 }
 
+datagroup: faster {
+  sql_trigger: select current_date ;;
+  max_cache_age: "1 hours"
+}
 
+datagroup: order_items {
+  sql_trigger: select count(*) from order_items ;;
+  max_cache_age: "1 hours"
+}
 
 explore: order_items {
+  persist_with: faster
   join: users {
     type: left_outer
     sql_on: ${order_items.user_id} = ${users.id} ;;
@@ -74,6 +83,7 @@ explore: inventory_items {
 }
 
 explore: users {
+  persist_with: order_items
   join: order_items {
     type: left_outer
     sql_on: ${users.id} = ${order_items.user_id} ;;

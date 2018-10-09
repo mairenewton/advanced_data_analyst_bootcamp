@@ -3,6 +3,8 @@
 
 view: user_order_fact_ndt {
   derived_table: {
+    distribution: "id"
+    sortkeys: ["id"]
     explore_source: users {
       column: id {}
       column: total_revenue { field: order_items.total_revenue }

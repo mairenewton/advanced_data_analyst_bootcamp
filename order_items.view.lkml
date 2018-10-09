@@ -170,6 +170,25 @@ view: order_items {
     value_format: "0\" days\""
   }
 
+  parameter: metric_picker {
+    label: "Metric"
+    type: string
+    allowed_value: {value: "Total Sales"}
+    allowed_value: {value: "Order Count"}
+    allowed_value: {value: "Average Sales price"}
+    default_value: "Total Sales"
+  }
+
+  measure: dynamic_timeframe {
+    type: number
+    sql:
+    case
+    when {% parameter metric_picker%} = "Total Sales" then ${order_items.total_revenue}
+    when {% parameter metric_picker%} = "Order Count" then ${order_items.order_count}
+    when {% parameter metric_picker%} = "Average Sales price" then ${order_items.average_sale_price}
+    end ;;
+  }
+
 
   # ----- Sets of fields for drilling ------
   set: detail {
