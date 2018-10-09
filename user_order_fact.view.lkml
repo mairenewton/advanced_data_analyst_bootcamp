@@ -1,3 +1,5 @@
+explore: user_order_fact {}
+
 view: user_order_fact {
   derived_table: {
     sql: SELECT user_id,
@@ -6,7 +8,7 @@ view: user_order_fact {
         MIN(created_at) AS first_order_date,
         MAX(created_at) AS last_order_date
 FROM order_items
-GROUP BY 1;
+GROUP BY 1
  ;;
   }
 
@@ -32,16 +34,28 @@ GROUP BY 1;
   }
 
   dimension_group: first_order_date {
+    timeframes: [
+      date,
+      month,
+      quarter,
+      year
+    ]
     type: time
     sql: ${TABLE}.first_order_date ;;
   }
 
   dimension_group: last_order_date {
     type: time
+    timeframes: [
+      date,
+      month,
+      quarter,
+      year
+    ]
     sql: ${TABLE}.last_order_date ;;
   }
 
   set: detail {
-    fields: [user_id, order_count, total_rev, first_order_date_time, last_order_date_time]
+    fields: [user_id, order_count, total_rev]
   }
 }
