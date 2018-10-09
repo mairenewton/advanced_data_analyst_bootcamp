@@ -92,6 +92,12 @@ view: users {
     sql_longitude: ${longitude} ;;
   }
 
+  filter: choose_state {
+    type: string
+    suggest_explore: users
+    suggest_dimension: users.state
+  }
+
   dimension: region {
 #     map_layer_name: map_regions
     sql: CASE WHEN ${state} = 'Maine' THEN 'Northeast'
