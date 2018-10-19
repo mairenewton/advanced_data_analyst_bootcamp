@@ -21,6 +21,11 @@ explore: order_items {
     sql_on: ${order_items.user_id} = ${users.id} ;;
     relationship: many_to_one
   }
+  join: User_Facts_NDT {
+    type: left_outer
+    sql_on: ${User_Facts_NDT.id} = ${users.id} ;;
+    relationship: one_to_one
+  }
 
   join: inventory_items {
     type: left_outer
@@ -40,6 +45,7 @@ explore: order_items {
     relationship: many_to_one
   }
 }
+explore: Test_NDT {}
 
 explore: events {
   join: event_session_facts {
@@ -84,4 +90,10 @@ explore: users {
     sql_on: ${order_items.inventory_item_id} = ${inventory_items.id} ;;
     relationship: many_to_one
   }
+  join: order_user_facts {
+    type: left_outer
+    sql_on: ${order_user_facts.user_id} = ${users.id} ;;
+    relationship: one_to_one
+  }
+
 }

@@ -1,6 +1,20 @@
-view: users {
+view: users{
   sql_table_name: public.users ;;
-
+parameter: country_filter {
+  allowed_value: {
+    label: "United States"
+    value: "USA"
+  }
+  allowed_value: {
+    label: "United Kingdom"
+    value: "UK"
+  }
+  default_value: "United States"
+  type: string
+}
+filter: age_filter  {
+  type: number
+}
   dimension: id {
 #     hidden:  yes
     primary_key: yes

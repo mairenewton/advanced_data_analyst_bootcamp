@@ -170,8 +170,6 @@ view: order_items {
     value_format: "0\" days\""
   }
 
-
-  # ----- Sets of fields for drilling ------
   set: detail {
     fields: [
       id,
