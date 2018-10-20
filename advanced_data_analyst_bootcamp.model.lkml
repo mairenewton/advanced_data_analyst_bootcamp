@@ -13,6 +13,12 @@ datagroup: default {
   max_cache_age: "24 hours"
 }
 
+explore: users_ext {
+  label: "You are Special"
+  extends: [users]
+    view_name: users
+    from: users_ext
+}
 
 
 explore: order_items {
