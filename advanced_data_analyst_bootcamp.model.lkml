@@ -13,7 +13,10 @@ datagroup: default {
   max_cache_age: "24 hours"
 }
 
-
+datagroup: default2 {
+  sql_trigger: select current_date ;;
+  max_cache_age: "12 hours"
+}
 
 explore: order_items {
   join: users {
