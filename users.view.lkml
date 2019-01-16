@@ -8,6 +8,20 @@ view: users {
     sql: ${TABLE}.id ;;
   }
 
+  dimension_group: created {
+    type: time
+    timeframes: [
+      raw,
+      time,
+      date,
+      week,
+      month,
+      quarter,
+      year
+    ]
+    sql: ${TABLE}.created_at ;;
+  }
+
   dimension: age {
     type: number
     value_format_name: decimal_0
@@ -30,20 +44,6 @@ view: users {
     type: string
     map_layer_name: countries
     sql: ${TABLE}.country ;;
-  }
-
-  dimension_group: created {
-    type: time
-    timeframes: [
-      raw,
-      time,
-      date,
-      week,
-      month,
-      quarter,
-      year
-    ]
-    sql: ${TABLE}.created_at ;;
   }
 
   dimension: years_a_customer {
