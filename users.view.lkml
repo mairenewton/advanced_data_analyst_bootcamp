@@ -35,6 +35,7 @@ view: users {
     tiers: [10, 20, 30, 40, 50, 60, 70, 80, 90]
   }
 
+#Geography {
   dimension: city {
     type: string
     sql: ${TABLE}.city ;;
@@ -44,34 +45,6 @@ view: users {
     type: string
     map_layer_name: countries
     sql: ${TABLE}.country ;;
-  }
-
-  dimension: years_a_customer {
-    type: number
-    value_format_name: decimal_0
-    sql: DATEDIFF(year, ${created_date}, current_date) ;;
-  }
-
-  dimension: gender {
-    type: string
-    sql: ${TABLE}.gender ;;
-  }
-
-
-
-  dimension: state {
-    type: string
-    sql: ${TABLE}.state ;;
-  }
-
-  dimension: traffic_source {
-    type: string
-    sql: ${TABLE}.traffic_source ;;
-  }
-
-  dimension: zip {
-    type: zipcode
-    sql: ${TABLE}.zip ;;
   }
 
   dimension: latitude {
@@ -86,10 +59,14 @@ view: users {
     sql: ${TABLE}.longitude ;;
   }
 
-  dimension: map_location {
-    type: location
-    sql_latitude: ${latitude} ;;
-    sql_longitude: ${longitude} ;;
+  dimension: state {
+    type: string
+    sql: ${TABLE}.state ;;
+  }
+
+  dimension: zip {
+    type: zipcode
+    sql: ${TABLE}.zip ;;
   }
 
   dimension: region {
@@ -147,6 +124,32 @@ view: users {
               ELSE 'Outside US'
           END ;;
   }
+#}
+  dimension: years_a_customer {
+    type: number
+    value_format_name: decimal_0
+    sql: DATEDIFF(year, ${created_date}, current_date) ;;
+  }
+
+  dimension: gender {
+    type: string
+    sql: ${TABLE}.gender ;;
+  }
+
+  dimension: traffic_source {
+    type: string
+    sql: ${TABLE}.traffic_source ;;
+  }
+
+
+
+  dimension: map_location {
+    type: location
+    sql_latitude: ${latitude} ;;
+    sql_longitude: ${longitude} ;;
+  }
+
+
 
   measure: max_age {
     type: max
