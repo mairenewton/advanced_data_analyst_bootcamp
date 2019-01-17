@@ -68,6 +68,23 @@ view: users {
     type: zipcode
     sql: ${TABLE}.zip ;;
   }
+#}
+
+  dimension: years_a_customer {
+    type: number
+    value_format_name: decimal_0
+    sql: DATEDIFF(year, ${created_date}, current_date) ;;
+  }
+
+  dimension: gender {
+    type: string
+    sql: ${TABLE}.gender ;;
+  }
+
+  dimension: traffic_source {
+    type: string
+    sql: ${TABLE}.traffic_source ;;
+  }
 
   dimension: region {
 #     map_layer_name: map_regions
@@ -124,24 +141,6 @@ view: users {
               ELSE 'Outside US'
           END ;;
   }
-#}
-  dimension: years_a_customer {
-    type: number
-    value_format_name: decimal_0
-    sql: DATEDIFF(year, ${created_date}, current_date) ;;
-  }
-
-  dimension: gender {
-    type: string
-    sql: ${TABLE}.gender ;;
-  }
-
-  dimension: traffic_source {
-    type: string
-    sql: ${TABLE}.traffic_source ;;
-  }
-
-
 
   dimension: map_location {
     type: location
