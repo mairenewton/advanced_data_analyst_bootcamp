@@ -13,7 +13,10 @@ datagroup: default {
   max_cache_age: "24 hours"
 }
 
-
+datagroup: order_items {
+  sql_trigger: select current_date ;;
+  max_cache_age: "24 hours"
+}
 
 explore: order_items {
   join: users {
@@ -37,6 +40,12 @@ explore: order_items {
   join: distribution_centers {
     type: left_outer
     sql_on: ${products.distribution_center_id} = ${distribution_centers.id} ;;
+    relationship: many_to_one
+  }
+
+  join: product_summary {
+    type: left_outer
+    sql_on: ${products.category} = ${product_summary.category} ;;
     relationship: many_to_one
   }
 }

@@ -23,7 +23,38 @@ view: order_items {
       year
     ]
     sql: ${TABLE}.created_at ;;
+    }
+
+    parameter: select_time {
+      type: unquoted
+      default_value: "created_month"
+      allowed_value: {
+        label: "Date"
+        value: "created_date"
+      }
+      allowed_value: {
+        label: "Week"
+        value: "created_week"
+      }
+      allowed_value: {
+        label: "Month"
+        value: "created_month"
+      }
+    }
+
+  dimension: time_hierarchy {
+    label_from_parameter: select_time
+    type: string
+    sql:
+    {% if select_time._parameter_value == 'created_date' %}
+    ${created_date}
+    {% elsif select_time._parameter_value == 'created_week' %}
+    ${created_week}
+    {% else %}
+    ${created_month}
+    {% endif %} ;;
   }
+
 
   dimension_group: delivered {
     description: "When the order was delivered"

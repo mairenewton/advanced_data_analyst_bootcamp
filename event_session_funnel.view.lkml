@@ -25,6 +25,8 @@ view: event_session_funnel {
  ;;
   }
 
+
+
   measure: count {
     type: count
     drill_fields: [detail*]
@@ -64,10 +66,24 @@ view: event_session_funnel {
     sql: ${event2_time} < ${event3_time} ;;
   }
 
+  parameter: select_time_unit {
+    type: string
+    default_value: "Seconds"
+    allowed_value: {
+      label: "Minutes"
+      value: "Min"
+    }
+    allowed_value: {
+      label: "Seconds"
+      value: "Sec"
+    }
+}
+
   dimension: time_in_funnel {
     type: number
-    sql: datediff(min, ${event1_raw},COALESCE(${event3_raw},${event2_raw})) ;;
+    sql: datediff( {% parameter select_time_unit %}, ${event1_raw},COALESCE(${event3_raw},${event2_raw})) ;;
   }
+
 
   measure: count_sessions {
     type: count_distinct

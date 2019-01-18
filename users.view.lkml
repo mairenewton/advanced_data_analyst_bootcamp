@@ -1,3 +1,4 @@
+
 view: users {
   sql_table_name: public.users ;;
 
@@ -166,6 +167,10 @@ view: users {
   dimension: email {
     type: string
     sql: ${TABLE}.email ;;
+    link: {
+      label: "Find out more about {{value}}"
+      url: "https://teach.corp.looker.com/dashboards/1813?Email={{ value }}"
+    }
   }
 
   dimension: first_name {
