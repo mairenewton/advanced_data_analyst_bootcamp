@@ -8,6 +8,22 @@ view: order_items {
     sql: ${TABLE}.id ;;
   }
 
+  parameter: select_timeframe {
+    type: unquoted
+    default_value: "created_month"
+    allowed_value: {
+      value: "created_date"
+      label: "Date"
+    }
+    allowed_value: {
+      value: "created_week"
+      label: "Week"
+    }
+    allowed_value: {
+      value: "created_month"
+      label: "Month"
+    }
+  }
 
   dimension_group: created {
     description: "When the order was created"
