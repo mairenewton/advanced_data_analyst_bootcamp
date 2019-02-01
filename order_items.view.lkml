@@ -1,6 +1,10 @@
 view: order_items {
   sql_table_name: public.order_items ;;
 
+  filter: date_range {
+    type: date
+  }
+
   dimension: id {
     hidden:  yes
     primary_key: yes
@@ -117,6 +121,18 @@ view: order_items {
     type: number
     value_format_name: usd
     sql: ${sale_price} - ${inventory_items.cost} ;;
+  }
+
+  dimension: date_filter_measure {
+    hidden: yes
+    type: yesno
+    sql: {% condition date_range %} ${order_items.created_date} {% endcondition %} ;;
+  }
+
+  dimension: date_filter_measure_one_year_prior {
+    hidden: yes
+    type: yesno
+    sql: {% condition date_range %} ${order_items.created_date} {% endcondition %} ;;
   }
 
 ## MEASURES ##

@@ -1,6 +1,7 @@
 view: inventory_items {
   sql_table_name: public.inventory_items ;;
 
+
   dimension: id {
     hidden:  yes
     primary_key: yes
