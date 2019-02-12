@@ -35,6 +35,7 @@ view: order_items {
     {% endif %} ;;
   }
 
+
   dimension: id {
     hidden:  yes
     primary_key: yes
