@@ -1,6 +1,37 @@
 view: products {
   sql_table_name: public.products ;;
 
+  parameter: select_product_detail {
+    type: unquoted
+    default_value: "department"
+    allowed_value: {
+      value: "department"
+      label: "Department"
+    }
+    allowed_value: {
+      value: "category"
+      label: "Category"
+    }
+    allowed_value: {
+      value: "brand"
+      label: "Brand"
+    }
+  }
+
+  dimension: product_hierarchy {
+    label_from_parameter: select_product_detail
+    type: string
+    sql:
+    {% if select_product_detail._parameter_value == 'department' %}
+    ${department}
+    {% elsif select_product_detail._parameter_value == 'category' %}
+    ${category}
+    {% else %}
+    ${brand}
+    {% endif %} ;;
+  }
+
+
   dimension: id {
     hidden:  yes
     primary_key: yes
