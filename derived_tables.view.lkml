@@ -13,7 +13,10 @@ view: derived_tables {
     type: number
     sql: ${TABLE}.count ;;
   }
-
+measure: average_order_item{
+  type: average
+  sql: ${count} ;;
+}
   set: detail {
     fields: [order_id, count]
   }
