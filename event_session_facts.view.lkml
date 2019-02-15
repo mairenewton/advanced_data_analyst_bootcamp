@@ -12,8 +12,14 @@ view: event_session_facts {
         FROM events
       )
       SELECT * FROM session_facts
+      WHERE {% condition session_start_filter %} created_at {% endcondition %}
+
       GROUP BY 1, 2, 3, 4, 5, 6
        ;;
+  }
+
+  filter: session_start_filter {
+    type:  date
   }
 
   measure: count {
