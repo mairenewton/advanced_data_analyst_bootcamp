@@ -10,10 +10,9 @@ view: event_session_facts {
           ,FIRST_VALUE (event_type) OVER (PARTITION BY session_id ORDER BY created_at ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING) AS session_landing_page
           ,LAST_VALUE  (event_type) OVER (PARTITION BY session_id ORDER BY created_at ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING) AS session_exit_page
         FROM events
+        WHERE {% condition session_start_filter %} created_at {% endcondition %}
       )
       SELECT * FROM session_facts
-      WHERE {% condition session_start_filter %} created_at {% endcondition %}
-
       GROUP BY 1, 2, 3, 4, 5, 6
        ;;
   }
