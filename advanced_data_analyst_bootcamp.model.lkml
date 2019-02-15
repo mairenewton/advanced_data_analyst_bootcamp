@@ -22,7 +22,11 @@ explore: order_items {
     relationship: many_to_one
   }
 
-
+join: derived_tables {
+  type: left_outer
+  sql_on: ${order_items.order_id}=${derived_tables.order_id};;
+  relationship: one_to_many
+}
 
 
   join: inventory_items {
