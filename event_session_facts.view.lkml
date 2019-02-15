@@ -14,7 +14,14 @@ view: event_session_facts {
       SELECT * FROM session_facts
       GROUP BY 1, 2, 3, 4, 5, 6
        ;;
+
   }
+  filter: choose_timeframe {
+    type: date
+    suggest_dimension: session_start_date
+
+  }
+
 
   measure: count {
     type: count
