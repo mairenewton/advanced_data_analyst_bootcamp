@@ -5,6 +5,33 @@ view: order_items {
     type: date
   }
 
+  parameter: time_frames {
+    allowed_value: {
+      label: "Week"
+      value: "week"
+    }
+    allowed_value: {
+      label: "Month"
+      value: "month"
+    }
+    allowed_value: {
+      label: "Day"
+      value: "date"
+    }
+  }
+
+  dimension: dynamic_timeframe {
+    label_from_parameter: time_frames
+    sql:
+    {% if time_frames._parameter_value == "'Day'" %}
+      ${created_date}::VARCHAR
+    {% elsif time_frames._parameter_value == "'Month'" %}
+      ${created_month}::VARCHAR
+    {% else %}
+      ${created_week}
+    {% endif %} ;;
+  }
+
   dimension: id {
     hidden:  yes
     primary_key: yes
