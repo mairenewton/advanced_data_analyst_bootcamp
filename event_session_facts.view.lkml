@@ -21,6 +21,12 @@ view: event_session_facts {
     suggest_dimension: session_start_date
 
   }
+  dimension: timeframe {
+    type: date
+    sql:
+
+${session_start_date}         ;;
+  }
 
 
   measure: count {
