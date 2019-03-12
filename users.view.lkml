@@ -69,10 +69,11 @@ view: users {
     sql: ${TABLE}.zip ;;
   }
 
-  dimension: CityAndState{
+  dimension: city_state{
     type: string
-    sql: concat(${TABLE}.city,"-",${TABLE}.state ;;
+    sql: ${state},${city} ;;
   }
+
 
 #}
 
