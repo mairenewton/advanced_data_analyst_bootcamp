@@ -68,6 +68,11 @@ view: users {
     type: zipcode
     sql: ${TABLE}.zip ;;
   }
+
+  dimension: CityAndState{
+    type: string
+    sql: ${TABLE}.city, || " " || ,${TABLE}.state ;;
+  }
 #}
 
   dimension: years_a_customer {
