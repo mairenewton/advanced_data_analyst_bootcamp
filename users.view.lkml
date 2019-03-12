@@ -71,8 +71,9 @@ view: users {
 
   dimension: CityAndState{
     type: string
-    sql: ${TABLE}.city,${TABLE}.state ;;
+    sql: concat(${TABLE}.city,"-",${TABLE}.state ;;
   }
+
 #}
 
   dimension: years_a_customer {
