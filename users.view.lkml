@@ -42,6 +42,7 @@ view: users {
   }
 
   dimension: country {
+    drill_fields: [state]
     type: string
     map_layer_name: countries
     sql: ${TABLE}.country ;;
@@ -60,6 +61,7 @@ view: users {
   }
 
   dimension: state {
+    drill_fields: [zip]
     type: string
     sql: ${TABLE}.state ;;
   }

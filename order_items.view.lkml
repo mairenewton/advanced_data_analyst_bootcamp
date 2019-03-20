@@ -174,6 +174,42 @@ view: order_items {
     value_format_name: usd
   }
 
+  measure: total_sales_email_user {
+
+    type: sum
+    sql: ${sale_price} ;;
+    filters:  {
+      field: users.traffic_source
+      value: "Email"
+      }
+  }
+
+
+
+  measure: percentage_sales_email_source {
+    type: number
+    value_format_name: percent_2
+    sql: 1.0*${total_sales_email_user}
+
+      /NULLIF(${total_revenue}, 0) ;;
+
+    }
+
+
+
+  measure: average_spend_per_user_new {
+
+    type: number
+
+    value_format_name: usd
+
+    sql: 1.0 * ${total_revenue} / NULLIF(${users.count},0) ;;
+
+  }
+
+
+
+
   measure: profit_margin {
     type: number
     sql: ${total_profit}/NULLIF(${total_revenue}, 0) ;;

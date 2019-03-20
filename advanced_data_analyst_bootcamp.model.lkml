@@ -13,7 +13,32 @@ datagroup: default {
 }
 
 explore: order_items {
+
+
+  always_filter: {
+    filters: {
+      field: order_items.created_date
+      value: "before today"
+
+    }
+  }
+
+
+  conditionally_filter: {
+    filters: {
+      field: order_items.created_date
+      value: "last 2 years"
+
+    }
+    unless: [users.id]
+
+  }
+
+
+
+
   join: users {
+
     type: left_outer
     sql_on: ${order_items.user_id} = ${users.id} ;;
     relationship: many_to_one
