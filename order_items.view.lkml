@@ -149,6 +149,24 @@ view: order_items {
     drill_fields: [detail*]
   }
 
+
+  measure: total_sales_email_source {
+    type: sum
+    sql:${sale_price} ;;
+    filters:  {
+      field: users.traffic_source
+      value: "Email"
+    }
+    value_format_name: usd
+  }
+
+  measure: percentage_sales_email_source {
+    type: number
+    value_format_name: percent_2
+    sql: 1.0*${total_sales_email_source}
+      /NULLIF(${total_revenue}, 0) ;;
+  }
+
   measure: order_count {
     description: "A count of unique orders"
     type: count_distinct
