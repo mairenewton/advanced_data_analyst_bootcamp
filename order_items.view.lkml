@@ -88,6 +88,25 @@ view: order_items {
     sql: ${TABLE}.status ;;
   }
 
+  dimension: formatted_status {
+    type: string
+    sql: ${TABLE}.status ;;
+    html: {% if value == 'Complete' %}
+      <b>
+      <p style="color: black; background-color: green; margin: 0; border-radius: 5px; text-align:center">{{ value }}</p>
+      </b>
+      {% elsif value == 'Cancelled' %}
+      <b>
+      <p style="color: black; background-color: red; margin: 0; border-radius: 5px; text-align:center">{{ value }}</p>
+      </b>
+      {% else %}
+      <b>
+      <p style="color: black; background-color: yellow; margin: 0; border-radius: 5px; text-align:center">{{ value }}</p>
+      </b>
+      {% endif %}
+      ;;
+  }
+
   dimension: shipping_time {
     description: "Shipping time in days"
     type: number
@@ -135,6 +154,37 @@ view: order_items {
     sql: {% condition date_range %} ${order_items.created_date} {% endcondition %} ;;
   }
 
+  parameter: select_timeframe {
+    type: unquoted
+    default_value: "created_month"
+    allowed_value: {
+      label: "Date"
+      value: "created_date"
+    }
+    allowed_value: {
+      label: "Week"
+      value: "created_week"
+    }
+    allowed_value: {
+      label: "Month"
+      value: "created_month"
+    }
+  }
+
+  dimension: dynamic_timeframe {
+    label_from_parameter: select_timeframe
+    type: string
+    sql:
+        {% if select_timeframe._parameter_value == 'created_date' %}
+          ${created_date}
+        {% elsif select_timeframe._parameter_value == 'created_week' %}
+          ${created_week}
+        {% else %}
+          ${created_month}
+        {% endif %}
+      ;;
+  }
+
 ## MEASURES ##
 
   measure: order_item_count {
@@ -147,6 +197,14 @@ view: order_items {
     value_format_name: usd
     sql: ${sale_price} ;;
     drill_fields: [detail*]
+  }
+
+  measure: total_revenue_formatted {
+    type: sum
+    value_format_name: usd
+    sql: ${sale_price} ;;
+    drill_fields: [detail*]
+    html: <font size="+5">{{linked_value}}</font> ;;
   }
 
   measure: order_count {
@@ -172,6 +230,15 @@ view: order_items {
     type: sum
     sql: ${profit} ;;
     value_format_name: usd
+#     html:
+#       <div style="width:100%"> <details>
+#       <summary style="outline:none">{{ total_profit._linked_value }}
+#       </summary> Sale Price: {{ total_revenue._linked_value }}
+#       <br/>
+#       Inventory Costs: {{ inventory_items.total_cost._linked_value }}
+#       </details>
+#       </div>
+#     ;;
   }
 
   measure: profit_margin {

@@ -39,6 +39,11 @@ view: users {
   dimension: city {
     type: string
     sql: ${TABLE}.city ;;
+    link: {
+      label: "Link to Explore"
+      url: "/explore/advanced_data_analyst_bootcamp/users?fields=users.city,users.state,users.country&f[users.city]={{ value | encode_uri }}"
+      icon_url: "https://looker.com/favicon.ico"
+    }
   }
 
   dimension: country {
@@ -62,13 +67,30 @@ view: users {
   dimension: state {
     type: string
     sql: ${TABLE}.state ;;
+    link: {
+      label: "Drill Down to See Customers"
+      url: "/explore/advanced_data_analyst_bootcamp/users?fields=users.id,users.name&f[users.state]={{ _filters['users.state'] | url_encode }}"
+      icon_url: "https://looker.com/favicon.ico"
+    }
   }
+
+#   dimension: state_2 {
+#     type: string
+#     sql: ${TABLE}.state ;;
+#     html: {% if _explore._name == "order_items" %}
+#       <a href=
+#       "/explore/advanced_data_analyst_bootcamp/order_items?fields=order_items.detail*&f[users.state]= {{ value }}">{{ value }}</a>
+#       {% else %}
+#       <a href=
+#       "/explore/advanced_data_analyst_bootcamp/users?fields=users.detail*&f[users.state]=
+#         {{ value }}">{{ value }}</a>
+#       {% endif %} ;;
+#   }
 
   dimension: zip {
     type: zipcode
     sql: ${TABLE}.zip ;;
   }
-#}
 
   dimension: years_a_customer {
     type: number
@@ -168,6 +190,10 @@ view: users {
   dimension: email {
     type: string
     sql: ${TABLE}.email ;;
+    link: {
+      label: "{{ value }} User Dashboard"
+      url: "/dashboards/1813?Email={{ value | encode_uri }}"
+    }
   }
 
   dimension: first_name {
@@ -185,5 +211,17 @@ view: users {
   dimension: name {
     type: string
     sql: ${first_name} || ' ' || ${last_name} ;;
+  }
+
+  dimension: order_history_button {
+    label: "History Button"
+    sql: ${id} ;;
+    html: <a href="/explore/advanced_data_analyst_bootcamp/order_items?fields=order_items.detail*&f[users.id]={{ value }}"><button>Order History</button></a> ;;
+  }
+
+  dimension: history {
+    sql: ${name} ;;
+    html: <a href="/explore/advanced_data_analyst_bootcamp/order_items?fields=order_items.detail*&f[users.id]={{ id._value }}">Items</a>
+      | <a href="/explore/advanced_data_analyst_bootcamp/order_items?fields=order_items.order_id&f[users.id]={{ id._value }}">Orders</a>;;
   }
 }

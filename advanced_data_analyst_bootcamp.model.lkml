@@ -7,6 +7,11 @@ include: "*.view"
 # include all the dashboards
 #include: "*.dashboard"
 
+access_grant: inventory {
+  user_attribute: accessible_departments
+  allowed_values: ["Inventory"]
+}
+
 datagroup: default {
   sql_trigger: select current_date ;;
   max_cache_age: "24 hours"
@@ -32,6 +37,7 @@ explore: order_items {
   }
 
   join: distribution_centers {
+    required_access_grants: [inventory]
     type: left_outer
     sql_on: ${products.distribution_center_id} = ${distribution_centers.id} ;;
     relationship: many_to_one
@@ -80,5 +86,13 @@ explore: users {
     type: left_outer
     sql_on: ${order_items.inventory_item_id} = ${inventory_items.id} ;;
     relationship: many_to_one
+  }
+}
+
+explore: products {
+  join: product_inventory_facts {
+    type: left_outer
+    sql_on: ${products.id} = ${product_inventory_facts.product_id} ;;
+    relationship: one_to_one
   }
 }
