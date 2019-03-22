@@ -88,25 +88,6 @@ view: order_items {
     sql: ${TABLE}.status ;;
   }
 
-  dimension: formatted_status {
-    type: string
-    sql: ${TABLE}.status ;;
-    html: {% if value == 'Complete' %}
-      <b>
-      <p style="color: black; background-color: green; margin: 0; border-radius: 5px; text-align:center">{{ value }}</p>
-      </b>
-      {% elsif value == 'Cancelled' %}
-      <b>
-      <p style="color: black; background-color: red; margin: 0; border-radius: 5px; text-align:center">{{ value }}</p>
-      </b>
-      {% else %}
-      <b>
-      <p style="color: black; background-color: yellow; margin: 0; border-radius: 5px; text-align:center">{{ value }}</p>
-      </b>
-      {% endif %}
-      ;;
-  }
-
   dimension: shipping_time {
     description: "Shipping time in days"
     type: number
@@ -124,145 +105,97 @@ view: order_items {
 
   dimension: order_id {
 #     hidden:  yes
-    type: number
-    sql: ${TABLE}.order_id ;;
-  }
+  type: number
+  sql: ${TABLE}.order_id ;;
+}
 
-  dimension: user_id {
-    type: number
-    hidden: yes
-    sql: ${TABLE}.user_id ;;
-  }
+dimension: user_id {
+  type: number
+  hidden: yes
+  sql: ${TABLE}.user_id ;;
+}
 
-  dimension: profit {
-    description: "Profit made on any one item"
-    hidden:  yes
-    type: number
-    value_format_name: usd
-    sql: ${sale_price} - ${inventory_items.cost} ;;
-  }
+dimension: profit {
+  description: "Profit made on any one item"
+  hidden:  yes
+  type: number
+  value_format_name: usd
+  sql: ${sale_price} - ${inventory_items.cost} ;;
+}
 
-  dimension: date_filter_measure {
-    hidden: yes
-    type: yesno
-    sql: {% condition date_range %} ${order_items.created_date} {% endcondition %} ;;
-  }
+dimension: date_filter_measure {
+  hidden: yes
+  type: yesno
+  sql: {% condition date_range %} ${order_items.created_date} {% endcondition %} ;;
+}
 
-  dimension: date_filter_measure_one_year_prior {
-    hidden: yes
-    type: yesno
-    sql: {% condition date_range %} ${order_items.created_date} {% endcondition %} ;;
-  }
-
-  parameter: select_timeframe {
-    type: unquoted
-    default_value: "created_month"
-    allowed_value: {
-      label: "Date"
-      value: "created_date"
-    }
-    allowed_value: {
-      label: "Week"
-      value: "created_week"
-    }
-    allowed_value: {
-      label: "Month"
-      value: "created_month"
-    }
-  }
-
-  dimension: dynamic_timeframe {
-    label_from_parameter: select_timeframe
-    type: string
-    sql:
-        {% if select_timeframe._parameter_value == 'created_date' %}
-          ${created_date}
-        {% elsif select_timeframe._parameter_value == 'created_week' %}
-          ${created_week}
-        {% else %}
-          ${created_month}
-        {% endif %}
-      ;;
-  }
+dimension: date_filter_measure_one_year_prior {
+  hidden: yes
+  type: yesno
+  sql: {% condition date_range %} ${order_items.created_date} {% endcondition %} ;;
+}
 
 ## MEASURES ##
 
-  measure: order_item_count {
-    type: count
-    drill_fields: [detail*]
-  }
+measure: order_item_count {
+  type: count
+  drill_fields: [detail*]
+}
 
-  measure: total_revenue {
-    type: sum
-    value_format_name: usd
-    sql: ${sale_price} ;;
-    drill_fields: [detail*]
-  }
+measure: total_revenue {
+  type: sum
+  value_format_name: usd
+  sql: ${sale_price} ;;
+  drill_fields: [detail*]
+}
 
-  measure: total_revenue_formatted {
-    type: sum
-    value_format_name: usd
-    sql: ${sale_price} ;;
-    drill_fields: [detail*]
-    html: <font size="+5">{{linked_value}}</font> ;;
-  }
+measure: order_count {
+  description: "A count of unique orders"
+  type: count_distinct
+  sql: ${order_id} ;;
+}
 
-  measure: order_count {
-    description: "A count of unique orders"
-    type: count_distinct
-    sql: ${order_id} ;;
-  }
+measure: average_sale_price {
+  type: average
+  value_format_name: usd
+  sql: ${sale_price} ;;
+  drill_fields: [detail*]
+}
 
-  measure: average_sale_price {
-    type: average
-    value_format_name: usd
-    sql: ${sale_price} ;;
-    drill_fields: [detail*]
-  }
+measure: average_spend_per_user {
+  type: number
+  value_format_name: usd
+  sql: 1.0 * ${total_revenue} / NULLIF(${users.count},0) ;;
+}
 
-  measure: average_spend_per_user {
-    type: number
-    value_format_name: usd
-    sql: 1.0 * ${total_revenue} / NULLIF(${users.count},0) ;;
-  }
+measure: total_profit {
+  type: sum
+  sql: ${profit} ;;
+  value_format_name: usd
+}
 
-  measure: total_profit {
-    type: sum
-    sql: ${profit} ;;
-    value_format_name: usd
-#     html:
-#       <div style="width:100%"> <details>
-#       <summary style="outline:none">{{ total_profit._linked_value }}
-#       </summary> Sale Price: {{ total_revenue._linked_value }}
-#       <br/>
-#       Inventory Costs: {{ inventory_items.total_cost._linked_value }}
-#       </details>
-#       </div>
-#     ;;
-  }
+measure: profit_margin {
+  type: number
+  sql: ${total_profit}/NULLIF(${total_revenue}, 0) ;;
+  value_format_name: percent_2
+}
 
-  measure: profit_margin {
-    type: number
-    sql: ${total_profit}/NULLIF(${total_revenue}, 0) ;;
-    value_format_name: percent_2
-  }
-
-  measure: average_shipping_time {
-    type: average
-    sql: ${shipping_time} ;;
-    value_format: "0\" days\""
-  }
+measure: average_shipping_time {
+  type: average
+  sql: ${shipping_time} ;;
+  value_format: "0\" days\""
+}
 
 
-  # ----- Sets of fields for drilling ------
-  set: detail {
-    fields: [
-      id,
-      users.id,
-      users.first_name,
-      users.last_name,
-      inventory_items.id,
-      inventory_items.product_name
-    ]
-  }
+# ----- Sets of fields for drilling ------
+set: detail {
+  fields: [
+    id,
+    users.id,
+    users.first_name,
+    users.last_name,
+    inventory_items.id,
+    inventory_items.product_name
+  ]
+}
 }
