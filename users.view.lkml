@@ -183,8 +183,7 @@ dimension: first_name {
 
 dimension: is_email_acq {
   type: yesno
-  sql:
-  sql:  (case when ${traffic_source}='Email' then "yes" else "no" end) ;;
+  sql:  case when ${traffic_source}='Email' then "yes" else "no" end ;;
 }
 
 dimension: last_name {
