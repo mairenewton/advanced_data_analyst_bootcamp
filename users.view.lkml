@@ -183,7 +183,7 @@ dimension: first_name {
 
 dimension: is_email_acq {
   type: yesno
-  sql:  ${traffic_source}='Email' ;;
+  sql:  ${traffic_source}='Email' or ${traffic_source}='Facebook' ;;
 }
 
 dimension: last_name {
