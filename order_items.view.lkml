@@ -12,7 +12,6 @@ view: order_items {
     sql: ${TABLE}.id ;;
   }
 
-
   dimension_group: created {
     description: "When the order was created"
     type: time
@@ -93,6 +92,7 @@ view: order_items {
     type: number
     sql: DATEDIFF(day, ${order_items.shipped_date}, ${order_items.delivered_date}) ;;
   }
+
 
 ## HIDDEN DIMENSIONS ##
 

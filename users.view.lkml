@@ -181,6 +181,12 @@ dimension: first_name {
   sql: ${TABLE}.first_name ;;
 }
 
+dimension: is_email_acq {
+  type: yesno
+  sql:
+  sql:  if(${traffic_source}='Email',"yes","no") ;;
+}
+
 dimension: last_name {
   hidden:  yes
   type: string
