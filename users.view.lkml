@@ -43,7 +43,7 @@ dimension: city {
 
 dimension: city_state {
   type: string
-  sql: concat(${TABLE}.city || ${TABLE}.state);;
+  sql: ${TABLE}.city || ${TABLE}.state;;
 }
 
 dimension: country {
