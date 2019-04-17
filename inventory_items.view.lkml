@@ -85,7 +85,11 @@ view: inventory_items {
     ]
     sql: ${TABLE}.sold_at ;;
   }
-
+measure: total_sales {
+  type:  sum
+  value_format_name: usd
+  sql: ${TABLE}.product_retail_price ;;
+}
   measure:  Avg_retail_price {
     type:  average
    # value_format_name: usd
@@ -95,7 +99,7 @@ view: inventory_items {
 
 measure:  Mom_change{
   type: percent_of_previous
-  sql: ${TABLE}.product_retail_price ;;
+  sql: ${total_sales} ;;
 }
 
   measure: count {
