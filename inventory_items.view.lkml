@@ -93,6 +93,11 @@ view: inventory_items {
     sql: ${TABLE}.product_retail_price ;;
   }
 
+measure:  Mom_change{
+  type: percent_of_previous
+  sql: ${TABLE}.product_retail_price ;;
+}
+
   measure: count {
     type: count
     drill_fields: [id, product_name, products.id, products.name, order_items.count]
