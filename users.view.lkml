@@ -47,6 +47,10 @@ dimension: country {
   sql: ${TABLE}.country ;;
 }
 
+measure: state_count {
+  type: count_distinct
+}
+
 dimension: latitude {
   hidden:  yes
   type: number
@@ -59,10 +63,10 @@ dimension: longitude {
   sql: ${TABLE}.longitude ;;
 }
 
-dimension: state {
-  type: string
-  sql: ${TABLE}.state ;;
-}
+  dimension: state {
+    type: string
+    sql: ${TABLE}.state ;;
+  }
 
 dimension: zip {
   type: zipcode
@@ -87,8 +91,10 @@ dimension: traffic_source {
 }
 
 dimension: region {
+  type: string
 #     map_layer_name: map_regions
-sql: CASE WHEN ${state} = 'Maine' THEN 'Northeast'
+  sql: CASE
+              WHEN ${state} = 'Maine' THEN 'Northeast'
               WHEN ${state} = 'Massachusetts' THEN 'Northeast'
               WHEN ${state} = 'Rhode Island' THEN 'Northeast'
               WHEN ${state} = 'Connecticut' THEN 'Northeast'
