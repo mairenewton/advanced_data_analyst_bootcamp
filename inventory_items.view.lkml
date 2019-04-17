@@ -86,9 +86,9 @@ view: inventory_items {
     sql: ${TABLE}.sold_at ;;
   }
 
-  measure:  max_sold_date {
-    type:  time
-    sql: MAX(${TABLE}.sold_at) ;;
+  measure:  Avg_retail_price {
+    type:  average
+    sql: ${TABLE}.product_retail_price ;;
   }
 
   measure: count {
