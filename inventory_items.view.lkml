@@ -86,6 +86,11 @@ view: inventory_items {
     sql: ${TABLE}.sold_at ;;
   }
 
+  measure:  max_sold_date {
+    type:  max
+    sql: ${TABLE}.sold_at ;;
+  }
+
   measure: count {
     type: count
     drill_fields: [id, product_name, products.id, products.name, order_items.count]
