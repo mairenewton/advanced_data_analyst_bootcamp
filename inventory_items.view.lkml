@@ -87,8 +87,8 @@ view: inventory_items {
   }
 
   measure:  max_sold_date {
-    type:  max
-    sql: ${TABLE}.sold_at ;;
+    type:  time
+    sql: MAX(${TABLE}.sold_at) ;;
   }
 
   measure: count {
