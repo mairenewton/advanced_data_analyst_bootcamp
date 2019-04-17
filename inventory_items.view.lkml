@@ -88,6 +88,7 @@ view: inventory_items {
 
   measure:  Avg_retail_price {
     type:  average
+    value_format_name: usd
     sql: ${TABLE}.product_retail_price ;;
   }
 
