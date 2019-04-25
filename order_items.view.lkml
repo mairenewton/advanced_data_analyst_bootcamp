@@ -135,6 +135,13 @@ dimension: date_filter_measure_one_year_prior {
   sql: {% condition date_range %} ${order_items.created_date} {% endcondition %} ;;
 }
 
+dimension: shipping_days {
+  type: number
+  sql: DATEDIFF(day, ${shipped_date},${delivered_date}) ;;
+}
+
+
+
 ## MEASURES ##
 
 measure: order_item_count {
