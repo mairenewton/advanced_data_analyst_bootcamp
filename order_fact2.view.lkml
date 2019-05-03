@@ -26,6 +26,8 @@ explore: order_fact2 {}
     }
     dimension: state {}
 
-    dimension: order_revenue_rank {}
+    dimension: order_revenue_rank {
+      type: number
+    }
 
   }
