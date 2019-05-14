@@ -35,6 +35,13 @@ dimension: age_tier {
   tiers: [10, 20, 30, 40, 50, 60, 70, 80, 90]
 }
 
+  dimension: age_tier_2{
+    type: tier
+    style: integer
+    sql: ${TABLE}.age ;;
+    tiers: [18, 25, 35, 45, 55, 65, 75, 90]
+  }
+
 #Geography {
 dimension: city {
   type: string
