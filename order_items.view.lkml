@@ -198,4 +198,20 @@ set: detail {
     inventory_items.product_name
   ]
 }
+
+measure: distinct_orders_oa {
+  type:  count_distinct
+  sql: ${order_id} ;;
+}
+
+measure: total_sales {
+  type:  sum
+  sql:  ${sale_price} ;;
+}
+
+measure: avg_sales {
+  type:  average
+  sql: ${sale_price} ;;
+}
+
 }
