@@ -186,6 +186,11 @@ measure: average_shipping_time {
   value_format: "0\" days\""
 }
 
+measure: No_ship_dsys {
+    type: number
+    sql:datediff( ${shipped_date},${delivered_date}) ;;
+    value_format: "0\" days\""
+  }
 
 # ----- Sets of fields for drilling ------
 set: detail {

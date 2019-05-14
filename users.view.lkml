@@ -47,6 +47,11 @@ dimension: country {
   sql: ${TABLE}.country ;;
 }
 
+  dimension: citystate {
+    type: string
+    sql: $city||','||${state} ;;
+    }
+
 dimension: latitude {
   hidden:  yes
   type: number
@@ -147,8 +152,6 @@ dimension: map_location {
   sql_latitude: ${latitude} ;;
   sql_longitude: ${longitude} ;;
 }
-
-
 
 measure: max_age {
   type: max
