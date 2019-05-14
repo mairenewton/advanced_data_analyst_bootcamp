@@ -186,4 +186,23 @@ dimension: name {
   type: string
   sql: ${first_name} || ' ' || ${last_name} ;;
 }
+
+dimension: city_state {
+  type: string
+  sql: ${city} || ', ' || ${state} ;;
+}
+
+dimension: is_traff_src_email {
+  type:  yesno
+  sql: ${traffic_source} = 'Email';;
+}
+
+dimension: age_groups {
+  type: tier
+  style: integer
+  sql: ${TABLE}.age ;;
+  tiers: [18, 25, 35, 45, 55, 65, 75, 90]
+}
+
+
 }
