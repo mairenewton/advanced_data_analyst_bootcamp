@@ -91,6 +91,11 @@ dimension: traffic_source {
   sql: ${TABLE}.traffic_source ;;
 }
 
+  dimension: traffic_source_type {
+    type: yesno
+    sql: ${TABLE}.traffic_source ;;
+  }
+
 dimension: region {
 #     map_layer_name: map_regions
 sql: CASE WHEN ${state} = 'Maine' THEN 'Northeast'
