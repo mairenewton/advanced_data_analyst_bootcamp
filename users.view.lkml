@@ -36,6 +36,13 @@ dimension: age_tier {
 }
 
 #Geography {
+
+filter: city_filter{
+  type: string
+  suggest_explore: order_items
+  suggest_dimension:  users.city
+}
+
 dimension: city {
   type: string
   sql: ${TABLE}.city ;;
