@@ -37,10 +37,18 @@ dimension: age_tier {
 
 #Geography {
 
-filter: city_filter{
+filter: city_filter {
   type: string
   suggest_explore: order_items
   suggest_dimension:  users.city
+}
+
+dimension: top_cities {
+  type:  string
+
+  sql:
+  CASE WHEN {% condition city_filter %} {% endcondition %} THEN ${city} ELSE 'All Other Cities'
+  END;;
 }
 
 dimension: city {
@@ -173,17 +181,20 @@ measure: count {
 }
 
 dimension: email {
+  required_access_grants: [is_pii_viewer]
   type: string
   sql: ${TABLE}.email ;;
 }
 
 dimension: first_name {
+  required_access_grants: [is_pii_viewer]
   hidden:  yes
   type: string
   sql: ${TABLE}.first_name ;;
 }
 
 dimension: last_name {
+  required_access_grants: [is_pii_viewer]
   hidden:  yes
   type: string
   sql: ${TABLE}.last_name ;;
