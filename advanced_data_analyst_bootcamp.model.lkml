@@ -1,6 +1,13 @@
 connection: "events_ecommerce"
 persist_with: default
 
+access_grant: is_pii_viewer {
+  user_attribute: is_pii_viewer
+  allowed_values: ["Yes"]
+}
+
+
+
 # include all the views
 include: "*.view"
 
