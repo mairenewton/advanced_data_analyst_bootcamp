@@ -1,7 +1,6 @@
 connection: "events_ecommerce"
 persist_with: default
 
-
 # include all the views
 include: "*.view"
 
@@ -13,17 +12,12 @@ datagroup: default {
   max_cache_age: "24 hours"
 }
 
-
-
 explore: order_items {
   join: users {
     type: left_outer
     sql_on: ${order_items.user_id} = ${users.id} ;;
     relationship: many_to_one
   }
-
-
-
 
   join: inventory_items {
     type: left_outer
