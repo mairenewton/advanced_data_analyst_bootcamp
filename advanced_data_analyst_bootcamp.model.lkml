@@ -75,6 +75,7 @@ explore: inventory_items {
     relationship: many_to_one
   }
 }
+explore: ndt_order_facts {}
 
 explore: users {
   join: order_items {
