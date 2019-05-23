@@ -1,5 +1,6 @@
 view: event_session_funnel {
   derived_table: {
+
     sql: SELECT
           session_id
         , MIN(
@@ -23,6 +24,9 @@ view: event_session_funnel {
       FROM events
       GROUP BY 1
  ;;
+  distribution_style: all
+  sortkeys: ["session_id"]
+
   }
 
   measure: count {

@@ -1,31 +1,42 @@
-view: users {
-  sql_table_name: public.users ;;
+include: "geography_fields.view.lkml"
 
+include: "system_fields.view.lkml"
+
+view: users {
+
+  extends: [system_fields,geography_fields]
+  sql_table_name: public.users ;;
+#
   dimension: id {
 #     hidden:  yes
   primary_key: yes
   type: number
   sql: ${TABLE}.id ;;
+  label: "this is the id"
 }
 
-dimension_group: created {
-  type: time
-  timeframes: [
-    raw,
-    time,
-    date,
-    week,
-    month,
-    quarter,
-    year
-  ]
-  sql: ${TABLE}.created_at ;;
-}
+# dimension_group: created {
+#   type: time
+#   timeframes: [
+#     raw,
+#     time,
+#     date,
+#     week,
+#     month,
+#     quarter,
+#     year
+#   ]
+#   sql: ${TABLE}.created_at ;;
+# }
 
 dimension: age {
   type: number
   value_format_name: decimal_0
   sql: ${TABLE}.age ;;
+}
+
+dimension: bad_dimension{
+  sql: ${order_items.id};;
 }
 
 dimension: age_tier {
@@ -36,38 +47,51 @@ dimension: age_tier {
 }
 
 #Geography {
-dimension: city {
-  type: string
-  sql: ${TABLE}.city ;;
-}
-
-dimension: country {
-  type: string
-  map_layer_name: countries
-  sql: ${TABLE}.country ;;
-}
-
-dimension: latitude {
-  hidden:  yes
-  type: number
-  sql: ${TABLE}.latitude ;;
-}
-
-dimension: longitude {
-  hidden:  yes
-  type: number
-  sql: ${TABLE}.longitude ;;
-}
-
-dimension: state {
-  type: string
-  sql: ${TABLE}.state ;;
-}
-
-dimension: zip {
-  type: zipcode
-  sql: ${TABLE}.zip ;;
-}
+# dimension: city {
+#   type: string
+#   sql: ${TABLE}.city ;;
+# }
+#
+# dimension: country {
+#   type: string
+#   map_layer_name: countries
+#   sql: ${TABLE}.country ;;
+# }
+#
+# dimension: latitude {
+#   hidden:  yes
+#   type: number
+#   sql: ${TABLE}.latitude ;;
+# }
+#
+# dimension: longitude {
+#   hidden:  yes
+#   type: number
+#   sql: ${TABLE}.longitude ;;
+# }
+#
+# # dimension: state {
+# #   type: string
+# #   sql: ${TABLE}.state ;;
+# # }
+#
+#   dimension: state {
+#     sql: ${TABLE}.state ;;
+#     html: {% if _explore._name == "order_items" %}
+#       <a href=
+#       "/explore/advanced_data_analyst_bootcamp/order_items?fields=order_items.detail*&f[users.state]= {{ value }}">{{ value }}</a>
+#              {% else %}
+#       <a href=
+#       "/explore/advanced_data_analyst_bootcamp/users?fields=users.detail*&f[users.state]=
+#       {{ value }}">{{ value }}</a>
+#              {% endif %} ;;
+#   }
+#
+#
+# dimension: zip {
+#   type: zipcode
+#   sql: ${TABLE}.zip ;;
+# }
 #}
 
 dimension: years_a_customer {
@@ -168,6 +192,12 @@ measure: count {
 dimension: email {
   type: string
   sql: ${TABLE}.email ;;
+#   link: {
+#     label: "Ecomm Sample Dash for {{ value }}"
+#     url: "https://teach.corp.looker.com/dashboards/1813?Email={{ value }}"
+#     icon_url: "https://www.looker.com/favicon.ico"
+#   }
+  html:<a href="https://teach.corp.looker.com/dashboards/1813?Email={{ value }}"> {{ id._value }}</a>  ;;
 }
 
 dimension: first_name {

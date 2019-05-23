@@ -135,6 +135,33 @@ dimension: date_filter_measure_one_year_prior {
   sql: {% condition date_range %} ${order_items.created_date} {% endcondition %} ;;
 }
 
+parameter: date_granularity {
+  type: unquoted
+  allowed_value: {
+    label: "date"
+    value: "created_date"
+  }
+  allowed_value: {
+    label: "week"
+    value: "created_week"
+  }
+  allowed_value: {
+    label: "month"
+    value: "created_month"
+  }
+}
+
+dimension: date_interval {
+  sql: {% if date_granularity._parameter_value == 'created_date' %}
+          ${created_date}
+       {% elsif date_granularity._parameter_value == 'created_week' %}
+          ${created_week}
+        {% else %}
+          ${created_month}
+        {% endif %}
+  ;;
+}
+
 ## MEASURES ##
 
 measure: order_item_count {

@@ -1,3 +1,4 @@
+explore: orders {}
 view: orders{
   derived_table: {
     sql: SELECT
@@ -18,6 +19,11 @@ view: orders{
     primary_key: yes
     type: number
     sql: ${TABLE}.order_id ;;
+    link: {
+      label: "Link to google"
+      url: "https://www.google.com"
+      icon_url: "google.com/favicon"
+    }
   }
 
   dimension: total_order_value {

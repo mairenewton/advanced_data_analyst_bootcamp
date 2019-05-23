@@ -10,6 +10,7 @@ view: event_session_facts {
           ,FIRST_VALUE (event_type) OVER (PARTITION BY session_id ORDER BY created_at ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING) AS session_landing_page
           ,LAST_VALUE  (event_type) OVER (PARTITION BY session_id ORDER BY created_at ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING) AS session_exit_page
         FROM events
+      WHERE {% condition start_date_filter %} created_at {% endcondition %}
       )
       SELECT * FROM session_facts
       GROUP BY 1, 2, 3, 4, 5, 6
@@ -49,6 +50,9 @@ view: event_session_facts {
   dimension: session_exit_page {
     type: string
     sql: ${TABLE}.session_exit_page ;;
+  }
+  filter: start_date_filter {
+    type: date
   }
 
   set: detail {

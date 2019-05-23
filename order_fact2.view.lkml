@@ -4,6 +4,9 @@ explore: order_fact2 {}
 
   view: order_fact2 {
     derived_table: {
+      datagroup_trigger: default_datagroup
+      sortkeys: ["order_id"]
+      distribution: "order_id"
       explore_source: order_items {
         column: order_id {}
         column: total_revenue {}
