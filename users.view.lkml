@@ -186,4 +186,19 @@ dimension: name {
   type: string
   sql: ${first_name} || ' ' || ${last_name} ;;
 }
+
+  dimension: order_history_button {
+    label: "History Button"
+    sql: ${TABLE}.id ;;
+    html: <a href="/explore/events_ecommerce/order_items?fields=order_items.detail*&f[users.id]={{ value }}"><button>Order History</button></a> ;;
+  }
+#this is not working please explain
+  dimension: history {
+    sql: ${TABLE}.user_name ;;
+    html: <a href="/explore/thelook/orders?fields=orders.detail*&f[users.id]={{ id._value }}">Orders</a
+      | <a href="/explore/thelook/order_items?fields=order_items.detail*&f[users.id]={{ id._value }}">Items</a>;;
+  }
+
+
+
 }
