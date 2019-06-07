@@ -12,4 +12,9 @@ view: no_purch_per_order {
       type: number
     }
 
+  measure: average_order_item_count {
+    type: average
+    sql: ${order_item_count} ;;
+  }
+
 }
