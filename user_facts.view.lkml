@@ -50,5 +50,6 @@ view: user_facts {
   measure: Average_LTV{
     type:  average
     sql: ${TABLE}.revenue;;
+    value_format_name: usd
   }
 }
