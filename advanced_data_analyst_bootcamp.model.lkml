@@ -90,3 +90,5 @@ explore: users {
 
 
 explore: ltv_thing  {}
+
+explore: no_purch_per_order {}
