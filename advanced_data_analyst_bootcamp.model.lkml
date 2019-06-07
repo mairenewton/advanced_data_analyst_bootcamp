@@ -12,6 +12,11 @@ datagroup: default {
   max_cache_age: "24 hours"
 }
 
+datagroup: order_facts {
+  max_cache_age: "24 hours"
+  sql_trigger: SELECT max(order_id) FROM order_facts ;;
+}
+
 explore: order_items {
   join: users {
     type: left_outer
