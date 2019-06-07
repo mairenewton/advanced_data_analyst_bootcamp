@@ -12,6 +12,21 @@ view: order_items {
     sql: ${TABLE}.id ;;
   }
 
+  parameter: date_gran {
+    type: unquoted
+    allowed_value: {
+      label: "Weekly"
+      value: "created_week"
+    }
+    allowed_value: {
+      label: "Daily"
+      value: "created_month"
+    }
+    allowed_value: {
+      label: "Monthly"
+      value: "created_date"
+    }
+  }
 
   dimension_group: created {
     description: "When the order was created"
@@ -27,6 +42,20 @@ view: order_items {
       year
     ]
     sql: ${TABLE}.created_at ;;
+  }
+
+  dimension: dynamic_date {
+    type: string
+    sql: {% if date_gran._parameter_value == 'created_week' %}
+     ${created_week}
+    {% elsif  date_gran._parameter_value == 'created_month' %}
+     ${created_month}
+    {% elsif  date_gran._parameter_value == 'created_date' %}
+     ${created_date}
+    {% else %}
+      NULL
+    {% endif %}
+    ;;
   }
 
   dimension_group: delivered {
