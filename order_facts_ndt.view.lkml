@@ -8,6 +8,7 @@ view: order_facts_ndt {
       }
     }
     dimension: order_id {
+      primary_key: yes
       type: number
     }
     dimension: order_item_count {
@@ -19,12 +20,12 @@ view: order_facts_ndt {
     }
 
 
-  measure: average_order_item_count {
+  measure: avg_number_of_items_purch {
     type: average
     sql: ${order_item_count} ;;
   }
 
-  measure: average_order_item_revenue {
+  measure: avg_revenue_of_items_purch {
     type: average
     sql: ${total_revenue} ;;
   }
