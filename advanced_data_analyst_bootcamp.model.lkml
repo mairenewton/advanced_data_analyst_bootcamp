@@ -87,3 +87,6 @@ explore: users {
     relationship: one_to_one
   }
 }
+
+
+explore: ltv_thing  {}
