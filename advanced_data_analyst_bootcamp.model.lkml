@@ -84,6 +84,6 @@ explore: users {
   join: user_facts {
     type: left_outer
     sql_on: ${order_items.inventory_item_id} = ${user_facts.user_id} ;;
-    relationship: many_to_one
+    relationship: one_to_one
   }
 }

@@ -160,6 +160,12 @@ measure: average_age {
   sql: ${age} ;;
 }
 
+  measure: Average_LTV{
+    type:  average
+    sql: ${TABLE}.revenue;;
+    value_format_name: usd
+  }
+
 measure: count {
   type: count
   drill_fields: [id, events.count, order_items.count]
@@ -186,4 +192,6 @@ dimension: name {
   type: string
   sql: ${first_name} || ' ' || ${last_name} ;;
 }
+
+
 }
