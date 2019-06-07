@@ -1,7 +1,6 @@
 connection: "events_ecommerce"
 persist_with: default
 
-
 # include all the views
 include: "*.view"
 
@@ -17,8 +16,6 @@ datagroup: order_facts_ndt_datagroup {
   sql_trigger: select MAX(created_at) FROM order_items ;;
   max_cache_age: "4 hours"
 }
-
-
 
 explore: order_items {
 

@@ -1,17 +1,12 @@
 view: inventory_items {
   sql_table_name: public.inventory_items ;;
 
+
   dimension: id {
     hidden:  yes
     primary_key: yes
     type: number
     sql: ${TABLE}.id ;;
-  }
-
-  dimension: cost {
-    type: number
-    value_format_name: usd
-    sql: ${TABLE}.cost ;;
   }
 
   dimension_group: created {
@@ -26,6 +21,12 @@ view: inventory_items {
       year
     ]
     sql: ${TABLE}.created_at ;;
+  }
+
+  dimension: cost {
+    type: number
+    value_format_name: usd
+    sql: ${TABLE}.cost ;;
   }
 
   dimension: product_brand {

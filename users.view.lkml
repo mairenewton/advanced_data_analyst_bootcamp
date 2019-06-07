@@ -3,98 +3,92 @@ view: users {
 
   dimension: id {
 #     hidden:  yes
-    primary_key: yes
-    type: number
-    sql: ${TABLE}.id ;;
-  }
+  primary_key: yes
+  type: number
+  sql: ${TABLE}.id ;;
+}
 
-  dimension: age {
-    type: number
-    value_format_name: decimal_0
-    sql: ${TABLE}.age ;;
-  }
+dimension_group: created {
+  type: time
+  timeframes: [
+    raw,
+    time,
+    date,
+    week,
+    month,
+    quarter,
+    year
+  ]
+  sql: ${TABLE}.created_at ;;
+}
 
-  dimension: age_tier {
-    type: tier
-    style: integer
-    sql: ${TABLE}.age ;;
-    tiers: [10, 20, 30, 40, 50, 60, 70, 80, 90]
-  }
+dimension: age {
+  type: number
+  value_format_name: decimal_0
+  sql: ${TABLE}.age ;;
+}
 
-  dimension: city {
-    type: string
-    sql: ${TABLE}.city ;;
-  }
+dimension: age_tier {
+  type: tier
+  style: integer
+  sql: ${TABLE}.age ;;
+  tiers: [10, 20, 30, 40, 50, 60, 70, 80, 90]
+}
 
-  dimension: country {
-    type: string
-    map_layer_name: countries
-    sql: ${TABLE}.country ;;
-  }
+#Geography {
+dimension: city {
+  type: string
+  sql: ${TABLE}.city ;;
+}
 
-  dimension_group: created {
-    type: time
-    timeframes: [
-      raw,
-      time,
-      date,
-      week,
-      month,
-      quarter,
-      year
-    ]
-    sql: ${TABLE}.created_at ;;
-  }
+dimension: country {
+  type: string
+  map_layer_name: countries
+  sql: ${TABLE}.country ;;
+}
 
-  dimension: years_a_customer {
-    type: number
-    value_format_name: decimal_0
-    sql: DATEDIFF(year, ${created_date}, current_date) ;;
-  }
+dimension: latitude {
+  hidden:  yes
+  type: number
+  sql: ${TABLE}.latitude ;;
+}
 
-  dimension: gender {
-    type: string
-    sql: ${TABLE}.gender ;;
-  }
+dimension: longitude {
+  hidden:  yes
+  type: number
+  sql: ${TABLE}.longitude ;;
+}
 
+dimension: state {
+  type: string
+  sql: ${TABLE}.state ;;
+}
 
+dimension: zip {
+  type: zipcode
+  sql: ${TABLE}.zip ;;
+}
+#}
 
-  dimension: state {
-    type: string
-    sql: ${TABLE}.state ;;
-  }
+dimension: years_a_customer {
+  type: number
+  value_format_name: decimal_0
+  sql: DATEDIFF(year, ${created_date}, current_date) ;;
+}
 
-  dimension: traffic_source {
-    type: string
-    sql: ${TABLE}.traffic_source ;;
-  }
+dimension: gender {
+  type: string
+  sql: ${TABLE}.gender ;;
+}
 
-  dimension: zip {
-    type: zipcode
-    sql: ${TABLE}.zip ;;
-  }
+dimension: traffic_source {
+  type: string
+  sql: ${TABLE}.traffic_source ;;
+}
 
-  dimension: latitude {
-    hidden:  yes
-    type: number
-    sql: ${TABLE}.latitude ;;
-  }
-
-  dimension: longitude {
-    hidden:  yes
-    type: number
-    sql: ${TABLE}.longitude ;;
-  }
-
-  dimension: map_location {
-    type: location
-    sql_latitude: ${latitude} ;;
-    sql_longitude: ${longitude} ;;
-  }
-
-  dimension: region {
+dimension: region {
 #     map_layer_name: map_regions
-    sql: CASE WHEN ${state} = 'Maine' THEN 'Northeast'
+sql: CASE WHEN ${state} = 'Maine' THEN 'Northeast'
               WHEN ${state} = 'Massachusetts' THEN 'Northeast'
               WHEN ${state} = 'Rhode Island' THEN 'Northeast'
               WHEN ${state} = 'Connecticut' THEN 'Northeast'
@@ -146,42 +140,50 @@ view: users {
               WHEN ${state} = 'Hawaii' THEN 'West'
               ELSE 'Outside US'
           END ;;
-  }
+}
 
-  measure: max_age {
-    type: max
-    sql: ${age} ;;
-  }
+dimension: map_location {
+  type: location
+  sql_latitude: ${latitude} ;;
+  sql_longitude: ${longitude} ;;
+}
 
-  measure: average_age {
-    type: average
-    sql: ${age} ;;
-  }
 
-  measure: count {
-    type: count
-    drill_fields: [id, events.count, order_items.count]
-  }
 
-  dimension: email {
-    type: string
-    sql: ${TABLE}.email ;;
-  }
+measure: max_age {
+  type: max
+  sql: ${age} ;;
+}
 
-  dimension: first_name {
-    hidden:  yes
-    type: string
-    sql: ${TABLE}.first_name ;;
-  }
+measure: average_age {
+  type: average
+  sql: ${age} ;;
+}
 
-  dimension: last_name {
-    hidden:  yes
-    type: string
-    sql: ${TABLE}.last_name ;;
-  }
+measure: count {
+  type: count
+  drill_fields: [id, events.count, order_items.count]
+}
 
-  dimension: name {
-    type: string
-    sql: ${first_name} || ' ' || ${last_name} ;;
-  }
+dimension: email {
+  type: string
+  sql: ${TABLE}.email ;;
+}
+
+dimension: first_name {
+  hidden:  yes
+  type: string
+  sql: ${TABLE}.first_name ;;
+}
+
+dimension: last_name {
+  hidden:  yes
+  type: string
+  sql: ${TABLE}.last_name ;;
+}
+
+dimension: name {
+  type: string
+  sql: ${first_name} || ' ' || ${last_name} ;;
+}
 }

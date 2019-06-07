@@ -18,6 +18,7 @@ view: events {
     sql: ${TABLE}.browser ;;
   }
 
+#Geography {
   dimension: city {
     type: string
     sql: ${TABLE}.city ;;
@@ -28,6 +29,31 @@ view: events {
     map_layer_name: countries
     sql: ${TABLE}.country ;;
   }
+
+  dimension: latitude {
+    hidden: yes
+    type: number
+    sql: ${TABLE}.latitude ;;
+  }
+
+  dimension: longitude {
+    hidden: yes
+    type: number
+    sql: ${TABLE}.longitude ;;
+  }
+
+  dimension: state {
+    type: string
+    map_layer_name: us_states
+    sql: ${TABLE}.state ;;
+  }
+
+  dimension: zip {
+    type: zipcode
+    map_layer_name: us_zipcode_tabulation_areas
+    sql: ${TABLE}.zip ;;
+  }
+#}
 
   dimension_group: created {
     type: time
@@ -53,17 +79,7 @@ view: events {
     sql: ${TABLE}.ip_address ;;
   }
 
-  dimension: latitude {
-    hidden: yes
-    type: number
-    sql: ${TABLE}.latitude ;;
-  }
 
-  dimension: longitude {
-    hidden: yes
-    type: number
-    sql: ${TABLE}.longitude ;;
-  }
 
   dimension: location {
     type: location
@@ -86,11 +102,7 @@ view: events {
     sql: ${TABLE}.session_id ;;
   }
 
-  dimension: state {
-    type: string
-    map_layer_name: us_states
-    sql: ${TABLE}.state ;;
-  }
+
 
   dimension: traffic_source {
     type: string
@@ -108,11 +120,7 @@ view: events {
     sql: ${TABLE}.user_id ;;
   }
 
-  dimension: zip {
-    type: zipcode
-    map_layer_name: us_zipcode_tabulation_areas
-    sql: ${TABLE}.zip ;;
-  }
+
 
   measure: count {
     type: count
