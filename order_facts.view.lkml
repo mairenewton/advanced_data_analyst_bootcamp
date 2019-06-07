@@ -7,6 +7,7 @@ view: order_facts {
       FROM public.order_items
       group by 1
        ;;
+      datagroup_trigger: default
   }
 
   measure: count {
