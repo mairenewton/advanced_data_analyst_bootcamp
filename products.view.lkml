@@ -13,6 +13,20 @@ view: products {
     sql: ${TABLE}.brand ;;
   }
 
+  filter: your_brand {
+    type: string
+    suggest_explore: order_items
+    suggest_dimension: products.brand
+  }
+
+  dimension: brand_comparator {
+    type: string
+    sql: CASE WHEN {% condition your_brand %} ${brand} {% endcondition %} THEN ${brand}
+              ELSE 'Rest of Brands'
+         END
+    ;;
+  }
+
   dimension: category {
     type: string
     sql: ${TABLE}.category ;;

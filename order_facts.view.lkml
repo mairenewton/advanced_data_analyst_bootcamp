@@ -1,3 +1,5 @@
+explore: order_facts {}
+
 view: order_facts {
   derived_table: {
     sql: SELECT
@@ -5,8 +7,13 @@ view: order_facts {
       sum(sale_price) as total_order_value,
       count(*) as item_count
       FROM public.order_items
+      WHERE {% condition order_date %} order_items.created_at {% endcondition %}
       group by 1
        ;;
+  }
+
+  filter: order_date {
+    type: date
   }
 
   measure: count {

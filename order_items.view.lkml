@@ -170,6 +170,33 @@ view: order_items {
     value_format: "0\" days\""
   }
 
+  parameter: report_timeframe {
+    type: string
+    allowed_value: {
+      label: "Daily"
+      value: "date"
+    }
+    allowed_value: {
+      label: "Weekly"
+      value: "week"
+    }
+    allowed_value: {
+      label: "Month"
+      value: "month"
+    }
+  }
+
+  dimension: dynamic_timeframe {
+    description: "Use with the Report Timeframe filter-only field"
+    type: string
+    sql: CASE WHEN {% parameter report_timeframe %} = 'date' THEN TO_CHAR(${created_date}, 'YYY-MM-DD')
+              WHEN {% parameter report_timeframe %} = 'week' THEN ${created_week}
+              WHEN {% parameter report_timeframe %} = 'month' THEN ${created_month}
+              ELSE TO_CHAR(${created_date}, 'YYY-MM-DD')
+          END
+    ;;
+  }
+
 
   # ----- Sets of fields for drilling ------
   set: detail {

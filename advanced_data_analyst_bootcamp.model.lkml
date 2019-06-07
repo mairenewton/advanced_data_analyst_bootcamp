@@ -13,9 +13,21 @@ datagroup: default {
   max_cache_age: "24 hours"
 }
 
+datagroup: order_facts_ndt_datagroup {
+  sql_trigger: select MAX(created_at) FROM order_items ;;
+  max_cache_age: "4 hours"
+}
+
 
 
 explore: order_items {
+
+  join: order_facts_ndt {
+    type: left_outer
+    sql_on: ${order_items.order_id} = ${order_facts_ndt.order_id} ;;
+    relationship: many_to_one
+  }
+
   join: users {
     type: left_outer
     sql_on: ${order_items.user_id} = ${users.id} ;;
