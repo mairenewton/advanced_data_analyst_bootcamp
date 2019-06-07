@@ -86,9 +86,13 @@ explore: users {
     sql_on: ${order_items.inventory_item_id} = ${user_facts.user_id} ;;
     relationship: one_to_one
   }
+  join: order_facts_ndt {
+    type: left_outer
+    sql_on: ${order_items.order_id} = ${order_facts_ndt.order_id} ;;
+    relationship: many_to_one
+
+  }
 }
 
 
 explore: ltv_thing  {}
-
-explore: no_purch_per_order {}
