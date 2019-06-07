@@ -8,7 +8,6 @@ view: user_facts {
         COUNT(order_id) AS purch_count
       FROM order_items
       GROUP BY user_id
-      ;
        ;;
   }
 
