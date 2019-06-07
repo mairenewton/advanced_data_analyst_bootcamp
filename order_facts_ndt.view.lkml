@@ -4,10 +4,6 @@ view: order_facts_ndt {
       column: order_id { field: order_items.order_id }
       column: order_item_count { field: order_items.order_item_count }
       column: total_revenue { field: order_items.total_revenue }
-      filters: {
-        field: users.country
-        value: "USA"
-      }
     }
   }
   dimension: order_id {
