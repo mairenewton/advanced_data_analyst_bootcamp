@@ -16,6 +16,10 @@ view: products {
   dimension: category {
     type: string
     sql: ${TABLE}.category ;;
+    link: {
+      label: "View Category Detail"
+      url: "/explore/advanced_data_analyst_bootcamp/inventory_items?fields=products.category,products.name,inventory_items.count&f[products.category]={{ value | url_encode }}"
+    }
   }
 
   dimension: cost {

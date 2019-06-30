@@ -12,6 +12,21 @@ datagroup: default {
   max_cache_age: "24 hours"
 }
 
+datagroup: order_items {
+  sql_trigger: select max(created_at) from order_items ;;
+  max_cache_age: "24 hours"
+}
+
+access_grant: inventory {
+  user_attribute: accessible_departments
+  allowed_values: ["Inventory"]
+}
+
+access_grant: pii_viewer {
+  user_attribute: is_pii_viewer
+  allowed_values: ["Yes"]
+}
+
 explore: order_items {
   join: users {
     type: left_outer
@@ -32,6 +47,7 @@ explore: order_items {
   }
 
   join: distribution_centers {
+    required_access_grants: [inventory]
     type: left_outer
     sql_on: ${products.distribution_center_id} = ${distribution_centers.id} ;;
     relationship: many_to_one
@@ -79,6 +95,16 @@ explore: users {
   join: inventory_items {
     type: left_outer
     sql_on: ${order_items.inventory_item_id} = ${inventory_items.id} ;;
+    relationship: many_to_one
+  }
+  join: user_facts {
+    type: left_outer
+    sql_on: ${users.id} = ${user_facts.user_id} ;;
+    relationship: one_to_one
+  }
+  join: order_facts_ndt {
+    type: left_outer
+    sql_on: ${order_items.order_id} = ${order_facts_ndt.order_id} ;;
     relationship: many_to_one
   }
 }

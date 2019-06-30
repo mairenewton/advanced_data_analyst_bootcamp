@@ -1,4 +1,7 @@
+include: "geography_fields.view"
+
 view: users {
+  extends: [geography_fields]
   sql_table_name: public.users ;;
 
   dimension: id {
@@ -36,38 +39,39 @@ dimension: age_tier {
 }
 
 #Geography {
-dimension: city {
-  type: string
-  sql: ${TABLE}.city ;;
-}
-
-dimension: country {
-  type: string
-  map_layer_name: countries
-  sql: ${TABLE}.country ;;
-}
-
-dimension: latitude {
-  hidden:  yes
-  type: number
-  sql: ${TABLE}.latitude ;;
-}
-
-dimension: longitude {
-  hidden:  yes
-  type: number
-  sql: ${TABLE}.longitude ;;
-}
-
-dimension: state {
-  type: string
-  sql: ${TABLE}.state ;;
-}
-
-dimension: zip {
-  type: zipcode
-  sql: ${TABLE}.zip ;;
-}
+# dimension: city {
+#   type: string
+#   sql: ${TABLE}.city ;;
+# }
+#
+# dimension: country {
+#   type: string
+#   map_layer_name: countries
+#   sql: ${TABLE}.country ;;
+# }
+#
+# dimension: latitude {
+#   hidden:  yes
+#   type: number
+#   sql: ${TABLE}.latitude ;;
+# }
+#
+# dimension: longitude {
+#   hidden:  yes
+#   type: number
+#   sql: ${TABLE}.longitude ;;
+# }
+#
+# dimension: state {
+#   type: string
+#   sql: ${TABLE}.state ;;
+#   map_layer_name: us_states
+# }
+#
+# dimension: zip {
+#   type: zipcode
+#   sql: ${TABLE}.zip ;;
+# }
 #}
 
 dimension: years_a_customer {
@@ -166,23 +170,27 @@ measure: count {
 }
 
 dimension: email {
+  required_access_grants: [pii_viewer]
   type: string
   sql: ${TABLE}.email ;;
 }
 
 dimension: first_name {
-  hidden:  yes
+  required_access_grants: [pii_viewer]
+#   hidden:  yes
   type: string
   sql: ${TABLE}.first_name ;;
 }
 
 dimension: last_name {
-  hidden:  yes
+  required_access_grants: [pii_viewer]
+#   hidden:  yes
   type: string
   sql: ${TABLE}.last_name ;;
 }
 
 dimension: name {
+  required_access_grants: [pii_viewer]
   type: string
   sql: ${first_name} || ' ' || ${last_name} ;;
 }
