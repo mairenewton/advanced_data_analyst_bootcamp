@@ -45,6 +45,7 @@ dimension: country {
   type: string
   map_layer_name: countries
   sql: ${TABLE}.country ;;
+  html:<a target="_self" href="https://teach.corp.looker.com/dashboards/2320?Country={{country._value}}&filter_config=%7B%22Country%22:%5B%7B%22type%22:%22%3D%22,%22values%22:%5B%7B%22constant%22:%22{{country._value}}%22%7D,%7B%7D%5D,%22id%22:1%7D%5D%7D"> {{value}} </a>;;
 }
 
 dimension: latitude {

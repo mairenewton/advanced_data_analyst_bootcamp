@@ -12,6 +12,15 @@ datagroup: default {
   max_cache_age: "24 hours"
 }
 
+datagroup: test_1 {
+  sql_trigger: select date ;;
+  max_cache_age: "1 hour"
+}
+
+explore: dt_sample_1 {
+  persist_with: test_1
+}
+
 explore: order_items {
   join: users {
     type: left_outer
