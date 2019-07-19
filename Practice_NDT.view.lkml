@@ -5,7 +5,7 @@
 view: Practice_NDT {
   derived_table: {
     explore_source: order_items {
-      column: map_location { field: users.map_location }
+      column: order_id { field: order_items.order_id }
       column: order_item_count {}
       column: total_revenue {}
       derived_column: rev_rank {
@@ -13,8 +13,8 @@ view: Practice_NDT {
       }
     }
   }
-  dimension: map_location {
-    type: location
+  dimension: order_id {
+    type: number
   }
   dimension: order_item_count {
     type: number
