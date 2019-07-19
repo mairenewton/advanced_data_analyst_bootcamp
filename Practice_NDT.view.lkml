@@ -15,6 +15,7 @@ view: Practice_NDT {
   }
   dimension: order_id {
     type: number
+    primary_key: yes
   }
   dimension: order_item_count {
     type: number
