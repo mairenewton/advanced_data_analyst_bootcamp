@@ -1,5 +1,6 @@
 view: events_daily_summary {
   derived_table: {
+    persist_for: "2 minutes"
     sql: SELECT
          DATE_TRUNC('day',created_at) AS time
         ,city
