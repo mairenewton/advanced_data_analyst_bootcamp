@@ -176,6 +176,11 @@ dimension: first_name {
   sql: ${TABLE}.first_name ;;
 }
 
+dimension: citystate2 {
+  type: string
+  sql: ${city} || ", " || ${state} ;;
+}
+
 dimension: last_name {
   hidden:  yes
   type: string
