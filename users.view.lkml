@@ -86,6 +86,12 @@ dimension: traffic_source {
   sql: ${TABLE}.traffic_source ;;
 }
 
+dimension: email_source {
+  label: "Was source email?"
+  type: yesno
+  sql: ${traffic_source} = "email" ;;
+}
+
 dimension: region {
 #     map_layer_name: map_regions
 sql: CASE WHEN ${state} = 'Maine' THEN 'Northeast'

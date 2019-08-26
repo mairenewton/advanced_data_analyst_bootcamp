@@ -59,6 +59,10 @@ view: order_items {
     sql: ${TABLE}.returned_at ;;
   }
 
+dimension: shipping_days {
+  label: "Shipping Days2"
+  sql: ${delivered_date}-${shipped_date} ;;
+}
 
   dimension: sale_price {
     type: number
@@ -172,6 +176,18 @@ measure: total_profit {
   type: sum
   sql: ${profit} ;;
   value_format_name: usd
+}
+
+measure: total_orders {
+  label: "Total Orders2"
+  type: count_distinct
+  sql: ${order_id} ;;
+}
+
+measure: total_sales {
+  label: "Total Sales"
+  type: sum
+  sql: ${sale_price} ;;
 }
 
 measure: profit_margin {
