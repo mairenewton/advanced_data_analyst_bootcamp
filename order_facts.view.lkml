@@ -1,12 +1,13 @@
-view: order_facts {
+view: order_facts{
   derived_table: {
     sql: SELECT
-      order_id,
-      sum(sale_price) as total_order_value,
-      count(*) as item_count
-      FROM public.order_items
-      group by 1
-       ;;
+    order_id
+    , user_id
+    , count(*) as order_item_count
+    , sum(sale_price) as total_sales
+    FROM public.order_items
+    group by order_id, user_id
+             ;;
   }
 
   measure: count {
@@ -15,22 +16,26 @@ view: order_facts {
   }
 
   dimension: order_id {
-    primary_key: yes
     type: number
     sql: ${TABLE}.order_id ;;
   }
 
-  dimension: total_order_value {
+  dimension: user_id {
     type: number
-    sql: ${TABLE}.total_order_value ;;
+    sql: ${TABLE}.user_id ;;
   }
 
-  dimension: item_count {
+  dimension: order_item_count {
     type: number
-    sql: ${TABLE}.item_count ;;
+    sql: ${TABLE}.order_item_count ;;
+  }
+
+  dimension: total_sales {
+    type: number
+    sql: ${TABLE}.total_sales ;;
   }
 
   set: detail {
-    fields: [order_id, total_order_value, item_count]
+    fields: [order_id, user_id, order_item_count, total_sales]
   }
 }
