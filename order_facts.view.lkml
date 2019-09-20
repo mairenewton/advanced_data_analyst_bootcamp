@@ -3,16 +3,10 @@ view: order_facts{
     sql: SELECT
     order_id
     , user_id
-    , count(*) as order_item_count
-    , sum(sale_price) as total_sales
+    , count(*) as item_count
+    , sum(sale_price) as total_order_value
     FROM public.order_items
-    group by order_id, user_id
-             ;;
-  }
-
-  measure: count {
-    type: count
-    drill_fields: [detail*]
+    group by order_id, user_id;;
   }
 
   dimension: order_id {
@@ -25,17 +19,29 @@ view: order_facts{
     sql: ${TABLE}.user_id ;;
   }
 
-  dimension: order_item_count {
+  dimension: item_count {
     type: number
-    sql: ${TABLE}.order_item_count ;;
+    sql: ${TABLE}.item_count ;;
   }
 
-  dimension: total_sales {
+  dimension: total_order_value {
     type: number
-    sql: ${TABLE}.total_sales ;;
+    sql: ${TABLE}.total_order_value ;;
+  }
+
+  measure: count {
+    type: count
+    drill_fields: [detail*]
+  }
+
+  measure: average_number_of_order_items{
+    type: average
+    sql: ${item_count};;
+    group_label: "New Metrics"
+    description: "For all customers that had orders, average the number of items in their cart"
   }
 
   set: detail {
-    fields: [order_id, user_id, order_item_count, total_sales]
+    fields: [order_id, user_id, item_count, total_order_value]
   }
 }
