@@ -36,6 +36,12 @@ explore: order_items {
     sql_on: ${products.distribution_center_id} = ${distribution_centers.id} ;;
     relationship: many_to_one
   }
+
+  join: monthly_profitability_summary {
+    type: inner
+    sql_on: ${order_items.order_id} = ${monthly_profitability_summary.order_id} ;;
+    relationship: many_to_one
+  }
 }
 
 explore: events {
