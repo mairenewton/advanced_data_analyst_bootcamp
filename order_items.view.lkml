@@ -235,7 +235,8 @@ view: order_items {
       id,
       users.id,
       users.first_name,
-      users.last_name
+      users.last_name,
+      users.name
     ]
   }
 }
