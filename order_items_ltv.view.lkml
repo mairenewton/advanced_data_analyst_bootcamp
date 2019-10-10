@@ -37,13 +37,13 @@ view: order_items_ltv {
   measure: average_lifetime_value {
     type: average
     sql: ${TABLE}.lifetime_revenue ;;
-  }
+    value_format: "$#.00;($#.00)"
+    }
 
 
   measure: average_lifetime_ordercount {
     type: average
     sql: ${TABLE}.lifetime_order_count ;;
-    value_format: "$#.00;($#.00)"
   }
 
     set: detail {
