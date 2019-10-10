@@ -1,4 +1,5 @@
 connection: "events_ecommerce"
+
 persist_with: default
 
 include: "*.view"
