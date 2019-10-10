@@ -1,33 +1,12 @@
 view: event_session_funnel {
   derived_table: {
-    sql: SELECT
-          session_id
-        , MIN(
-            CASE WHEN
-              event_type = 'Product'
-              THEN created_at
-              ELSE NULL END
-            ) as event1_time
-        , MIN(
-            CASE WHEN
-              event_type = 'Cart'
-              THEN created_at
-              ELSE NULL END
-            ) as event2_time
-        , MIN(
-            CASE WHEN
-              event_type = 'Purchase'
-              THEN created_at
-              ELSE NULL END
-            ) as event3_time
+    sql:
+      SELECT session_id
+           , MIN(CASE WHEN event_type = 'Product' THEN created_at END) as event1_time
+           , MIN(CASE WHEN event_type = 'Cart' THEN created_at END) as event2_time
+           , MIN(CASE WHEN event_type = 'Purchase' THEN created_at END) as event3_time
       FROM events
-      GROUP BY 1
- ;;
-  }
-
-  measure: count {
-    type: count
-    drill_fields: [detail*]
+      GROUP BY 1 ;;
   }
 
   dimension: session_id {
@@ -67,6 +46,11 @@ view: event_session_funnel {
   dimension: time_in_funnel {
     type: number
     sql: datediff(min, ${event1_raw},COALESCE(${event3_raw},${event2_raw})) ;;
+  }
+
+  measure: count {
+    type: count
+    drill_fields: [detail*]
   }
 
   measure: count_sessions {

@@ -2,23 +2,24 @@ view: event_session_facts {
   derived_table: {
     sql:
       WITH session_facts AS (
-        SELECT
-           session_id
-          ,COALESCE(user_id::varchar, ip_address) as identifier
-          ,FIRST_VALUE (created_at) OVER (PARTITION BY session_id ORDER BY created_at ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING) AS session_start
-          ,LAST_VALUE (created_at) OVER (PARTITION BY session_id ORDER BY created_at ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING) AS session_end
-          ,FIRST_VALUE (event_type) OVER (PARTITION BY session_id ORDER BY created_at ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING) AS session_landing_page
-          ,LAST_VALUE  (event_type) OVER (PARTITION BY session_id ORDER BY created_at ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING) AS session_exit_page
+        SELECT session_id
+          , COALESCE(user_id::varchar, ip_address) as identifier
+          , FIRST_VALUE (created_at)
+            OVER (PARTITION BY session_id ORDER BY created_at
+              ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING) AS session_start
+          , LAST_VALUE (created_at)
+            OVER (PARTITION BY session_id ORDER BY created_at
+              ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING) AS session_end
+          , FIRST_VALUE (event_type)
+            OVER (PARTITION BY session_id ORDER BY created_at
+              ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING) AS session_landing_page
+          , LAST_VALUE  (event_type)
+            OVER (PARTITION BY session_id ORDER BY created_at
+              ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING) AS session_exit_page
         FROM events
       )
       SELECT * FROM session_facts
-      GROUP BY 1, 2, 3, 4, 5, 6
-       ;;
-  }
-
-  measure: count {
-    type: count
-    drill_fields: [detail*]
+      GROUP BY 1, 2, 3, 4, 5, 6 ;;
   }
 
   dimension: session_id {
@@ -49,6 +50,11 @@ view: event_session_facts {
   dimension: session_exit_page {
     type: string
     sql: ${TABLE}.session_exit_page ;;
+  }
+
+  measure: count {
+    type: count
+    drill_fields: [detail*]
   }
 
   set: detail {

@@ -18,7 +18,7 @@ view: events {
     sql: ${TABLE}.browser ;;
   }
 
-#Geography {
+  # Geography {
   dimension: city {
     type: string
     sql: ${TABLE}.city ;;
@@ -53,7 +53,7 @@ view: events {
     map_layer_name: us_zipcode_tabulation_areas
     sql: ${TABLE}.zip ;;
   }
-#}
+  # }
 
   dimension_group: created {
     type: time
@@ -79,8 +79,6 @@ view: events {
     sql: ${TABLE}.ip_address ;;
   }
 
-
-
   dimension: location {
     type: location
     sql_latitude: ${latitude} ;;
@@ -102,8 +100,6 @@ view: events {
     sql: ${TABLE}.session_id ;;
   }
 
-
-
   dimension: traffic_source {
     type: string
     sql: ${TABLE}.traffic_source ;;
@@ -119,8 +115,6 @@ view: events {
     # hidden: yes
     sql: ${TABLE}.user_id ;;
   }
-
-
 
   measure: count {
     type: count

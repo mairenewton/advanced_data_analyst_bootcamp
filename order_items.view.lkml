@@ -12,7 +12,6 @@ view: order_items {
     sql: ${TABLE}.id ;;
   }
 
-
   dimension_group: created {
     description: "When the order was created"
     type: time
@@ -59,13 +58,11 @@ view: order_items {
     sql: ${TABLE}.returned_at ;;
   }
 
-
   dimension: sale_price {
     type: number
     value_format_name: usd
     sql: ${TABLE}.sale_price ;;
   }
-
 
   dimension_group: shipped {
     description: "When the order was shipped"
@@ -94,7 +91,7 @@ view: order_items {
     sql: DATEDIFF(day, ${order_items.shipped_date}, ${order_items.delivered_date}) ;;
   }
 
-## HIDDEN DIMENSIONS ##
+  ## HIDDEN DIMENSIONS ##
 
   dimension: inventory_item_id {
     hidden:  yes
@@ -104,98 +101,98 @@ view: order_items {
   }
 
   dimension: order_id {
-#     hidden:  yes
-  type: number
-  sql: ${TABLE}.order_id ;;
-}
+    # hidden:  yes
+    type: number
+    sql: ${TABLE}.order_id ;;
+  }
 
-dimension: user_id {
-  type: number
-  hidden: yes
-  sql: ${TABLE}.user_id ;;
-}
+  dimension: user_id {
+    type: number
+    hidden: yes
+    sql: ${TABLE}.user_id ;;
+  }
 
-dimension: profit {
-  description: "Profit made on any one item"
-  hidden:  yes
-  type: number
-  value_format_name: usd
-  sql: ${sale_price} - ${inventory_items.cost} ;;
-}
+  dimension: profit {
+    description: "Profit made on any one item"
+    hidden:  yes
+    type: number
+    value_format_name: usd
+    sql: ${sale_price} - ${inventory_items.cost} ;;
+  }
 
-dimension: date_filter_measure {
-  hidden: yes
-  type: yesno
-  sql: {% condition date_range %} ${order_items.created_date} {% endcondition %} ;;
-}
+  dimension: date_filter_measure {
+    hidden: yes
+    type: yesno
+    sql: {% condition date_range %} ${order_items.created_date} {% endcondition %} ;;
+  }
 
-dimension: date_filter_measure_one_year_prior {
-  hidden: yes
-  type: yesno
-  sql: {% condition date_range %} ${order_items.created_date} {% endcondition %} ;;
-}
+  dimension: date_filter_measure_one_year_prior {
+    hidden: yes
+    type: yesno
+    sql: {% condition date_range %} ${order_items.created_date} {% endcondition %} ;;
+  }
 
-## MEASURES ##
+  ## MEASURES ##
 
-measure: order_item_count {
-  type: count
-  drill_fields: [detail*]
-}
+  measure: order_item_count {
+    type: count
+    drill_fields: [detail*]
+  }
 
-measure: total_revenue {
-  type: sum
-  value_format_name: usd
-  sql: ${sale_price} ;;
-  drill_fields: [detail*]
-}
+  measure: total_revenue {
+    type: sum
+    value_format_name: usd
+    sql: ${sale_price} ;;
+    drill_fields: [detail*]
+  }
 
-measure: order_count {
-  description: "A count of unique orders"
-  type: count_distinct
-  sql: ${order_id} ;;
-}
+  measure: order_count {
+    description: "A count of unique orders"
+    type: count_distinct
+    sql: ${order_id} ;;
+  }
 
-measure: average_sale_price {
-  type: average
-  value_format_name: usd
-  sql: ${sale_price} ;;
-  drill_fields: [detail*]
-}
+  measure: average_sale_price {
+    type: average
+    value_format_name: usd
+    sql: ${sale_price} ;;
+    drill_fields: [detail*]
+  }
 
-measure: average_spend_per_user {
-  type: number
-  value_format_name: usd
-  sql: 1.0 * ${total_revenue} / NULLIF(${users.count},0) ;;
-}
+  measure: average_spend_per_user {
+    type: number
+    value_format_name: usd
+    sql: 1.0 * ${total_revenue} / NULLIF(${users.count},0) ;;
+  }
 
-measure: total_profit {
-  type: sum
-  sql: ${profit} ;;
-  value_format_name: usd
-}
+  measure: total_profit {
+    type: sum
+    sql: ${profit} ;;
+    value_format_name: usd
+  }
 
-measure: profit_margin {
-  type: number
-  sql: ${total_profit}/NULLIF(${total_revenue}, 0) ;;
-  value_format_name: percent_2
-}
+  measure: profit_margin {
+    type: number
+    sql: ${total_profit}/NULLIF(${total_revenue}, 0) ;;
+    value_format_name: percent_2
+  }
 
-measure: average_shipping_time {
-  type: average
-  sql: ${shipping_time} ;;
-  value_format: "0\" days\""
-}
+  measure: average_shipping_time {
+    type: average
+    sql: ${shipping_time} ;;
+    value_format: "0\" days\""
+  }
 
+  # ----- Sets of fields for drilling ------
 
-# ----- Sets of fields for drilling ------
-set: detail {
-  fields: [
-    id,
-    users.id,
-    users.first_name,
-    users.last_name,
-    inventory_items.id,
-    inventory_items.product_name
-  ]
-}
+  set: detail {
+    fields: [
+      id,
+      users.id,
+      users.first_name,
+      users.last_name,
+      inventory_items.id,
+      inventory_items.product_name
+    ]
+  }
 }

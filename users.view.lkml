@@ -1,189 +1,201 @@
 view: users {
   sql_table_name: public.users ;;
 
+  # Dimensions
+
   dimension: id {
-#     hidden:  yes
-  primary_key: yes
-  type: number
-  sql: ${TABLE}.id ;;
-}
+    # hidden:  yes
+    primary_key: yes
+    type: number
+    sql: ${TABLE}.id ;;
+  }
 
-dimension_group: created {
-  type: time
-  timeframes: [
-    raw,
-    time,
-    date,
-    week,
-    month,
-    quarter,
-    year
-  ]
-  sql: ${TABLE}.created_at ;;
-}
+  dimension_group: created {
+    type: time
+    timeframes: [
+      raw,
+      time,
+      date,
+      week,
+      month,
+      quarter,
+      year
+    ]
+    sql: ${TABLE}.created_at ;;
+  }
 
-dimension: age {
-  type: number
-  value_format_name: decimal_0
-  sql: ${TABLE}.age ;;
-}
+  dimension: age {
+    type: number
+    value_format_name: decimal_0
+    sql: ${TABLE}.age ;;
+  }
 
-dimension: age_tier {
-  type: tier
-  style: integer
-  sql: ${TABLE}.age ;;
-  tiers: [10, 20, 30, 40, 50, 60, 70, 80, 90]
-}
+  dimension: age_tier {
+    type: tier
+    style: integer
+    sql: ${TABLE}.age ;;
+    tiers: [10, 20, 30, 40, 50, 60, 70, 80, 90]
+  }
 
-#Geography {
-dimension: city {
-  type: string
-  sql: ${TABLE}.city ;;
-}
+  # Geography {
+  dimension: city {
+    type: string
+    sql: ${TABLE}.city ;;
+  }
 
-dimension: country {
-  type: string
-  map_layer_name: countries
-  sql: ${TABLE}.country ;;
-}
+  dimension: country {
+    type: string
+    map_layer_name: countries
+    sql: ${TABLE}.country ;;
+  }
 
-dimension: latitude {
-  hidden:  yes
-  type: number
-  sql: ${TABLE}.latitude ;;
-}
+  dimension: latitude {
+    hidden:  yes
+    type: number
+    sql: ${TABLE}.latitude ;;
+  }
 
-dimension: longitude {
-  hidden:  yes
-  type: number
-  sql: ${TABLE}.longitude ;;
-}
+  dimension: longitude {
+    hidden:  yes
+    type: number
+    sql: ${TABLE}.longitude ;;
+  }
 
-dimension: state {
-  type: string
-  sql: ${TABLE}.state ;;
-}
+  dimension: state {
+    type: string
+    sql: ${TABLE}.state ;;
+    link: {
+      label: "Drill Down to See Customers"
+      url: "/explore/advanced_data_analyst_bootcamp/users?fields=users.id,users.name,users.email,order_items.order_count&f[users.state]={{ _filters['users.state'] | url_encode }}"
+      icon_url: "https://looker.com/favicon.ico"
+    }
+  }
 
-dimension: zip {
-  type: zipcode
-  sql: ${TABLE}.zip ;;
-}
-#}
+  dimension: zip {
+    type: zipcode
+    sql: ${TABLE}.zip ;;
+  }
+  # }
 
-dimension: years_a_customer {
-  type: number
-  value_format_name: decimal_0
-  sql: DATEDIFF(year, ${created_date}, current_date) ;;
-}
+  dimension: years_a_customer {
+    type: number
+    value_format_name: decimal_0
+    sql: DATEDIFF(year, ${created_date}, current_date) ;;
+  }
 
-dimension: gender {
-  type: string
-  sql: ${TABLE}.gender ;;
-}
+  dimension: gender {
+    type: string
+    sql: ${TABLE}.gender ;;
+  }
 
-dimension: traffic_source {
-  type: string
-  sql: ${TABLE}.traffic_source ;;
-}
+  dimension: traffic_source {
+    type: string
+    sql: ${TABLE}.traffic_source ;;
+  }
 
-dimension: region {
-#     map_layer_name: map_regions
-sql: CASE WHEN ${state} = 'Maine' THEN 'Northeast'
-              WHEN ${state} = 'Massachusetts' THEN 'Northeast'
-              WHEN ${state} = 'Rhode Island' THEN 'Northeast'
-              WHEN ${state} = 'Connecticut' THEN 'Northeast'
-              WHEN ${state} = 'New Hampshire' THEN 'Northeast'
-              WHEN ${state} = 'Vermont' THEN 'Northeast'
-              WHEN ${state} = 'New York' THEN 'Northeast'
-              WHEN ${state} = 'Pennsylvania' THEN 'Northeast'
-              WHEN ${state} = 'New Jersey' THEN 'Northeast'
-              WHEN ${state} = 'Delaware' THEN 'Northeast'
-              WHEN ${state} = 'Maryland' THEN 'Northeast'
-              WHEN ${state} = 'West Virginia' THEN 'Southeast'
-              WHEN ${state} = 'Virginia' THEN 'Southeast'
-              WHEN ${state} = 'Kentucky' THEN 'Southeast'
-              WHEN ${state} = 'Tennessee' THEN 'Southeast'
-              WHEN ${state} = 'North Carolina' THEN 'Southeast'
-              WHEN ${state} = 'South Carolina' THEN 'Southeast'
-              WHEN ${state} = 'Georgia' THEN 'Southeast'
-              WHEN ${state} = 'Alabama' THEN 'Southeast'
-              WHEN ${state} = 'Mississippi' THEN 'Southeast'
-              WHEN ${state} = 'Arkansas' THEN 'Southeast'
-              WHEN ${state} = 'Louisiana' THEN 'Southeast'
-              WHEN ${state} = 'Florida' THEN 'Southeast'
-              WHEN ${state} = 'Ohio' THEN 'Midwest'
-              WHEN ${state} = 'Indiana' THEN 'Midwest'
-              WHEN ${state} = 'Michigan' THEN 'Midwest'
-              WHEN ${state} = 'Illinois' THEN 'Midwest'
-              WHEN ${state} = 'Missouri' THEN 'Midwest'
-              WHEN ${state} = 'Wisconsin' THEN 'Midwest'
-              WHEN ${state} = 'Minnesota' THEN 'Midwest'
-              WHEN ${state} = 'Iowa' THEN 'Midwest'
-              WHEN ${state} = 'Kansas' THEN 'Midwest'
-              WHEN ${state} = 'Nebraska' THEN 'Midwest'
-              WHEN ${state} = 'South Dakota' THEN 'Midwest'
-              WHEN ${state} = 'North Dakota' THEN 'Midwest'
-              WHEN ${state} = 'Texas' THEN 'Southwest'
-              WHEN ${state} = 'Oklahoma' THEN 'Southwest'
-              WHEN ${state} = 'New Mexico' THEN 'Southwest'
-              WHEN ${state} = 'Arizona' THEN 'Southwest'
-              WHEN ${state} = 'Colorado' THEN 'West'
-              WHEN ${state} = 'Wyoming' THEN 'West'
-              WHEN ${state} = 'Montana' THEN 'West'
-              WHEN ${state} = 'Idaho' THEN 'West'
-              WHEN ${state} = 'Washington' THEN 'West'
-              WHEN ${state} = 'Oregon' THEN 'West'
-              WHEN ${state} = 'Utah' THEN 'West'
-              WHEN ${state} = 'Nevada' THEN 'West'
-              WHEN ${state} = 'California' THEN 'West'
-              WHEN ${state} = 'Alaska' THEN 'West'
-              WHEN ${state} = 'Hawaii' THEN 'West'
-              ELSE 'Outside US'
-          END ;;
-}
+  dimension: region {
+    # map_layer_name: map_regions
+    sql:
+      CASE
+      WHEN ${state} = 'Maine' THEN 'Northeast'
+      WHEN ${state} = 'Massachusetts' THEN 'Northeast'
+      WHEN ${state} = 'Rhode Island' THEN 'Northeast'
+      WHEN ${state} = 'Connecticut' THEN 'Northeast'
+      WHEN ${state} = 'New Hampshire' THEN 'Northeast'
+      WHEN ${state} = 'Vermont' THEN 'Northeast'
+      WHEN ${state} = 'New York' THEN 'Northeast'
+      WHEN ${state} = 'Pennsylvania' THEN 'Northeast'
+      WHEN ${state} = 'New Jersey' THEN 'Northeast'
+      WHEN ${state} = 'Delaware' THEN 'Northeast'
+      WHEN ${state} = 'Maryland' THEN 'Northeast'
+      WHEN ${state} = 'West Virginia' THEN 'Southeast'
+      WHEN ${state} = 'Virginia' THEN 'Southeast'
+      WHEN ${state} = 'Kentucky' THEN 'Southeast'
+      WHEN ${state} = 'Tennessee' THEN 'Southeast'
+      WHEN ${state} = 'North Carolina' THEN 'Southeast'
+      WHEN ${state} = 'South Carolina' THEN 'Southeast'
+      WHEN ${state} = 'Georgia' THEN 'Southeast'
+      WHEN ${state} = 'Alabama' THEN 'Southeast'
+      WHEN ${state} = 'Mississippi' THEN 'Southeast'
+      WHEN ${state} = 'Arkansas' THEN 'Southeast'
+      WHEN ${state} = 'Louisiana' THEN 'Southeast'
+      WHEN ${state} = 'Florida' THEN 'Southeast'
+      WHEN ${state} = 'Ohio' THEN 'Midwest'
+      WHEN ${state} = 'Indiana' THEN 'Midwest'
+      WHEN ${state} = 'Michigan' THEN 'Midwest'
+      WHEN ${state} = 'Illinois' THEN 'Midwest'
+      WHEN ${state} = 'Missouri' THEN 'Midwest'
+      WHEN ${state} = 'Wisconsin' THEN 'Midwest'
+      WHEN ${state} = 'Minnesota' THEN 'Midwest'
+      WHEN ${state} = 'Iowa' THEN 'Midwest'
+      WHEN ${state} = 'Kansas' THEN 'Midwest'
+      WHEN ${state} = 'Nebraska' THEN 'Midwest'
+      WHEN ${state} = 'South Dakota' THEN 'Midwest'
+      WHEN ${state} = 'North Dakota' THEN 'Midwest'
+      WHEN ${state} = 'Texas' THEN 'Southwest'
+      WHEN ${state} = 'Oklahoma' THEN 'Southwest'
+      WHEN ${state} = 'New Mexico' THEN 'Southwest'
+      WHEN ${state} = 'Arizona' THEN 'Southwest'
+      WHEN ${state} = 'Colorado' THEN 'West'
+      WHEN ${state} = 'Wyoming' THEN 'West'
+      WHEN ${state} = 'Montana' THEN 'West'
+      WHEN ${state} = 'Idaho' THEN 'West'
+      WHEN ${state} = 'Washington' THEN 'West'
+      WHEN ${state} = 'Oregon' THEN 'West'
+      WHEN ${state} = 'Utah' THEN 'West'
+      WHEN ${state} = 'Nevada' THEN 'West'
+      WHEN ${state} = 'California' THEN 'West'
+      WHEN ${state} = 'Alaska' THEN 'West'
+      WHEN ${state} = 'Hawaii' THEN 'West'
+      ELSE 'Outside US' END ;;
+  }
 
-dimension: map_location {
-  type: location
-  sql_latitude: ${latitude} ;;
-  sql_longitude: ${longitude} ;;
-}
+  dimension: map_location {
+    type: location
+    sql_latitude: ${latitude} ;;
+    sql_longitude: ${longitude} ;;
+  }
 
+  dimension: email {
+    type: string
+    sql: ${TABLE}.email ;;
+    link: {
+      label: "Category Detail Dashboard"
+      url: "/dashboards/1813?Email={{value}}"
+    }
+  }
 
+  dimension: first_name {
+    hidden:  yes
+    type: string
+    sql: ${TABLE}.first_name ;;
+  }
 
-measure: max_age {
-  type: max
-  sql: ${age} ;;
-}
+  dimension: last_name {
+    hidden:  yes
+    type: string
+    sql: ${TABLE}.last_name ;;
+  }
 
-measure: average_age {
-  type: average
-  sql: ${age} ;;
-}
+  dimension: name {
+    type: string
+    sql: ${first_name} || ' ' || ${last_name} ;;
+  }
 
-measure: count {
-  type: count
-  drill_fields: [id, events.count, order_items.count]
-}
+  # Measures
 
-dimension: email {
-  type: string
-  sql: ${TABLE}.email ;;
-}
+  measure: max_age {
+    type: max
+    sql: ${age} ;;
+  }
 
-dimension: first_name {
-  hidden:  yes
-  type: string
-  sql: ${TABLE}.first_name ;;
-}
+  measure: average_age {
+    type: average
+    sql: ${age} ;;
+  }
 
-dimension: last_name {
-  hidden:  yes
-  type: string
-  sql: ${TABLE}.last_name ;;
-}
-
-dimension: name {
-  type: string
-  sql: ${first_name} || ' ' || ${last_name} ;;
-}
+  measure: count {
+    type: count
+    drill_fields: [id, events.count, order_items.count]
+  }
 }
