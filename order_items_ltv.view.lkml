@@ -34,7 +34,18 @@ view: order_items_ltv {
     sql: ${TABLE}.latest_order_date ;;
   }
 
-  set: detail {
+  measure: average_lifetime_value {
+    type: average
+    sql: ${TABLE}.lifetime_revenue ;;
+  }
+
+
+  measure: average_lifetime_ordercount {
+    type: average
+    sql: ${TABLE}.lifetime_order_count ;;
+  }
+
+    set: detail {
     fields: [user_id, lifetime_order_count, lifetime_revenue, first_order_date_time, latest_order_date_time]
   }
 }
