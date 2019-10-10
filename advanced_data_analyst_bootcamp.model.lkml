@@ -49,14 +49,10 @@ explore: order_items {
 }
 
 explore: events {
+  description: "Start here for SEO Analysis"
   join: event_session_facts {
     type: left_outer
     sql_on: ${events.session_id} = ${event_session_facts.session_id} ;;
-    relationship: many_to_one
-  }
-  join: event_session_funnel {
-    type: left_outer
-    sql_on: ${events.session_id} = ${event_session_funnel.session_id} ;;
     relationship: many_to_one
   }
   join: users {
@@ -65,6 +61,25 @@ explore: events {
     relationship: many_to_one
   }
 }
+
+explore: conversions {
+  description: "Start here for Conversion Analysis"
+  fields: [ALL_FIELDS*, -order_items.profit, -order_items.pii*]
+  from: events
+  view_name: events
+  extends: [events]
+  join: event_session_funnel {
+    type: left_outer
+    sql_on: ${events.session_id} = ${event_session_funnel.session_id} ;;
+    relationship: many_to_one
+  }
+  join: order_items {
+    type: left_outer
+    sql_on: ${users.id} = ${order_items.user_id} ;;
+    relationship: many_to_many
+  }
+}
+
 
 explore: inventory_items {
   join: products {

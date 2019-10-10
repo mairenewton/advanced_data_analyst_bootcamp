@@ -229,4 +229,13 @@ view: order_items {
       inventory_items.product_name
     ]
   }
+
+  set: pii {
+    fields: [
+      id,
+      users.id,
+      users.first_name,
+      users.last_name
+    ]
+  }
 }
