@@ -59,4 +59,22 @@ view: products {
     type: count
     drill_fields: [id, name, distribution_centers.id, distribution_centers.name, inventory_items.count]
   }
+
+  parameter: select_product_detail {
+    type: unquoted
+    default_value: "department"
+    allowed_value: {
+      value: "department"
+      label: "Department"
+    }
+    allowed_value: {
+      value: "category"
+      label: "Category"
+    }
+    allowed_value: {
+      value: "brand"
+      label: "Brand"
+    }
+  }
+
 }
