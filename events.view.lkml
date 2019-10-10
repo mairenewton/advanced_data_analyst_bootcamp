@@ -1,6 +1,8 @@
 view: events {
   sql_table_name: public.events ;;
 
+  # Dimensions
+
   dimension: id {
     primary_key: yes
     hidden: yes
@@ -115,6 +117,8 @@ view: events {
     # hidden: yes
     sql: ${TABLE}.user_id ;;
   }
+
+  # Measures
 
   measure: count {
     type: count

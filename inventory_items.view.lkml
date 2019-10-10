@@ -1,6 +1,8 @@
 view: inventory_items {
   sql_table_name: public.inventory_items ;;
 
+  # Dimensions
+
   dimension: id {
     hidden:  yes
     primary_key: yes
@@ -84,6 +86,8 @@ view: inventory_items {
     ]
     sql: ${TABLE}.sold_at ;;
   }
+
+  # Measures
 
   measure: count {
     type: count

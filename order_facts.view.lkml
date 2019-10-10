@@ -8,10 +8,7 @@ view: order_facts {
       group by 1 ;;
   }
 
-  measure: count {
-    type: count
-    drill_fields: [detail*]
-  }
+  # Dimensions
 
   dimension: order_id {
     primary_key: yes
@@ -28,6 +25,15 @@ view: order_facts {
     type: number
     sql: ${TABLE}.item_count ;;
   }
+
+  # Measures
+
+  measure: count {
+    type: count
+    drill_fields: [detail*]
+  }
+
+  # Sets
 
   set: detail {
     fields: [order_id, total_order_value, item_count]

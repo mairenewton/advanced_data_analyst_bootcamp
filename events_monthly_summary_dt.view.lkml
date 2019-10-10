@@ -13,7 +13,6 @@ view: events_monthly_summary {
            , COUNT(DISTINCT user_id)        AS distinct_user_count
            , COUNT(DISTINCT session_id)     AS distinct_session_count
       FROM PUBLIC.EVENTS
-      GROUP BY 1, 2, 3, 4, 5, 6, 7, 8
-       ;;
+      GROUP BY 1, 2, 3, 4, 5, 6, 7, 8 ;;
   }
 }

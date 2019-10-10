@@ -1,6 +1,8 @@
 view: products {
   sql_table_name: public.products ;;
 
+  # Dimensions
+
   dimension: id {
     hidden:  yes
     primary_key: yes
@@ -55,10 +57,20 @@ view: products {
     sql: ${TABLE}.sku ;;
   }
 
+  dimension: product_hierarchy {
+    label_from_parameter: select_product_detail
+    type: string
+    sql: ${TABLE}.{% parameter select_product_detail %} ;;
+  }
+
+  # Measures
+
   measure: count {
     type: count
-    drill_fields: [id, name, distribution_centers.id, distribution_centers.name, inventory_items.count]
+    drill_fields: [detail*]
   }
+
+  # Parameters
 
   parameter: select_product_detail {
     type: unquoted
@@ -77,4 +89,9 @@ view: products {
     }
   }
 
+  # Sets
+
+  set: detail {
+    fields: [id, name, distribution_centers.id, distribution_centers.name, inventory_items.count]
+  }
 }

@@ -5,6 +5,8 @@ view: order_items {
     type: date
   }
 
+  # Dimensions
+
   dimension: id {
     hidden:  yes
     primary_key: yes
@@ -91,7 +93,20 @@ view: order_items {
     sql: DATEDIFF(day, ${order_items.shipped_date}, ${order_items.delivered_date}) ;;
   }
 
-  ## HIDDEN DIMENSIONS ##
+  dimension: dynamic_timeframe {
+    label_from_parameter: select_timeframe
+    type: string
+    sql:
+      {% if select_timeframe._parameter_value == 'created_date' %}
+        ${created_date}
+      {% elsif select_timeframe._parameter_value == 'created_week' %}
+        ${created_week}
+      {% else %}
+        ${created_month}
+      {% endif %} ;;
+  }
+
+  # Hidden Dimensions
 
   dimension: inventory_item_id {
     hidden:  yes
@@ -132,7 +147,7 @@ view: order_items {
     sql: {% condition date_range %} ${order_items.created_date} {% endcondition %} ;;
   }
 
-  ## MEASURES ##
+  # Measures
 
   measure: order_item_count {
     type: count
@@ -183,7 +198,26 @@ view: order_items {
     value_format: "0\" days\""
   }
 
-  # ----- Sets of fields for drilling ------
+  # Parameters
+
+  parameter: select_timeframe {
+    type: unquoted
+    default_value: "created_month"
+    allowed_value: {
+      value: "created_date"
+      label: "Date"
+    }
+    allowed_value: {
+      value: "created_week"
+      label: "Week"
+    }
+    allowed_value: {
+      value: "created_month"
+      label: "Month"
+    }
+  }
+
+  # Sets
 
   set: detail {
     fields: [

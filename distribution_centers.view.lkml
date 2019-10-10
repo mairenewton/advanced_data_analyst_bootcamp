@@ -1,6 +1,8 @@
 view: distribution_centers {
   sql_table_name: public.distribution_centers ;;
 
+  # Dimensions
+
   dimension: id {
     primary_key: yes
     type: number
@@ -21,6 +23,8 @@ view: distribution_centers {
     type: string
     sql: ${TABLE}.name ;;
   }
+
+  # Measures
 
   measure: count {
     type: count

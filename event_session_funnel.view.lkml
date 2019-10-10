@@ -9,6 +9,8 @@ view: event_session_funnel {
       GROUP BY 1 ;;
   }
 
+  # Dimensions
+
   dimension: session_id {
     primary_key: yes
     type: string
@@ -47,6 +49,8 @@ view: event_session_funnel {
     type: number
     sql: datediff(min, ${event1_raw},COALESCE(${event3_raw},${event2_raw})) ;;
   }
+
+  # Measures
 
   measure: count {
     type: count
@@ -117,6 +121,8 @@ view: event_session_funnel {
       value: "yes"
     }
   }
+
+  # Sets
 
   set: detail {
     fields: [session_id, event1_time, event2_time, event3_time]

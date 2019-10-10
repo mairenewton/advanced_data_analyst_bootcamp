@@ -22,6 +22,8 @@ view: event_session_facts {
       GROUP BY 1, 2, 3, 4, 5, 6 ;;
   }
 
+  # Dimensions
+
   dimension: session_id {
     type: string
     sql: ${TABLE}.session_id ;;
@@ -52,10 +54,14 @@ view: event_session_facts {
     sql: ${TABLE}.session_exit_page ;;
   }
 
+  # Measures
+
   measure: count {
     type: count
     drill_fields: [detail*]
   }
+
+  # Sets
 
   set: detail {
     fields: [
