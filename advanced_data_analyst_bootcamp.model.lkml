@@ -1,15 +1,23 @@
 connection: "events_ecommerce"
 persist_with: default
 
-# include all the views
 include: "*.view"
 
-# include all the dashboards
-#include: "*.dashboard"
+# include: "*.dashboard"
 
 datagroup: default {
   sql_trigger: select current_date ;;
   max_cache_age: "24 hours"
+}
+
+access_grant: inventory {
+  user_attribute: accessible_departments
+  allowed_values: ["Inventory"]
+}
+
+access_grant: is_pii_viewer {
+  user_attribute: is_pii_viewer
+  allowed_values: ["Yes"]
 }
 
 explore: order_items {
@@ -32,6 +40,7 @@ explore: order_items {
   }
 
   join: distribution_centers {
+    required_access_grants: [inventory]
     type: left_outer
     sql_on: ${products.distribution_center_id} = ${distribution_centers.id} ;;
     relationship: many_to_one

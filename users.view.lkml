@@ -158,6 +158,7 @@ view: users {
 
   dimension: email {
     type: string
+    required_access_grants: [is_pii_viewer]
     sql: ${TABLE}.email ;;
     link: {
       label: "Category Detail Dashboard"
