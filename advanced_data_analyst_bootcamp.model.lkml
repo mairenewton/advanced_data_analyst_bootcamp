@@ -12,6 +12,8 @@ datagroup: default {
   max_cache_age: "24 hours"
 }
 
+explore: Fact_User_VY {}
+
 explore: order_items {
   join: users {
     type: left_outer
