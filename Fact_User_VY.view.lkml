@@ -1,7 +1,7 @@
 # If necessary, uncomment the line below to include explore_source.
 # include: "advanced_data_analyst_bootcamp.model.lkml"
 
-view: add_a_unique_name_1572381159 {
+view: Fact_User_VY {
   derived_table: {
     explore_source: order_items {
       column: id { field: users.id }
