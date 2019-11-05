@@ -8,6 +8,11 @@ include: "*.view"
 #include: "*.dashboard"
 
 datagroup: default {
+  sql_trigger: select max(created_at) from public.order_items ;;
+  max_cache_age: "12 hours"
+}
+
+datagroup: order_items_datagroup {
   sql_trigger: select current_date ;;
   max_cache_age: "24 hours"
 }
