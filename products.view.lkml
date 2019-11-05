@@ -1,6 +1,31 @@
 view: products {
   sql_table_name: public.products ;;
 
+  parameter: select_product_detail {
+    type: unquoted
+    default_value: "department"
+    allowed_value: {
+      value: "department"
+      label: "Department"
+    }
+    allowed_value: {
+      value: "category"
+      label: "Category"
+    }
+    allowed_value: {
+      value: "brand"
+      label: "Brand"
+    }
+  }
+
+  dimension: product_hiearchy {
+    label_from_parameter: select_product_detail
+    type: string
+    sql: ${TABLE}.{% parameter select_product_detail %}
+      ;;
+  }
+
+
   dimension: id {
     hidden:  yes
     primary_key: yes
