@@ -7,10 +7,16 @@ view: user_facts {
       ,MIN(order_items.created_at) AS first_order_date
       ,MAX(order_items.created_at) AS latest_order_date
       FROM order_items
+      JOIN users ON order_items.user_id = users.id
+      WHERE {% condition user_region %} users.region {% endcondition %}
       GROUP BY user_id
        ;;
   }
 
+filter: user_region {
+  suggest_explore: user
+  suggest_dimension: user_region
+}
   measure: count {
     type: count
     drill_fields: [detail*]
