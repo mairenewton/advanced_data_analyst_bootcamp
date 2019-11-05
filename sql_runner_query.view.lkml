@@ -1,4 +1,4 @@
-view: user_facts {
+view: sql_runner_view {
   derived_table: {
     sql: SELECT
            order_items.user_id AS user_id,
@@ -28,7 +28,15 @@ view: user_facts {
     type: number
     sql: ${TABLE}.lifetime_revenue ;;
   }
-
+measure: avg_user_lifetime_revenue{
+  type: average
+  sql: ${lifetime_revenue} ;;
+  value_format_name: usd
+}
+measure: avg_user_lifetime_order_count{
+  type: sum
+  sql: ${lifetime_order_count} ;;
+}
   set: detail {
     fields: [user_id, lifetime_order_count, lifetime_revenue]
   }
