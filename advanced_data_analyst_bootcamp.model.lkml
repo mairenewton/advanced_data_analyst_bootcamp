@@ -11,6 +11,10 @@ datagroup: default {
   sql_trigger: select current_date ;;
   max_cache_age: "24 hours"
 }
+datagroup: oreder_item_datagroup {
+  sql_trigger: select max(created_at) from public.order_items ;;
+  max_cache_age: "12 hours"
+}
 
 explore: order_items {
   join: users {
