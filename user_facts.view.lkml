@@ -1,5 +1,6 @@
 view: user_facts {
   derived_table: {
+    datagroup_trigger: default
     sql: Select order_items.user_id AS user_id
       ,COUNT(distinct order_items.order_id) AS lifetime_order_count
       ,SUM(order_items.sale_price) AS lifetime_revenue
