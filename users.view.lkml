@@ -169,8 +169,8 @@ dimension: email {
   type: string
   sql: ${TABLE}.email ;;
     link: {
-      label: "{{value}} eCommerce Sample Dashboard"
-      url: "/dashboards/1813?email={{ value | encode_url }}"
+      label: "drill to eCommerce sample dashboard"
+      url: "/dashboards/1813?email={{ value }}"
       icon_url: "http://www.looker.com/favicon.ico"
     }
   }
