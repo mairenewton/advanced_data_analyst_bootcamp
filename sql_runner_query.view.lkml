@@ -9,11 +9,6 @@ view: sql_runner_view {
     ;;
   }
 
-  measure: count {
-    type: count
-    drill_fields: [detail*]
-  }
-
   dimension: user_id {
     type: number
     sql: ${TABLE}.user_id ;;
@@ -28,14 +23,19 @@ view: sql_runner_view {
     type: number
     sql: ${TABLE}.lifetime_revenue ;;
   }
-measure: avg_user_lifetime_revenue{
-  type: average
-  sql: ${lifetime_revenue} ;;
-  value_format_name: usd
+  measure: count {
+    type: count
+    drill_fields: [detail*]
+  }
+
+  measure: avg_user_lifetime_revenue{
+    type: average
+    sql: ${lifetime_revenue} ;;
+    value_format_name: usd
 }
-measure: avg_user_lifetime_order_count{
-  type: sum
-  sql: ${lifetime_order_count} ;;
+  measure: avg_user_lifetime_order_count{
+    type: sum
+    sql: ${lifetime_order_count} ;;
 }
   set: detail {
     fields: [user_id, lifetime_order_count, lifetime_revenue]
