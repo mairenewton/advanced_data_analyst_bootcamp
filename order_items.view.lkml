@@ -137,6 +137,12 @@ dimension: date_filter_measure_one_year_prior {
 
 ## MEASURES ##
 
+  measure:distinct_orders{
+    type: count_distinct
+    sql:${order_id} ;;
+
+  }
+
 measure: order_item_count {
   type: count
   drill_fields: [detail*]
