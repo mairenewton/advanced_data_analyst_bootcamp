@@ -168,6 +168,16 @@ measure: average_sale_price {
   drill_fields: [detail*]
 }
 
+
+  measure: total_sales {
+    type: sum
+    sql: ${sale_price};;
+   filters: {
+     field:users.traffic_source
+    value: "email"
+   }
+}
+
 measure: average_spend_per_user {
   type: number
   value_format_name: usd
