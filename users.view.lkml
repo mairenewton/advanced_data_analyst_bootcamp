@@ -35,6 +35,7 @@ dimension: age_tier {
   tiers: [10, 20, 30, 40, 50, 60, 70, 80, 90]
 }
 
+
 #Geography {
 dimension: city {
   type: string
@@ -173,6 +174,11 @@ dimension: email {
       url: "/dashboards/1813?Email={{ value }}"
       icon_url: "http://www.looker.com/favicon.ico"
     }
+  }
+  dimension: email_pii_viewer {
+    required_access_grants: [is_pii_viewer]
+    type: string
+    sql: ${TABLE}.email ;;
   }
 
 dimension: first_name {
