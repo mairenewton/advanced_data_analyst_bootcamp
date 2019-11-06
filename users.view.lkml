@@ -175,7 +175,7 @@ dimension: email {
       icon_url: "http://www.looker.com/favicon.ico"
     }
   }
-  dimension: email_pii_viewer {
+dimension: email_pii_viewer {
     required_access_grants: [is_pii_viewer]
     type: string
     sql: ${TABLE}.email ;;
