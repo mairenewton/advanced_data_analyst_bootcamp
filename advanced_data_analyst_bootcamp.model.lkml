@@ -16,6 +16,12 @@ datagroup: oreder_item_datagroup {
   max_cache_age: "12 hours"
 }
 
+access_grant: is_pii_viewer {
+  user_attribute: is_pii_viewer
+  allowed_values: ["Yes"]
+}
+
+
 explore: order_items {
   join: users {
     type: left_outer
