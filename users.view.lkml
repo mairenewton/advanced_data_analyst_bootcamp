@@ -1,4 +1,6 @@
+include: "geography_dimensions.view"
 view: users {
+  extends: [geography_dimensions]
   sql_table_name: public.users ;;
 
   dimension: id {
@@ -36,38 +38,38 @@ dimension: age_tier {
 }
 
 #Geography {
-dimension: city {
-  type: string
-  sql: ${TABLE}.city ;;
-}
-
-dimension: country {
-  type: string
-  map_layer_name: countries
-  sql: ${TABLE}.country ;;
-}
-
-dimension: latitude {
-  hidden:  yes
-  type: number
-  sql: ${TABLE}.latitude ;;
-}
-
-dimension: longitude {
-  hidden:  yes
-  type: number
-  sql: ${TABLE}.longitude ;;
-}
-
-dimension: state {
-  type: string
-  sql: ${TABLE}.state ;;
-}
-
-dimension: zip {
-  type: zipcode
-  sql: ${TABLE}.zip ;;
-}
+# dimension: city {
+#   type: string
+#   sql: ${TABLE}.city ;;
+# }
+#
+# dimension: country {
+#   type: string
+#   map_layer_name: countries
+#   sql: ${TABLE}.country ;;
+# }
+#
+# dimension: latitude {
+#   hidden:  yes
+#   type: number
+#   sql: ${TABLE}.latitude;;
+# }
+#
+# dimension: longitude {
+#   hidden:  yes
+#   type: number
+#   sql: ${TABLE}.longitude ;;
+# }
+#
+# dimension: state {
+#   type: string
+#   sql: ${TABLE}.state ;;
+# }
+#
+# dimension: zip {
+#   type: zipcode
+#   sql: ${TABLE}.zip ;;
+# }
 #}
 
 dimension: years_a_customer {
@@ -142,12 +144,12 @@ sql: CASE WHEN ${state} = 'Maine' THEN 'Northeast'
           END ;;
 }
 
-dimension: map_location {
-  type: location
-  sql_latitude: ${latitude} ;;
-  sql_longitude: ${longitude} ;;
-}
-
+# dimension: map_location {
+#   type: location
+#   sql_latitude: ${latitude} ;;
+#   sql_longitude: ${longitude} ;;
+# }
+#
 
 
 measure: max_age {

@@ -1,4 +1,6 @@
+include: "geography_dimensions.view"
 view: events {
+  extends: [geography_dimensions]
   sql_table_name: public.events ;;
 
   dimension: id {
@@ -18,42 +20,42 @@ view: events {
     sql: ${TABLE}.browser ;;
   }
 
-#Geography {
-  dimension: city {
-    type: string
-    sql: ${TABLE}.city ;;
-  }
-
-  dimension: country {
-    type: string
-    map_layer_name: countries
-    sql: ${TABLE}.country ;;
-  }
-
-  dimension: latitude {
-    hidden: yes
-    type: number
-    sql: ${TABLE}.latitude ;;
-  }
-
-  dimension: longitude {
-    hidden: yes
-    type: number
-    sql: ${TABLE}.longitude ;;
-  }
-
-  dimension: state {
-    type: string
-    map_layer_name: us_states
-    sql: ${TABLE}.state ;;
-  }
-
-  dimension: zip {
-    type: zipcode
-    map_layer_name: us_zipcode_tabulation_areas
-    sql: ${TABLE}.zip ;;
-  }
-#}
+# ##Geography {
+#   dimension: city {
+#     type: string
+#     sql: ${TABLE}.city ;;
+#   }
+#
+#   dimension: country {
+#     type: string
+#     map_layer_name: countries
+#     sql: ${TABLE}.country ;;
+#   }
+#
+#   dimension: latitude {
+#     hidden: yes
+#     type: number
+#     sql: ${TABLE}.latitude ;;
+#   }
+#
+#   dimension: longitude {
+#     hidden: yes
+#     type: number
+#     sql: ${TABLE}.longitude ;;
+#   }
+#
+#   dimension: state {
+#     type: string
+#     map_layer_name: us_states
+#     sql: ${TABLE}.state ;;
+#   }
+#
+#   dimension: zip {
+#     type: zipcode
+#     map_layer_name: us_zipcode_tabulation_areas
+#     sql: ${TABLE}.zip ;;
+#   }
+# #}
 
   dimension_group: created {
     type: time
@@ -81,11 +83,11 @@ view: events {
 
 
 
-  dimension: location {
-    type: location
-    sql_latitude: ${latitude} ;;
-    sql_longitude: ${longitude} ;;
-  }
+#   dimension: location {
+#     type: location
+#     sql_latitude: ${latitude} ;;
+#     sql_longitude: ${longitude} ;;
+#   }
 
   dimension: os {
     type: string
