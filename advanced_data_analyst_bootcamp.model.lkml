@@ -6,13 +6,13 @@ include: "*.view"
 
 # include all the dashboards
 #include: "*.dashboard"
-
 datagroup: default {
   sql_trigger: select current_date ;;
   max_cache_age: "24 hours"
 }
 
 explore: order_items {
+  label: "Order Items"
   join: users {
     type: left_outer
     sql_on: ${order_items.user_id} = ${users.id} ;;
