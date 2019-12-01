@@ -39,6 +39,7 @@ explore: order_items {
 }
 
 explore: events {
+  label: "Website Activity"
   join: event_session_facts {
     type: left_outer
     sql_on: ${events.session_id} = ${event_session_facts.session_id} ;;
