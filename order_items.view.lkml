@@ -94,6 +94,23 @@ view: order_items {
     sql: DATEDIFF(day, ${order_items.shipped_date}, ${order_items.delivered_date}) ;;
   }
 
+
+  dimension_group: between_shipping_and_delivered {
+    type:  duration
+    sql_start: ${shipped_raw};;
+    sql_end: ${delivered_raw};;
+    timeframes: [
+    raw,
+    time,
+    date,
+    week,
+    month,
+    quarter,
+    year
+  ]
+  }
+
+
 ## HIDDEN DIMENSIONS ##
 
   dimension: inventory_item_id {
@@ -151,6 +168,7 @@ measure: total_revenue {
 
 measure: order_count {
   description: "A count of unique orders"
+  label: "Order total"
   type: count_distinct
   sql: ${order_id} ;;
 }
