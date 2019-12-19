@@ -12,7 +12,22 @@ datagroup: default {
   max_cache_age: "24 hours"
 }
 
+access_grant: is_pii_viewer {
+  user_attribute: is_pii_viewer
+  allowed_values: ["Yes"]
+}
+
 explore: order_items {
+  fields: [ALL_FIELDS*]
+  from: order_items
+  view_name: order_items
+  extends: [inventory_items]
+
+  access_filter: {
+    user_attribute: "category"
+    field: products.category
+  }
+
   join: users {
     type: left_outer
     sql_on: ${order_items.user_id} = ${users.id} ;;
@@ -22,18 +37,6 @@ explore: order_items {
   join: inventory_items {
     type: left_outer
     sql_on: ${order_items.inventory_item_id} = ${inventory_items.id} ;;
-    relationship: many_to_one
-  }
-
-  join: products {
-    type: left_outer
-    sql_on: ${inventory_items.product_id} = ${products.id} ;;
-    relationship: many_to_one
-  }
-
-  join: distribution_centers {
-    type: left_outer
-    sql_on: ${products.distribution_center_id} = ${distribution_centers.id} ;;
     relationship: many_to_one
   }
 }
@@ -54,9 +57,15 @@ explore: events {
     sql_on: ${events.user_id} = ${users.id} ;;
     relationship: many_to_one
   }
+  join: session_event_facts {
+    type: left_outer
+    sql_on: ${events.session_id} = ${session_event_facts.session_id} ;;
+    relationship: many_to_one
+  }
 }
 
 explore: inventory_items {
+
   join: products {
     type: left_outer
     sql_on: ${inventory_items.product_id} = ${products.id} ;;

@@ -5,6 +5,48 @@ view: order_items {
     type: date
   }
 
+  parameter: order_date_groups {
+    type:  unquoted
+    default_value: "date"
+    allowed_value: {
+      value: "date"
+      label: "Date"
+    }
+    allowed_value: {
+      value: "week"
+      label: "Week"
+    }
+    allowed_value: {
+      value: "month"
+      label: "Month"
+    }
+  }
+
+  dimension: view_by {
+    label_from_parameter: order_date_groups
+    type:  string
+    sql: {% if order_date_groups._parameter_value == 'date' %}
+        ${created_date}
+        {% elsif order_date_groups._parameter_value == 'week' %}
+        ${created_week}
+        {% else %}
+        ${created_month}
+        {% endif %};;
+  }
+
+dimension: view_by2 {
+  label_from_parameter: order_date_groups
+  type:  date
+  sql: {% if order_date_groups._parameter_value == 'date' %}
+  ${created_date::date}
+  {% elsif order_date_groups._paramter_value == 'week' %}
+  ${created_week::date}
+  {% else %}
+  ${created_month::date}
+  {% endif %};;
+}
+
+
   dimension: id {
     hidden:  yes
     primary_key: yes

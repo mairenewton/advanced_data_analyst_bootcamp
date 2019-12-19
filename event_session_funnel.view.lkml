@@ -64,9 +64,27 @@ view: event_session_funnel {
     sql: ${event2_time} < ${event3_time} ;;
   }
 
+  parameter: time_granularity {
+    type: unquoted
+    default_value: "minutes"
+    allowed_value: {
+      value: "seconds"
+      label: "By Seconds"
+    }
+    allowed_value: {
+      value: "minutes"
+      label: "By Minutes"
+    }
+  }
+
   dimension: time_in_funnel {
+    label_from_parameter: time_granularity
     type: number
-    sql: datediff(min, ${event1_raw},COALESCE(${event3_raw},${event2_raw})) ;;
+    sql: {%if time_granularity._parameter_value == 'seconds' %}
+      datediff(sec, ${event1_raw},COALESCE(${event3_raw},${event2_raw}))
+      {%elsif time_granularity._parameter_value == 'minutes' %}
+      datediff(min, ${event1_raw},COALESCE(${event3_raw},${event2_raw}))
+      {%endif%};;
   }
 
   measure: count_sessions {
