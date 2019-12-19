@@ -8,6 +8,12 @@ view: users {
   sql: ${TABLE}.id ;;
 }
 
+filter: incoming_traffic_source {
+  type: string
+  suggest_explore: users
+  suggest_dimension: users.traffic_source
+}
+
 dimension_group: created {
   type: time
   timeframes: [
@@ -148,6 +154,11 @@ dimension: map_location {
   sql_longitude: ${longitude} ;;
 }
 
+dimension: hidden_traffic_source_filter {
+  hidden: yes
+  type: yesno
+  sql: {% condition incoming_traffic_source %} ${traffic_source} {% endcondition %} ;;
+}
 
 
 measure: max_age {
@@ -165,25 +176,44 @@ measure: count {
   drill_fields: [id, events.count, order_items.count]
 }
 
+measure: count_filtered {
+  type: count
+  drill_fields: [id, events.count, order_items.count]
+  filters: {
+    field: hidden_traffic_source_filter
+    value: "Yes"
+  }
+}
+
 dimension: email {
   type: string
   sql: ${TABLE}.email ;;
+  required_access_grants: [pii_viewer]
+  link: {
+    label: "Go to user dashboard"
+    url: "/dashboards/1813?Email={{ value }}"
+    # url: "javascript:alert('This is a very malicious script');"
+    icon_url: "https://ssl.gstatic.com/ui/v1/icons/mail/favicon.ico"
+  }
 }
 
 dimension: first_name {
-  hidden:  yes
+  # hidden:  yes
   type: string
+  required_access_grants: [pii_viewer]
   sql: ${TABLE}.first_name ;;
 }
 
 dimension: last_name {
-  hidden:  yes
+  #hidden:  yes
+  required_access_grants: [pii_viewer]
   type: string
   sql: ${TABLE}.last_name ;;
 }
 
 dimension: name {
   type: string
+  required_access_grants: [pii_viewer]
   sql: ${first_name} || ' ' || ${last_name} ;;
 }
 }

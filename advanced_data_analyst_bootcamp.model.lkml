@@ -7,6 +7,10 @@ include: "*.view"
 # include all the dashboards
 #include: "*.dashboard"
 
+access_grant: pii_viewer {
+  user_attribute: is_pii_viewer
+}
+
 datagroup: default {
   sql_trigger: select current_date ;;
   max_cache_age: "24 hours"
@@ -52,6 +56,11 @@ explore: events {
   join: users {
     type: left_outer
     sql_on: ${events.user_id} = ${users.id} ;;
+    relationship: many_to_one
+  }
+  join: session_event_facts {
+    type: left_outer
+    sql_on: ${events.session_id} = ${session_event_facts.session_id} ;;
     relationship: many_to_one
   }
 }

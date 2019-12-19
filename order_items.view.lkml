@@ -5,6 +5,24 @@ view: order_items {
     type: date
   }
 
+  parameter: select_time_frame {
+    type: unquoted
+    default_value: "date_sel"
+
+    allowed_value: {
+      value: "date_sel"
+      label: "Date"
+    }
+    allowed_value: {
+      value: "week_sel"
+      label: "Week"
+    }
+    allowed_value: {
+      value: "month_sel"
+      label: "Month"
+    }
+  }
+
   dimension: id {
     hidden:  yes
     primary_key: yes
@@ -135,6 +153,18 @@ dimension: date_filter_measure_one_year_prior {
   sql: {% condition date_range %} ${order_items.created_date} {% endcondition %} ;;
 }
 
+dimension: date_order_created{
+  type: date
+  sql:
+  {% if select_time_frame._parameter_value == 'date_sel' %}
+    ${created_date::date}
+  {% elsif select_time_frame._parameter_value == 'week_sel' %}
+    ${created_week::date}
+  {% else select_time_frame._parameter_value == 'month_sel' %}
+    ${created_month::date}
+  {% endif %} ;;
+}
+
 ## MEASURES ##
 
 measure: order_item_count {
@@ -185,7 +215,6 @@ measure: average_shipping_time {
   sql: ${shipping_time} ;;
   value_format: "0\" days\""
 }
-
 
 # ----- Sets of fields for drilling ------
 set: detail {
