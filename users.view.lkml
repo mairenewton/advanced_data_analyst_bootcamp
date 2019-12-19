@@ -1,4 +1,7 @@
+include: "geography.view"
+
 view: users {
+  extends: [geography]
   sql_table_name: public.users ;;
 
   dimension: id {
@@ -35,39 +38,11 @@ dimension: age_tier {
   tiers: [10, 20, 30, 40, 50, 60, 70, 80, 90]
 }
 
-#Geography {
-dimension: city {
-  type: string
-  sql: ${TABLE}.city ;;
-}
-
-dimension: country {
-  type: string
-  map_layer_name: countries
-  sql: ${TABLE}.country ;;
-}
-
-dimension: latitude {
-  hidden:  yes
-  type: number
-  sql: ${TABLE}.latitude ;;
-}
-
-dimension: longitude {
-  hidden:  yes
-  type: number
-  sql: ${TABLE}.longitude ;;
-}
-
-dimension: state {
-  type: string
-  sql: ${TABLE}.state ;;
-}
-
-dimension: zip {
-  type: zipcode
-  sql: ${TABLE}.zip ;;
-}
+  dimension: city_state{
+    type: string
+    sql: concat(${city}, concat( ', ', ${state})) ;;
+    description: "Dimension Type Practice"
+  }
 #}
 
 dimension: years_a_customer {
@@ -148,8 +123,6 @@ dimension: map_location {
   sql_longitude: ${longitude} ;;
 }
 
-
-
 measure: max_age {
   type: max
   sql: ${age} ;;
@@ -168,22 +141,78 @@ measure: count {
 dimension: email {
   type: string
   sql: ${TABLE}.email ;;
+  link: {
+    label: "eCommerce Sample User Dashboard"
+    url: "/dashboards/1813?Email= {{ value }}"
+    icon_url: "https://cdn1.vectorstock.com/i/1000x1000/83/80/unicorn-icon-isolated-on-white-background-vector-21578380.jpg"
+  }
+  required_access_grants: [pii_access]
 }
 
 dimension: first_name {
   hidden:  yes
   type: string
   sql: ${TABLE}.first_name ;;
+  required_access_grants: [pii_access]
 }
 
 dimension: last_name {
   hidden:  yes
   type: string
   sql: ${TABLE}.last_name ;;
+  required_access_grants: [pii_access]
 }
 
 dimension: name {
   type: string
   sql: ${first_name} || ' ' || ${last_name} ;;
+  required_access_grants: [pii_access]
 }
+
+#parameter: traffic_source_par {
+#  type: unquoted
+#  default_value: "Display"
+#  allowed_value: {
+#    value: "Display"
+#    label: "Display"
+#    }
+#  allowed_value: {
+#    value: "Email"
+#    label: "Email"
+#    {
+#  allowed_value: {
+#    value: "Facebook"
+#    label: "Facebook"
+#    }
+#  allowed_value: {
+#    value: "Organic"
+#    label: "Organic"
+#    }
+#  allowed_value: {
+#    value: "Search"
+#    label: "Search"
+#  }
+#}
+#}
+
+filter: traffic_source_par {
+  type: string
+  suggest_explore: users
+  suggest_dimension: users.traffic_source
+}
+
+dimension: traffic_source_par_hidden {
+  type: yesno
+  hidden: yes
+  sql: {% condition traffic_source_par %} ${traffic_source} {% endcondition %};;
+}
+
+  measure: user_traffic_source_count {
+    type: count
+    filters: {
+      field: users.traffic_source_par_hidden
+      value: "Yes"
+    }
+  }
+
 }

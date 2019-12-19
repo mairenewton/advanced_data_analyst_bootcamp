@@ -29,6 +29,36 @@ view: order_items {
     sql: ${TABLE}.created_at ;;
   }
 
+  parameter: date_breakdown {
+    type: unquoted
+   default_value: "date"
+  allowed_value: {
+    value: "date"
+    label: "Date"
+  }
+  allowed_value: {
+    value: "week"
+    label: "Week"
+  }
+  allowed_value: {
+    value: "month"
+    label: "Month"
+  }
+}
+  dimension: creation_date {
+    label_from_parameter: date_breakdown
+    type: date
+    sql:
+    {% if date_breakdown._parameter_value == 'date' %}
+    ${created_date::date}
+    {% elsif date_breakdown._parameter_value == 'week' %}
+    ${created_week::date}
+    {% else date_breakdown._parameter_value == 'month' %}
+    ${created_month::date}
+    {% endif %}
+       ;;
+  }
+
   dimension_group: delivered {
     description: "When the order was delivered"
     type: time

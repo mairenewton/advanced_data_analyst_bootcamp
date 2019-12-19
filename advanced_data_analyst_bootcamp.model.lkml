@@ -6,6 +6,10 @@ include: "*.view"
 
 # include all the dashboards
 #include: "*.dashboard"
+access_grant: pii_access {
+  allowed_values: ["Yes"]
+  user_attribute: is_pii_viewer
+}
 
 datagroup: default {
   sql_trigger: select current_date ;;
@@ -13,6 +17,12 @@ datagroup: default {
 }
 
 explore: order_items {
+  fields: [ALL_FIELDS*]
+  extends: [inventory_items]
+  access_filter: {
+    field: products.category
+    user_attribute: category
+  }
   join: users {
     type: left_outer
     sql_on: ${order_items.user_id} = ${users.id} ;;
@@ -25,17 +35,17 @@ explore: order_items {
     relationship: many_to_one
   }
 
-  join: products {
-    type: left_outer
-    sql_on: ${inventory_items.product_id} = ${products.id} ;;
-    relationship: many_to_one
-  }
+#   join: products {
+#     type: left_outer
+#     sql_on: ${inventory_items.product_id} = ${products.id} ;;
+#     relationship: many_to_one
+#   }
 
-  join: distribution_centers {
-    type: left_outer
-    sql_on: ${products.distribution_center_id} = ${distribution_centers.id} ;;
-    relationship: many_to_one
-  }
+  #join: distribution_centers {
+  #  type: left_outer
+  #  sql_on: ${products.distribution_center_id} = ${distribution_centers.id} ;;
+  #  relationship: many_to_one
+  #}
 }
 
 explore: events {
@@ -52,6 +62,12 @@ explore: events {
   join: users {
     type: left_outer
     sql_on: ${events.user_id} = ${users.id} ;;
+    relationship: many_to_one
+  }
+
+  join: session_event_facts {
+    type: left_outer
+    sql_on: ${events.session_id} = ${session_event_facts.session_id} ;;
     relationship: many_to_one
   }
 }
