@@ -12,6 +12,25 @@ datagroup: default {
   max_cache_age: "24 hours"
 }
 
+# refactor the order_items explore to use an extends of inventory items
+explore: order_items_new {
+  description: "New Order Items Explore"
+  fields: [ALL_FIELDS*]
+  from: order_items
+  view_name:order_items
+  extends: [inventory_items]
+  join: users {
+    type: left_outer
+    sql_on: ${order_items.user_id} = ${users.id} ;;
+    relationship: many_to_one
+  }
+  join: inventory_items {
+    type: left_outer
+    sql_on: ${order_items.inventory_item_id} = ${inventory_items.id} ;;
+    relationship: many_to_one
+  }
+}
+
 explore: order_items {
   join: users {
     type: left_outer
@@ -35,6 +54,10 @@ explore: order_items {
     type: left_outer
     sql_on: ${products.distribution_center_id} = ${distribution_centers.id} ;;
     relationship: many_to_one
+  }
+  access_filter: {
+    field: products.category
+    user_attribute: category
   }
 }
 
@@ -82,4 +105,17 @@ explore: users {
     sql_on: ${order_items.inventory_item_id} = ${inventory_items.id} ;;
     relationship: many_to_one
   }
+}
+
+explore: session_event_facts {
+  join: events {
+    type: left_outer
+    sql_on: ${events.created_date} = ${session_event_facts.created_time};;
+    relationship: one_to_one
+  }
+}
+
+access_grant: pii_information {
+  user_attribute: is_pii_viewer
+  allowed_values: ["Yes"]
 }

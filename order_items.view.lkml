@@ -94,6 +94,36 @@ view: order_items {
     sql: DATEDIFF(day, ${order_items.shipped_date}, ${order_items.delivered_date}) ;;
   }
 
+  parameter: time_frame {
+    type: unquoted
+    default_value: "month"
+    allowed_value: {
+      value: "month"
+      label: "Month"
+    }
+    allowed_value: {
+      value: "week"
+      label: "Week"
+    }
+    allowed_value: {
+      value: "day"
+      label: "Day"
+    }
+  }
+
+  dimension: variable_time_frames{
+    label_from_parameter: time_frame
+    type: string
+    sql:
+    {% if time_frame._parameter_value == 'month'%}
+    ${created_month}
+     {% elsif time_frame._parameter_value == 'week'%}
+    ${created_week}
+     {% elsif time_frame._parameter_value == 'day'%}
+    ${created_date}
+    {% endif %} ;;
+  }
+
 ## HIDDEN DIMENSIONS ##
 
   dimension: inventory_item_id {

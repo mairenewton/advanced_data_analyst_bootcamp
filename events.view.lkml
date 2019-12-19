@@ -1,4 +1,7 @@
+include:"geography.view"
+
 view: events {
+  extends: [geography]
   sql_table_name: public.events ;;
 
   dimension: id {
@@ -19,16 +22,16 @@ view: events {
   }
 
 #Geography {
-  dimension: city {
-    type: string
-    sql: ${TABLE}.city ;;
-  }
-
-  dimension: country {
-    type: string
-    map_layer_name: countries
-    sql: ${TABLE}.country ;;
-  }
+#   dimension: city {
+#     type: string
+#     sql: ${TABLE}.city ;;
+#   }
+#
+#   dimension: country {
+#     type: string
+#     map_layer_name: countries
+#     sql: ${TABLE}.country ;;
+#   }
 
   dimension: latitude {
     hidden: yes
@@ -42,11 +45,11 @@ view: events {
     sql: ${TABLE}.longitude ;;
   }
 
-  dimension: state {
-    type: string
-    map_layer_name: us_states
-    sql: ${TABLE}.state ;;
-  }
+#   dimension: state {
+#     type: string
+#     map_layer_name: us_states
+#     sql: ${TABLE}.state ;;
+#   }
 
   dimension: zip {
     type: zipcode
@@ -81,11 +84,11 @@ view: events {
 
 
 
-  dimension: location {
-    type: location
-    sql_latitude: ${latitude} ;;
-    sql_longitude: ${longitude} ;;
-  }
+#   dimension: location {
+#     type: location
+#     sql_latitude: ${latitude} ;;
+#     sql_longitude: ${longitude} ;;
+#   }
 
   dimension: os {
     type: string

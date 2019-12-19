@@ -64,10 +64,41 @@ view: event_session_funnel {
     sql: ${event2_time} < ${event3_time} ;;
   }
 
+#   dimension: time_in_funnel {
+#     label_from_parameter: time
+#     type: string
+#     sql:
+#     {% if time._parameter_value == 'minutes' %}
+#     datediff(min, ${event1_raw},COALESCE(${event3_raw},${event2_raw}))
+#     {% elsif time._parameter_value == 'seconds' %}
+#     datediff(sec, ${event1_raw},COALESCE(${event3_raw},${event2_raw}))
+#     {% endif %};;
+#   }
+
   dimension: time_in_funnel {
+     label_from_parameter: time
     type: number
-    sql: datediff(min, ${event1_raw},COALESCE(${event3_raw},${event2_raw})) ;;
+    sql:
+    datediff(
+    {% parameter time %},
+    ${event1_raw},
+    COALESCE(${event3_raw},${event2_raw}))
+   ;;
   }
+
+  parameter: time {
+    type: unquoted
+    default_value: "min"
+    allowed_value: {
+      label: "Minutes"
+      value: "min"
+    }
+    allowed_value: {
+      label: "Seconds"
+      value: "sec"
+    }
+  }
+
 
   measure: count_sessions {
     type: count_distinct

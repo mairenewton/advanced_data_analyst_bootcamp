@@ -38,6 +38,11 @@ view: inventory_items {
   dimension: product_category {
     type: string
     sql: ${TABLE}.product_category ;;
+    link: {
+      label: "Link to explore"
+      url: "https://teach.corp.looker.com/explore/advanced_data_analyst_bootcamp/inventory_items?fields=products.category,products.name,inventory_items.count&f[products.category]={{value}}"
+      icon_url: "https://images.unsplash.com/photo-1554495287-7a2b9869e4a4"
+    }
   }
 
   dimension: product_department {
