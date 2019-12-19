@@ -12,7 +12,18 @@ datagroup: default {
   max_cache_age: "24 hours"
 }
 
+access_grant: pii_viewer {
+  allowed_values: ["Yes"]
+  user_attribute: is_pii_viewer
+}
+
 explore: order_items {
+
+  access_filter: {
+    field: products.category
+    user_attribute: category
+  }
+
   join: users {
     type: left_outer
     sql_on: ${order_items.user_id} = ${users.id} ;;
@@ -44,6 +55,13 @@ explore: events {
     sql_on: ${events.session_id} = ${event_session_facts.session_id} ;;
     relationship: many_to_one
   }
+
+  join: session_event_facts {
+    type: left_outer
+    sql_on: ${events.session_id} = ${session_event_facts.session_id} ;;
+    relationship: many_to_one
+  }
+
   join: event_session_funnel {
     type: left_outer
     sql_on: ${events.session_id} = ${event_session_funnel.session_id} ;;

@@ -1,4 +1,7 @@
+include: "geography.view"
+
 view: users {
+  extends: [geography]
   sql_table_name: public.users ;;
 
   dimension: id {
@@ -36,38 +39,38 @@ dimension: age_tier {
 }
 
 #Geography {
-dimension: city {
-  type: string
-  sql: ${TABLE}.city ;;
-}
-
-dimension: country {
-  type: string
-  map_layer_name: countries
-  sql: ${TABLE}.country ;;
-}
-
-dimension: latitude {
-  hidden:  yes
-  type: number
-  sql: ${TABLE}.latitude ;;
-}
-
-dimension: longitude {
-  hidden:  yes
-  type: number
-  sql: ${TABLE}.longitude ;;
-}
-
-dimension: state {
-  type: string
-  sql: ${TABLE}.state ;;
-}
-
-dimension: zip {
-  type: zipcode
-  sql: ${TABLE}.zip ;;
-}
+# dimension: city {
+#   type: string
+#   sql: ${TABLE}.city ;;
+# }
+#
+# dimension: country {
+#   type: string
+#   map_layer_name: countries
+#   sql: ${TABLE}.country ;;
+# }
+#
+# dimension: latitude {
+#   hidden:  yes
+#   type: number
+#   sql: ${TABLE}.latitude ;;
+# }
+#
+# dimension: longitude {
+#   hidden:  yes
+#   type: number
+#   sql: ${TABLE}.longitude ;;
+# }
+#
+# dimension: state {
+#   type: string
+#   sql: ${TABLE}.state ;;
+# }
+#
+# dimension: zip {
+#   type: zipcode
+#   sql: ${TABLE}.zip ;;
+# }
 #}
 
 dimension: years_a_customer {
@@ -166,24 +169,57 @@ measure: count {
 }
 
 dimension: email {
+  required_access_grants: [pii_viewer]
   type: string
   sql: ${TABLE}.email ;;
 }
 
 dimension: first_name {
-  hidden:  yes
+  required_access_grants: [pii_viewer]
   type: string
   sql: ${TABLE}.first_name ;;
 }
 
 dimension: last_name {
-  hidden:  yes
+  required_access_grants: [pii_viewer]
   type: string
   sql: ${TABLE}.last_name ;;
 }
 
 dimension: name {
   type: string
+  required_access_grants: [pii_viewer]
   sql: ${first_name} || ' ' || ${last_name} ;;
 }
+
+filter: traffic_source_filter {
+    type: string
+    suggest_dimension: users.traffic_source
+    suggest_explore: users
+  }
+
+dimension: traffic_yesno {
+  type: yesno
+  sql: {% condition traffic_source_filter %} ${traffic_source} {% endcondition %} ;;
+}
+
+measure: count_traffic {
+  type: count
+  drill_fields: []
+  filters: {
+    field: traffic_yesno
+    value: "Yes"
+
+  }
+}
+  measure: count_users {
+    type: count
+    }
+
+measure: percent_traffic {
+  type: number
+  value_format_name: percent_0
+  sql: 1.0*${count_traffic} /nullif(${count_users}, 0) ;;
+}
+
 }

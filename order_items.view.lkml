@@ -198,4 +198,31 @@ set: detail {
     inventory_items.product_name
   ]
 }
+
+parameter: time_frame {
+  type: unquoted
+  allowed_value: {
+    label: "Date"
+    value: "date"}
+  allowed_value: {
+    label: "Week"
+    value: "week"}
+  allowed_value: {
+    label: "Month"
+    value: "month"}
+
+}
+
+dimension: dynamic_time{
+  type: date
+  label_from_parameter: time_frame
+  sql:
+  {% if time_frame._parameter_value == 'date' %}
+  ${created_date::date}
+  {% elsif time_frame._parameter_value == 'week' %}
+  ${created_week::date}
+  {% else %}
+  ${created_month::date}
+  {% endif %};;
+}
 }
