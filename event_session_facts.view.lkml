@@ -1,64 +1,42 @@
-view: event_session_facts {
+view: session_event_facts {
   derived_table: {
-    sql:
-      WITH session_facts AS (
-        SELECT
-           session_id
-          ,COALESCE(user_id::varchar, ip_address) as identifier
-          ,FIRST_VALUE (created_at) OVER (PARTITION BY session_id ORDER BY created_at ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING) AS session_start
-          ,LAST_VALUE (created_at) OVER (PARTITION BY session_id ORDER BY created_at ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING) AS session_end
-          ,FIRST_VALUE (event_type) OVER (PARTITION BY session_id ORDER BY created_at ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING) AS session_landing_page
-          ,LAST_VALUE  (event_type) OVER (PARTITION BY session_id ORDER BY created_at ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING) AS session_exit_page
-        FROM events
-      )
-      SELECT * FROM session_facts
-      GROUP BY 1, 2, 3, 4, 5, 6
-       ;;
+    explore_source: events {
+      column: event_type {}
+      column: created_time {}
+      column: session_id {}
+      column: user_identifier {}
+      derived_column: session_start {
+        sql:  FIRST_VALUE (created_at) OVER (PARTITION BY session_id ORDER BY created_at ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING) AS session_start;;
+      }
+      derived_column: session_end {
+        sql: LAST_VALUE (created_at) OVER (PARTITION BY session_id ORDER BY created_at ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING) AS session_end;;
+      }
+      derived_column: session_landing_page {
+        sql: FIRST_VALUE (event_type) OVER (PARTITION BY session_id ORDER BY created_at ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING) AS session_landing_page;;
+      }
+      derived_column: session_exit_page{
+        sql: LAST_VALUE (event_type) OVER (PARTITION BY session_id ORDER BY created_at ROWS BETWEEN UNBOUNDED PRECEDING AND UNBOUNDED FOLLOWING) AS session_exit_page ;;
+      }
+      bind_filters: {
+        from_field: session_event_facts.session_start_date
+        to_field:  events.created_time
+      }
+    }
   }
-
-  measure: count {
-    type: count
-    drill_fields: [detail*]
-  }
-
-  dimension: session_id {
-    type: string
-    sql: ${TABLE}.session_id ;;
-  }
-
-  dimension: identifier {
-    type: string
-    sql: ${TABLE}.identifier ;;
+  dimension: session_id {}
+  dimension: user_identifier {}
+  dimension: event_type {}
+  dimension: created_time {
+    type: date_time
   }
 
   dimension_group: session_start {
     type: time
     sql: ${TABLE}.session_start ;;
   }
-
   dimension_group: session_end {
     type: time
     sql: ${TABLE}.session_end ;;
   }
 
-  dimension: session_landing_page {
-    type: string
-    sql: ${TABLE}.session_landing_page ;;
-  }
-
-  dimension: session_exit_page {
-    type: string
-    sql: ${TABLE}.session_exit_page ;;
-  }
-
-  set: detail {
-    fields: [
-      session_id,
-      identifier,
-      session_start_time,
-      session_end_time,
-      session_landing_page,
-      session_exit_page
-    ]
-  }
 }

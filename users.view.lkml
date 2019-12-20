@@ -1,4 +1,6 @@
+include: "geography_View.view"
 view: users {
+  extends: [geography_dim]
   sql_table_name: public.users ;;
 
   dimension: id {
@@ -85,6 +87,25 @@ dimension: traffic_source {
   type: string
   sql: ${TABLE}.traffic_source ;;
 }
+dimension: hidden_traffic_source_filter {
+hidden: yes
+type: yesno
+sql: {% condition incoming_traffic_source %} ${traffic_source} {% endcondition %}  ;;
+}
+filter: incoming_traffic_source {
+type: string
+suggest_dimension: users.traffic_source
+suggest_explore: users
+}
+measure: changeable_count_measure {
+    type: count_distinct
+    sql: ${id} ;;
+    filters: {
+    field: hidden_traffic_source_filter
+    value: "Yes"
+    }
+  }
+
 
 dimension: region {
 #     map_layer_name: map_regions
@@ -166,23 +187,36 @@ measure: count {
 }
 
 dimension: email {
+  required_access_grants: [can_view_pii]
   type: string
   sql: ${TABLE}.email ;;
+
+  link: {
+
+    label: "User Dashboard"
+
+    url: "/dashboards/1813?Email={{value}}"
+
+  }
 }
 
 dimension: first_name {
-  hidden:  yes
+  required_access_grants: [can_view_pii]
+  hidden:yes
   type: string
   sql: ${TABLE}.first_name ;;
 }
 
+
 dimension: last_name {
+  required_access_grants: [can_view_pii]
   hidden:  yes
   type: string
   sql: ${TABLE}.last_name ;;
 }
 
 dimension: name {
+  required_access_grants: [can_view_pii]
   type: string
   sql: ${first_name} || ' ' || ${last_name} ;;
 }

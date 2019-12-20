@@ -11,12 +11,22 @@ view: products {
   dimension: brand {
     type: string
     sql: ${TABLE}.brand ;;
+    link: {
+      label: "Google"
+      url: "http://www.google.com/search?q={{ value }}"
+      icon_url: "http://google.com/favicon.ico"
+    }
+
   }
 
   dimension: category {
     type: string
     sql: ${TABLE}.category ;;
-  }
+    link: {
+      label: "View Category Detail"
+      url:
+      "/explore/advanced_data_analyst_bootcamp/inventory_items?fields=products.name,inventory_items.count,products.category&f[products.category]=tata"
+  }}
 
   dimension: cost {
     type: number
