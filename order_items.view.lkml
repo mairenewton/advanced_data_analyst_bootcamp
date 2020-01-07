@@ -59,6 +59,32 @@ view: order_items {
     sql: ${TABLE}.returned_at ;;
   }
 
+  parameter:Time_frame  {
+  type: unquoted
+  allowed_value: {
+  label: "create_Date"
+  value: "Date"
+    }
+    allowed_value: {
+      label: "create_Week"
+      value: "Week"
+    }
+    allowed_value: {
+      label: "create_Month"
+      value: "Month"
+    }
+  }
+  dimension: Dynamic_Time_frame {
+  label_from_parameter:Time_frame
+  type: string
+  sql: {% if Time_frame._parameter_value == 'Date' %}
+    ${created_date}
+    {% elsif Time_frame._parameter_value == 'Week' %}
+    ${created_week}
+    {% else %}
+    ${created_month}
+    {% endif %} ;;
+  }
 
   dimension: sale_price {
     type: number

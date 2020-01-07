@@ -65,10 +65,24 @@ view: event_session_funnel {
   }
 
   dimension: time_in_funnel {
+  label_from_parameter: time_cal
     type: number
-    sql: datediff(min, ${event1_raw},COALESCE(${event3_raw},${event2_raw})) ;;
+    sql: datediff(
+    {% parameter time_cal %}
+    , ${event1_raw},COALESCE(${event3_raw},${event2_raw})) ;;
   }
-
+  parameter:time_cal{
+    type: unquoted
+  default_value: "min"
+  allowed_value: {
+  label: "Minutes"
+  value: "min"
+  }
+    allowed_value: {
+      label: "Seconds"
+      value: "sec"
+    }
+  }
   measure: count_sessions {
     type: count_distinct
     sql: ${session_id} ;;
