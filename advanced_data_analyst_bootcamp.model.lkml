@@ -43,9 +43,9 @@ explore: order_items {
 }
 
 explore: events {
-  join:  session_event_facts {
+  join: session_event_facts {
     type: left_outer
-    sql_on: ${events.session_id} = ${ session_event_facts.session_id} ;;
+    sql_on: ${events.session_id} = ${session_event_facts.session_id} ;;
     relationship: many_to_one
   }
   join: event_session_funnel {
