@@ -1,7 +1,6 @@
 include: "geography_View.view"
 view: users {
-  extends: [geography_dim]
-  sql_table_name: public.users ;;
+    sql_table_name: public.users ;;
 
   dimension: id {
 #     hidden:  yes
