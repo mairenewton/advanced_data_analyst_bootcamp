@@ -1,6 +1,7 @@
 view: users {
   sql_table_name: public.users ;;
 
+# something
   dimension: id {
 #     hidden:  yes
   primary_key: yes
@@ -39,6 +40,12 @@ dimension: age_tier {
 dimension: city {
   type: string
   sql: ${TABLE}.city ;;
+}
+
+dimension: full_name {
+  type: string
+  sql:
+  ${first_name} || ${last_name} ;;
 }
 
 dimension: country {
