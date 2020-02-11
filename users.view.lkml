@@ -177,9 +177,14 @@ dimension: email {
   sql: ${TABLE}.email ;;
 }
 
-dimension: days_since_group {
+dimension: days_since_signup {
   type:  number
   sql:  datediff(day, ${created_raw}, current_date) ;;
+}
+
+dimension: is_new_customer {
+  type:  yesno
+  sql: ${days_since_signup} <=90  ;;
 }
 
 dimension: first_name {
