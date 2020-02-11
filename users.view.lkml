@@ -45,7 +45,7 @@ dimension: city {
 dimension: full_name {
   type: string
   sql:
-  ${first_name} || ${last_name} ;;
+  ${first_name} || ' ' || ${last_name} ;;
 }
 
 dimension: country {
