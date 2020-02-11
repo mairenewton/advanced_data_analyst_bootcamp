@@ -187,6 +187,14 @@ dimension: is_new_customer {
   sql: ${days_since_signup} <=90  ;;
 }
 
+
+dimension: days_since_signup_tier {
+  type:  tier
+  sql:  ${days_since_signup} ;;
+  tiers: [0, 30, 90, 180, 360, 720]
+  style: integer
+}
+
 dimension: first_name {
   hidden:  yes
   type: string
