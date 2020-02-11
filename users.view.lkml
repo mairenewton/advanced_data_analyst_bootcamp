@@ -182,8 +182,8 @@ dimension: last_name {
   sql: ${TABLE}.last_name ;;
 }
 
-dimension: name {
+dimension: Full_Name {
   type: string
-  sql: ${first_name} || ' ' || ${last_name} ;;
+  sql: ${first_name}||${last_name} ;;
 }
 }
