@@ -148,7 +148,10 @@ dimension: map_location {
   sql_longitude: ${longitude} ;;
 }
 
-
+  measure: min_age {
+    type: min
+    sql: ${age} ;;
+  }
 
 measure: max_age {
   type: max
@@ -184,6 +187,6 @@ dimension: last_name {
 
 dimension: Full_Name {
   type: string
-  sql: ${first_name}|| ||${last_name} ;;
+  sql: ${first_name}||' '||${last_name} ;;
 }
 }
