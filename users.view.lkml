@@ -177,6 +177,11 @@ dimension: email {
   sql: ${TABLE}.email ;;
 }
 
+dimension: days_since_group {
+  type:  number
+  sql:  datediff(day, ${created_raw}, current_date) ;;
+}
+
 dimension: first_name {
   hidden:  yes
   type: string
