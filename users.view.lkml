@@ -180,13 +180,13 @@ dimension: email {
 dimension: first_name {
   hidden:  yes
   type: string
-  sql: ${TABLE}.first_name ;;
+  sql: INITCAP(${TABLE}.first_name) ;;
 }
 
 dimension: last_name {
   hidden:  yes
   type: string
-  sql: ${TABLE}.last_name ;;
+  sql: INITCAP(${TABLE}.last_name) ;;
 }
 
 dimension: name {
