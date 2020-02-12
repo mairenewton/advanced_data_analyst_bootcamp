@@ -13,7 +13,7 @@ view: products {
     sql: ${TABLE}.brand ;;
     link: {
       label: "Brand link"
-      url: "www.google.com"
+      url: "http://www.google.com/search?q={{ value | encode_uri }}"
     }
   }
 
