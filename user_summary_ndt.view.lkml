@@ -4,21 +4,18 @@
 view: user_summary_ndt {
   derived_table: {
     explore_source: users {
-      column: age {}
-      column: city {}
-      column: age_tier {}
-      column: country {}
-      column: days_since_signup {}
-      column: name {}
-      column: created_date { field: order_items.created_date }
-      column: delivered_date { field: order_items.delivered_date }
-      column: sale_price { field: order_items.sale_price }
-      column: shipping_time { field: order_items.shipping_time }
-      column: returned_date { field: order_items.returned_date }
+      column: id {}
+
+      column: order_count { field: order_items.order_count }
+      column: total_revenue { field: order_items.total_revenue }
+      derived_column: user_rank {
+        sql: rank() over (order by total_revenue) ;;
+      }
       filters: {
         field: order_items.date_range
         value: "7 days"
       }
+
     }
   }
   dimension: age {
