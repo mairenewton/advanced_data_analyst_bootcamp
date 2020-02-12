@@ -1,5 +1,6 @@
 connection: "events_ecommerce"
-persist_with: default
+persist_with: default # every single explore in this model file will use this cachine policy of 24 hours.
+# it cascades.
 
 # include all the views
 include: "*.view"
@@ -12,7 +13,14 @@ datagroup: default {
   max_cache_age: "24 hours"
 }
 
+datagroup: 1_hour_datagroup {
+#   sql_trigger: select current_date ;; #sql trigger is not required
+  max_cache_age: "1 hours"
+}
+
+
 explore: order_items {
+  persist_with: 1_hour_datagroup
   join: users {
     type: left_outer
     sql_on: ${order_items.user_id} = ${users.id} ;;
