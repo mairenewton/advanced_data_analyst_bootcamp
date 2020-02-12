@@ -8,7 +8,6 @@ view: user_summary {
       FROM order_items
       group by user_id
        ;;
-      sql_trigger_value: select current_date ;;
   }
 
   measure: count {

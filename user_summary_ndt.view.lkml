@@ -11,12 +11,14 @@ view: user_summary_ndt {
       derived_column: user_rank {
         sql: rank() over (order by total_revenue) ;;
       }
+
       filters: {
         field: order_items.date_range
         value: "7 days"
       }
 
     }
+    sql_trigger_value: select current_date ;;
   }
   dimension: age {
     value_format: "#,##0"
