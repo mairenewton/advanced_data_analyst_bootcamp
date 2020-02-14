@@ -37,11 +37,12 @@ explore: order_items {
     relationship: many_to_one
   }
 
-  join: user_total_value_and_orders {
-    type: left_outer
-    sql_on: ${order_items.user_id} = ${user_total_value_and_orders.user_id} ;;
-    relationship: many_to_one
-  }
+##  join: user_total_value_and_orders {
+##    type: left_outer
+##    sql_on: ${order_items.user_id} = ${user_total_value_and_orders.user_id} ;;
+##    relationship: many_to_one
+##  }
+
 }
 
 explore: events {
