@@ -90,3 +90,8 @@ explore: users {
     relationship: many_to_one
   }
 }
+
+access_grant: is_pii_viewer {
+  user_attribute: is_pii_viewer
+  allowed_values: ["yes"]
+}
