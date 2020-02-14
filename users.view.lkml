@@ -170,7 +170,8 @@ measure: count {
 }
 
 dimension: email {
-  required_access_grants: [is_pii_viewer]
+
+#  required_access_grants: [is_pii_viewer]
   type: string
   sql: ${TABLE}.email ;;
 }
