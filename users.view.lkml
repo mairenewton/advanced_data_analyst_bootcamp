@@ -39,6 +39,10 @@ dimension: age_tier {
 dimension: city {
   type: string
   sql: ${TABLE}.city ;;
+  link: {
+    label: "go to google"
+    url: "https://www.google.com"
+  }
 }
 
 dimension: country {
