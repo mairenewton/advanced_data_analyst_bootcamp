@@ -40,8 +40,8 @@ dimension: city {
   type: string
   sql: ${TABLE}.city ;;
   link: {
-    label: "go to google"
-    url: "https://www.google.com"
+    label: "look up {{ value }} on google"
+    url: "https://www.google.com/search?q={{ value }}"
   }
 }
 
