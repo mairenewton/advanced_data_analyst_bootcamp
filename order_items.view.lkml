@@ -186,6 +186,10 @@ measure: average_shipping_time {
   value_format: "0\" days\""
 }
 
+measure: count_distinct {
+  type: count_distinct
+  drill_fields: [detail*]
+}
 
 # ----- Sets of fields for drilling ------
 set: detail {
