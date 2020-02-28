@@ -11,6 +11,11 @@ view: products {
   dimension: brand {
     type: string
     sql: ${TABLE}.brand ;;
+    link: {
+      label: "Google"
+      url: "https://www.google.com/search?q={{ value | encode_uri }}"
+      icon_url: "https://www.favicon.cc/logo3d/874828.png"
+    }
   }
 
   dimension: category {
