@@ -29,6 +29,36 @@ view: order_items {
     sql: ${TABLE}.created_at ;;
   }
 
+  parameter: select_timeframe {
+    type: unquoted
+    default_value: "created_month"
+    allowed_value: {
+      value: "Date"
+      label: "Date"
+    }
+    allowed_value: {
+      value: "Week"
+      label: "Week"
+    }
+    allowed_value: {
+      value: "Month"
+      label: "Month"
+    }
+  }
+
+  dimension: dynamic_timeframe {
+    label_from_parameter: select_timeframe
+    type: string
+    sql:
+    {% if select_timeframe._parameter_value == 'created_date' %}
+    ${created_date}
+    {% elsif select_timeframe._parameter_value == 'created_week' %}
+    ${created_week}
+    {% else %}
+    ${created_month}
+    {% endif %} ;;
+  }
+
   dimension_group: delivered {
     description: "When the order was delivered"
     type: time
@@ -146,8 +176,16 @@ measure: total_revenue {
   type: sum
   value_format_name: usd
   sql: ${sale_price} ;;
-  drill_fields: [detail*]
+  html:
+  <div style width="100%"> <details>
+  <summary style="outline:none">{{ rendered_value }}
+  </summary> Total Cost: {{ inventory_items.total_cost._linked_value }}
+  </details>
+  </div> ;;
 }
+
+
+
 
 measure: order_count {
   description: "A count of unique orders"

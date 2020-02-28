@@ -30,6 +30,12 @@ view: inventory_items {
     sql: ${TABLE}.cost ;;
   }
 
+  measure: total_cost {
+    type: sum
+    sql: ${cost} ;;
+    value_format_name: usd
+  }
+
   dimension: product_brand {
     type: string
     sql: ${TABLE}.product_brand ;;
