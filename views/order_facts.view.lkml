@@ -1,5 +1,9 @@
 view: order_facts {
   derived_table: {
+    distribution: "order_id"
+    sortkeys: ["order_id"]
+    datagroup_trigger: default
+
     sql: SELECT
       order_id,
       sum(sale_price) as total_order_value,

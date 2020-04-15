@@ -42,6 +42,13 @@ explore: order_items {
     relationship: many_to_one
   }
 
+  join: order_facts {
+    type: left_outer
+    sql_on: ${order_items.order_id} = ${order_facts.order_id} ;;
+    relationship: one_to_many
+
+  }
+
 }
 
 explore: events {
