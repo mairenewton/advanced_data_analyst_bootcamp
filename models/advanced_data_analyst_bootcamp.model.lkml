@@ -12,6 +12,10 @@ datagroup: default {
   max_cache_age: "24 hours"
 }
 
+explore: monthly_profit_summary {
+
+}
+
 explore: order_items {
 
   join: users {
@@ -37,6 +41,7 @@ explore: order_items {
     sql_on: ${products.distribution_center_id} = ${distribution_centers.id} ;;
     relationship: many_to_one
   }
+
 }
 
 explore: events {
