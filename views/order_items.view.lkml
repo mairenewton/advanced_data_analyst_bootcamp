@@ -224,13 +224,6 @@ measure: average_shipping_time {
   value_format: "0\" days\""
 }
 
-dimension_group: shipping {
-  type: duration
-  intervals: [hour, day, week]
-  sql_start: ${shipped_raw} ;;
-  sql_end: ${delivered_raw} ;;
-}
-
 
 # ----- Sets of fields for drilling ------
 set: detail {

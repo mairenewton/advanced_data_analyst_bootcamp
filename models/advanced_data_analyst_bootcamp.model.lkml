@@ -2,7 +2,7 @@ connection: "events_ecommerce"
 persist_with: default
 
 # include all the views
-include: "*.view"
+include: "/views/*.view"
 
 # include all the dashboards
 #include: "*.dashboard"

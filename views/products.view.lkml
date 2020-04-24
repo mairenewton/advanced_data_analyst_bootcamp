@@ -13,7 +13,7 @@ view: products {
       sql: ${TABLE}.brand ;;
       link: {
         label: "Google"
-        url: "http://www.google.com/search?q={{ department._value }}"
+        url: "http://www.google.com/search?q={{value}}"
         icon_url: "http://google.com/favicon.ico"
       }
     }
