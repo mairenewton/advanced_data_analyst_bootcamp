@@ -6,7 +6,7 @@ view: brand_order_facts_ndt {
         derived_column: brand_rank {
           sql: row_number() over (order by total_revenue desc) ;;
         }
-#         bind_all_filters: yes
+        bind_all_filters: yes
       }
     }
     dimension: total_revenue {
@@ -18,14 +18,15 @@ view: brand_order_facts_ndt {
       hidden: yes
       type: number
     }
-    dimension: brand_rank_top_10 {
+    dimension: brand_rank_top_5 {
       type: yesno
-      sql: ${brand_rank}<=10 ;;
+      sql: ${brand_rank}<=5 ;;
     }
     dimension: ranked_brands {
       type: string
-      sql: case when ${brand_rank_top_10} then
+      sql: case when ${brand_rank_top_5} then
       ${brand_rank}||') '||${brand}
       else 'Other' end;;
     }
+
   }
