@@ -43,6 +43,10 @@ view: inventory_items {
 
   dimension: product_category {
     type: string
+    link: {
+      label: "test explore link"
+      url: "https://teach.corp.looker.com/explore/advanced_data_analyst_bootcamp/inventory_items?qid=y27yrhdjQgN4Ioz6zQqPeH&toggle=fil"
+    }
     sql: ${TABLE}.product_category ;;
   }
 

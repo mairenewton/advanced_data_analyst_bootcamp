@@ -12,6 +12,10 @@ datagroup: default {
   max_cache_age: "24 hours"
 }
 
+explore: order_facts2{}
+
+explore: ndt_sample_derived_col {}
+
 explore: order_items {
 
   join: users {
