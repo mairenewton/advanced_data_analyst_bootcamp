@@ -1,3 +1,5 @@
+#changes
+
 view: event_session_funnel {
   derived_table: {
     sql: SELECT
@@ -26,6 +28,7 @@ view: event_session_funnel {
   }
 
   measure: count {
+    label: "the count"
     type: count
     drill_fields: [detail*]
   }
