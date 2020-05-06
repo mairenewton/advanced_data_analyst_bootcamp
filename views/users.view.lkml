@@ -41,6 +41,12 @@ dimension: city {
   sql: ${TABLE}.city ;;
 }
 
+dimension: cityandstate  {
+  type: string
+  sql: ${city} || ',' || ${state} ;;
+
+}
+
 dimension: country {
   type: string
   map_layer_name: countries
