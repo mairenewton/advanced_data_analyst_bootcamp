@@ -218,6 +218,11 @@ measure: profit_margin {
   value_format_name: percent_2
 }
 
+measure: distinct_number_of_orders {
+  type: count_distinct
+  sql: ${order_id} ;;
+}
+
 measure: average_shipping_time {
   type: average
   sql: ${shipping_time} ;;
