@@ -86,6 +86,23 @@ dimension: traffic_source {
   sql: ${TABLE}.traffic_source ;;
 }
 
+dimension: first_name {
+  hidden:  yes
+  type: string
+  sql: ${TABLE}.first_name ;;
+}
+
+dimension: last_name {
+  hidden:  yes
+  type: string
+  sql: ${TABLE}.last_name ;;
+}
+
+dimension: fullname {
+  type: string
+  sql: ${first_name}|| ',' ||${last_name} ;;
+}
+
 dimension: region {
 #     map_layer_name: map_regions
 sql: CASE WHEN ${state} = 'Maine' THEN 'Northeast'
@@ -170,20 +187,8 @@ dimension: email {
   sql: ${TABLE}.email ;;
 }
 
-dimension: first_name {
-  hidden:  yes
+dimension: fname {
   type: string
-  sql: ${TABLE}.first_name ;;
-}
-
-dimension: last_name {
-  hidden:  yes
-  type: string
-  sql: ${TABLE}.last_name ;;
-}
-
-dimension: name {
-  type: string
-  sql: ${first_name} || ' ' || ${last_name} ;;
+  sql: ${first_name}|| ',' ||${last_name} ;;
 }
 }
