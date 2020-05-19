@@ -7,12 +7,19 @@ include: "/views/*.view"
 # include all the dashboards
 #include: "*.dashboard"
 
-datagroup: default {
+datagroup: midnight {
   sql_trigger: select current_date ;;
   max_cache_age: "24 hours"
 }
+persist_with: midnight
+
+datagroup: orders {
+sql_trigger: select max(order_items.created_date) from order_items ;;
+max_cache_age: "4 hours"
+}
 
 explore: order_items {
+  persist_with: orders
 
   join: users {
     type: left_outer
@@ -72,6 +79,7 @@ explore: inventory_items {
 }
 
 explore: users {
+
   label: "Users, Orders, and Inventory"
   join: order_items {
     type: left_outer
@@ -83,4 +91,7 @@ explore: users {
     sql_on: ${order_items.inventory_item_id} = ${inventory_items.id} ;;
     relationship: many_to_one
   }
+
+
+
 }
