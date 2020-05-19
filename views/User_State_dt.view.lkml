@@ -1,5 +1,4 @@
-# If necessary, uncomment the line below to include explore_source.
-# include: "advanced_data_analyst_bootcamp.model.lkml"
+explore: User_State_dt {}
 
 view: User_State_dt {
   derived_table: {
