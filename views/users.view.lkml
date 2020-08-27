@@ -168,6 +168,14 @@ measure: count {
 dimension: email {
   type: string
   sql: ${TABLE}.email ;;
+  link: {
+    label: "Link to User Summary Dashboard"
+    url: "/dashboards/1813?Email={{value|encode_uri}}"
+  }
+  link: {
+    label: "Link to User Orders"
+    url: "/explore/advanced_data_analyst_bootcamp/order_items?fields=order_items.order_id,order_items.status&f[users.email]={{value|encode_uri}}&limit=500"
+  }
 }
 
 dimension: first_name {

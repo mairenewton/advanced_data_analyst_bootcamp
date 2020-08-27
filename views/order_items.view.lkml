@@ -33,15 +33,15 @@ view: order_items {
     type: unquoted
     default_value: "created_month"
     allowed_value: {
-      value: "Date"
+      value: "created_date"
       label: "Date"
     }
     allowed_value: {
-      value: "Week"
+      value: "created_week"
       label: "Week"
     }
     allowed_value: {
-      value: "Month"
+      value: "created_month"
       label: "Month"
     }
   }

@@ -37,6 +37,41 @@ explore: order_items {
     sql_on: ${products.distribution_center_id} = ${distribution_centers.id} ;;
     relationship: many_to_one
   }
+
+  join: order_facts {
+    view_label: "Order Facts"
+    type: left_outer
+    sql_on: ${order_items.order_id} = ${order_facts.order_id};;
+    relationship: many_to_one
+  }
+
+  join: user_facts {
+    view_label: "User Facts"
+    type: left_outer
+    sql_on: ${order_items.user_id} = ${user_facts.user_id};;
+    relationship: many_to_one
+  }
+
+  join: user_facts_ndt {
+    view_label: "User Facts NDT"
+    type: left_outer
+    sql_on: ${order_items.user_id} = ${user_facts_ndt.user_id};;
+    relationship: many_to_one
+  }
+
+  join: user_facts_ndt2 {
+    view_label: "User Facts NDT2"
+    type: left_outer
+    sql_on: ${order_items.user_id} = ${user_facts_ndt2.user_id};;
+    relationship: many_to_one
+  }
+
+  join: profit_facts_ndt {
+    view_label: "Profit Facts NDT"
+    type: left_outer
+    sql_on: ${order_items.created_month} = ${profit_facts_ndt.created_month};;
+    relationship: many_to_one
+  }
 }
 
 explore: events {
@@ -82,5 +117,22 @@ explore: users {
     type: left_outer
     sql_on: ${order_items.inventory_item_id} = ${inventory_items.id} ;;
     relationship: many_to_one
+  }
+
+}
+
+# Place in `advanced_data_analyst_bootcamp` model
+
+explore: +events {
+  aggregate_table: rollup__created_month {
+    query: {
+      dimensions: [created_month]
+      measures: [count]
+      timezone: "America/New_York"
+    }
+
+    materialization: {
+      datagroup_trigger: default
+    }
   }
 }
