@@ -70,6 +70,11 @@ dimension: zip {
 }
 #}
 
+dimension: city_state {
+  type: string
+  sql: ${city} + ${state} ;
+}
+
 dimension: years_a_customer {
   type: number
   value_format_name: decimal_0
