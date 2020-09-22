@@ -13,6 +13,10 @@ datagroup: default {
 }
 
 explore: order_items {
+  access_filter: {
+    field: products.category
+    user_attribute: category
+  }
 
   join: users {
     type: left_outer
