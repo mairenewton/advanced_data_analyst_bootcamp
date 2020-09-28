@@ -11,6 +11,9 @@ datagroup: default {
   sql_trigger: select current_date ;;
   max_cache_age: "24 hours"
 }
+access_grant: is_pii_viewer {
+  user_attribute: is_pii_viewer
+  allowed_values:["Yes"]}
 
 explore: order_items {
 

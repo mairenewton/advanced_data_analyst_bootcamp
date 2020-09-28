@@ -166,6 +166,7 @@ measure: count {
 }
 
 dimension: email {
+  required_access_grants: [is_pii_viewer]
   type: string
   sql: ${TABLE}.email ;;
 }
@@ -183,6 +184,7 @@ dimension: last_name {
 }
 
 dimension: name {
+  required_access_grants: [is_pii_viewer]
   type: string
   sql: ${first_name} || ' ' || ${last_name} ;;
 }
