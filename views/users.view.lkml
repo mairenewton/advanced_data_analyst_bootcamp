@@ -186,4 +186,10 @@ dimension: name {
   type: string
   sql: ${first_name} || ' ' || ${last_name} ;;
 }
+
+dimension: city_state {
+  type: string
+  sql:${TABLE}.state || ' ' || ${TABLE}.city ;;
+}
+
 }
