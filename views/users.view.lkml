@@ -187,9 +187,9 @@ dimension: name {
   sql: ${first_name} || ' ' || ${last_name} ;;
 }
 
-dimension: city_state {
+dimension: city_state_heyho {
   type: string
-  sql:${TABLE}.state || ' ' || ${TABLE}.city ;;
+  sql:${TABLE}.state || ' ' || ${TABLE}.city || 'Hey Ho' ;;
 }
 
 }
