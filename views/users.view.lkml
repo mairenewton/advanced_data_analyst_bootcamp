@@ -64,6 +64,11 @@ dimension: state {
   sql: ${TABLE}.state ;;
 }
 
+dimension: city_state {
+  type: string
+  sql: ${TABLE}.city || ${TABLE}.state ;;
+}
+
 dimension: zip {
   type: zipcode
   sql: ${TABLE}.zip ;;
