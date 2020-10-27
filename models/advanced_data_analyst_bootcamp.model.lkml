@@ -14,6 +14,7 @@ datagroup: default {
 
 explore: order_items {
 
+
   join: users {
     type: left_outer
     sql_on: ${order_items.user_id} = ${users.id} ;;
