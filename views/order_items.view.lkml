@@ -112,6 +112,13 @@ view: order_items {
     sql: ${TABLE}.shipped_at ;;
   }
 
+  dimension_group: shipping_days {
+    type: duration
+    sql_start: ${shipped_date} ;;
+    sql_end: ${delivered_date} ;;
+    intervals: [day]
+  }
+
   dimension: status {
     description: "Whether order is processing, shipped, completed, etc."
     type: string
@@ -184,13 +191,32 @@ measure: total_revenue {
   </div> ;;
 }
 
-
-
+measure: average_sales {
+  group_label: "SalesMetrics"
+    type: average
+    sql: ${sale_price} ;;
+    value_format_name: usd
+  }
 
 measure: order_count {
   description: "A count of unique orders"
   type: count_distinct
   sql: ${order_id} ;;
+}
+
+measure: total_sales {
+  group_label: "Sales Metric"
+  type: sum
+  sql: $(${sale_price} ;;
+  value_format_name: usd
+}
+
+measure: total_sales_email_users {
+  group_label: "Sales Metric"
+  type: sum
+  sql: $(${sale_price} ;;
+  filters: [users.is_email_source:"Yes"]
+  value_format_name: usd
 }
 
 measure: average_sale_price {

@@ -28,11 +28,18 @@ dimension: age {
   sql: ${TABLE}.age ;;
 }
 
+dimension: age_bucket {
+  type: tier
+  tiers: [18, 25, 35, 45, 55, 65, 75, 90]
+  style: integer
+  sql: ${age};;
+}
+
 dimension: age_tier {
   type: tier
+  tiers: [10, 20, 30, 40, 50, 60, 70, 80, 90]
   style: integer
   sql: ${TABLE}.age ;;
-  tiers: [10, 20, 30, 40, 50, 60, 70, 80, 90]
 }
 
 #Geography {
@@ -40,6 +47,12 @@ dimension: city {
   type: string
   sql: ${TABLE}.city ;;
 }
+
+dimension: city_states {
+  type: string
+  sql: ${city} || ‘, ‘ || ${state};;
+}
+
 
 dimension: country {
   type: string
@@ -79,6 +92,13 @@ dimension: years_a_customer {
 dimension: gender {
   type: string
   sql: ${TABLE}.gender ;;
+}
+
+dimension: is_email_source {
+  label: "is email source"
+  description: "Is the traffic source email or not for user"
+  type: yesno
+  sql: ${traffic_source} = "Email" ;;
 }
 
 dimension: traffic_source {
