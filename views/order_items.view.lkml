@@ -145,6 +145,8 @@ dimension: user_id {
   sql: ${TABLE}.user_id ;;
 }
 
+
+
 dimension: profit {
   description: "Profit made on any one item"
   hidden:  yes
@@ -171,6 +173,13 @@ measure: order_item_count {
   type: count
   drill_fields: [detail*]
 }
+
+
+measure: order_dist_count {
+    type: count_distinct
+    sql: ${TABLE}.order_id ;;
+}
+
 
 measure: total_revenue {
   type: sum

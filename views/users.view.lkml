@@ -41,6 +41,12 @@ dimension: city {
   sql: ${TABLE}.city ;;
 }
 
+dimension: city_state_dk {
+  type: string
+  sql: ${TABLE}.city||'-' || ${TABLE}.state ;;
+}
+
+
 dimension: country {
   type: string
   map_layer_name: countries
@@ -85,6 +91,12 @@ dimension: traffic_source {
   type: string
   sql: ${TABLE}.traffic_source ;;
 }
+
+dimension: is_email_source {
+  type: yesno
+  sql: ${TABLE}.traffic_source = 'Email' or 'EMAIL' ;;
+}
+
 
 dimension: region {
 #     map_layer_name: map_regions
