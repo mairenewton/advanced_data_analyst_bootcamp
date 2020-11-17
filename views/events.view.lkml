@@ -138,7 +138,8 @@ view: events {
   }
 
   measure: conteggio {
-    type: count
+    type: count_distinct
+    sql: ${country} ;;
 
   }
 
