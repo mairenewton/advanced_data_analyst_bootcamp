@@ -7,8 +7,18 @@ view: events {
     type: number
     sql: ${TABLE}.id ;;
   }
+  dimension: prova {
+    hidden: yes
+    type: string
+    sql: ${TABLE}.prova ;;
+  }
 
   dimension: user_identifier {
+    type: string
+    sql: COALESCE(${user_id}::varchar, ${ip_address}) ;;
+  }
+
+  dimension: user_identifier2 {
     type: string
     sql: COALESCE(${user_id}::varchar, ${ip_address}) ;;
   }
@@ -125,6 +135,11 @@ view: events {
   measure: count {
     type: count
     drill_fields: [id, users.id, users.first_name, users.last_name]
+  }
+
+  measure: conteggio {
+    type: count
+
   }
 
   measure: count_distinct_user_identifiers {

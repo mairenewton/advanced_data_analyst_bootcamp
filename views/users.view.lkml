@@ -28,6 +28,7 @@ dimension: age {
   sql: ${TABLE}.age ;;
 }
 
+
 dimension: age_tier {
   type: tier
   style: integer
@@ -164,7 +165,10 @@ measure: count {
   type: count
   drill_fields: [id, events.count, order_items.count]
 }
-
+dimension:  email_prova{
+  type: string
+  sql: ${TABLE}.email= "prova" ;;
+}
 dimension: email {
   type: string
   sql: ${TABLE}.email ;;
