@@ -182,6 +182,14 @@ dimension: last_name {
   sql: ${TABLE}.last_name ;;
 }
 
+  dimension: full_name {
+    hidden:  no
+    type: string
+    sql: ${TABLE}.first_name || ${TABLE}.last_name ;;
+  }
+
+
+
 dimension: name {
   type: string
   sql: ${first_name} || ' ' || ${last_name} ;;
