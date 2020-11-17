@@ -193,6 +193,14 @@ dimension: city_state{
     sql: ${city} || ', ' || ${state} ;;
 }
 
+  dimension: age_tier2 {
+    type: tier
+    sql: ${age} ;;
+    tiers: [18, 25, 35, 45, 55, 65, 75, 90]
+    style: integer
+}
+
+
 dimension: name {
   type: string
   sql: ${first_name} || ' ' || ${last_name} ;;
