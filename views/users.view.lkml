@@ -188,7 +188,10 @@ dimension: last_name {
     sql: ${TABLE}.first_name || ${TABLE}.last_name ;;
   }
 
-
+dimension: city_state{
+    type:  string
+    sql: ${city} || ', ' || ${state} ;;
+}
 
 dimension: name {
   type: string
