@@ -1,6 +1,7 @@
 view: users {
   sql_table_name: public.users ;;
 
+
   dimension: id {
 #     hidden:  yes
   primary_key: yes
@@ -168,7 +169,13 @@ measure: count {
 dimension: email {
   type: string
   sql: ${TABLE}.email ;;
-}
+
+   link: {
+      label: "Category Detail Dashboard"
+      url: "/dashboards/1813?Email={{value}}"
+      icon_url: "https://looker.com/favicon.ico"
+      }
+  }
 
 dimension: first_name {
   hidden:  yes
