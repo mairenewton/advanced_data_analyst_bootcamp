@@ -84,3 +84,14 @@ explore: users {
     relationship: many_to_one
   }
 }
+
+explore: users_test {
+  from: users
+
+}
+
+
+
+
+
+

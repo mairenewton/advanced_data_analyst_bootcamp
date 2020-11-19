@@ -182,8 +182,15 @@ dimension: last_name {
   sql: ${TABLE}.last_name ;;
 }
 
+
 dimension: name {
   type: string
   sql: ${first_name} || ' ' || ${last_name} ;;
+
 }
+
+  dimension: cit_state {
+    type: string
+    sql: ${city} || ' ' || ${state} ;;
+  }
 }

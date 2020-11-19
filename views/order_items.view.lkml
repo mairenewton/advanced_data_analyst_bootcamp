@@ -224,7 +224,10 @@ measure: average_shipping_time {
   value_format: "0\" days\""
 }
 
-
+  measure: cou_dis {
+    type: count_distinct
+    sql: ${order_id};;
+    }
 # ----- Sets of fields for drilling ------
 set: detail {
   fields: [
