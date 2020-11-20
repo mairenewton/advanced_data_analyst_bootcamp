@@ -21,6 +21,9 @@ view: products {
   dimension: category {
     type: string
     sql: ${TABLE}.category ;;
+
+   #/explore/advanced_data_analyst_bootcamp/inventory_items?fields=products.category,distribution_centers.name,inventory_items.count&f[products.category]=Accessories&limit=500
+
   }
 
   dimension: cost {

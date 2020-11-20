@@ -168,6 +168,11 @@ measure: count {
 dimension: email {
   type: string
   sql: ${TABLE}.email ;;
+  link: {
+    label: "Google {{value | encode_uri}}"
+    url: "/dashboards/1813?Email={{value | encode_uri}}"
+    icon_url: "http://www.looker.com/favicon.ico"
+  }
 }
 
 dimension: first_name {
