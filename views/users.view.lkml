@@ -22,6 +22,24 @@ dimension_group: created {
   sql: ${TABLE}.created_at ;;
 }
 
+  filter: incoming_traffic_source {
+    type: string
+    suggest_dimension: users.traffic_source
+    suggest_explore: users }
+
+  dimension: hidden_traffic_source_filter {
+    hidden: yes
+    type: yesno
+    sql: {% condition incoming_traffic_source %}
+      ${traffic_source} {% endcondition %} ;;
+  }
+
+  measure: changeable_count_measure {
+    type: count_distinct
+    sql: ${id} ;;
+    filters: [ hidden_traffic_source_filter: "Yes"]
+  }
+
 dimension: age {
   type: number
   value_format_name: decimal_0

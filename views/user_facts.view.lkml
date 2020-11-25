@@ -7,9 +7,18 @@ view: user_facts {
       ,MIN(order_items.created_at) AS first_order_date
       ,MAX(order_items.created_at) AS latest_order_date
       FROM order_items
+      WHERE {% condition date_filter %} order_items.created_at {% endcondition %}
       GROUP BY user_id
        ;;
   }
+
+  filter: date_filter {
+    type:date
+    default_value: "2010-01-01"
+  }
+
+
+
 
    dimension: user_id {
     type: number
