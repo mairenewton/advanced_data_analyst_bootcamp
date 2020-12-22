@@ -36,6 +36,12 @@ view: inventory_items {
     value_format_name: usd
   }
 
+  measure: average_cost {
+    type: average
+    sql: ${cost} ;;
+    value_format_name: usd
+  }
+
   dimension: product_brand {
     type: string
     sql: ${TABLE}.product_brand ;;
