@@ -32,6 +32,7 @@ view: brand_facts {
   }
 
   dimension: is_top_five {
+    hidden: yes
     type: yesno
     sql: ${brand_rank} <= 5 ;;
   }
