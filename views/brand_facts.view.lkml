@@ -7,6 +7,10 @@ view: brand_facts {
         sql: rank() over(order by total_revenue desc, product_brand asc) ;;
       }
       bind_all_filters: yes
+      # bind_filters: {
+      #   from_field: users.created_date
+      #   to_field: users.created_date
+      # }
     }
 
   }
