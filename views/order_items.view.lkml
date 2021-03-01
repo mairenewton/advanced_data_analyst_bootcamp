@@ -1,3 +1,5 @@
+include: "*.view"
+
 view: order_items {
   sql_table_name: public.order_items ;;
 
@@ -224,6 +226,17 @@ measure: average_shipping_time {
   value_format: "0\" days\""
 }
 
+measure: average_lifetime_order_count {
+  type: average
+  sql: ${user_facts.lifetime_order_count} ;;
+  value_format_name: decimal_1
+}
+
+measure: average_lifetime_revenue {
+  type:  average
+  sql: ${user_facts.lifetime_revenue} ;;
+  value_format_name: usd
+}
 
 # ----- Sets of fields for drilling ------
 set: detail {
