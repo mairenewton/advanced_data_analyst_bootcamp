@@ -14,21 +14,26 @@ view: user_facts {
 
   measure: count {
     type: count
+    hidden: yes
     drill_fields: [detail*]
   }
 
   dimension: user_id {
+    primary_key: yes
+    hidden: yes
     type: number
     sql: ${TABLE}.user_id ;;
   }
 
   dimension: lifetime_order_count {
     type: number
+    hidden: yes
     sql: ${TABLE}.lifetime_order_count ;;
   }
 
   dimension: lifetime_revenue {
     type: number
+    hidden: yes
     sql: ${TABLE}.lifetime_revenue ;;
   }
 
