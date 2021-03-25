@@ -1,3 +1,4 @@
+explore: user_facts {}
 view: user_facts {
     derived_table: {
       sql: SELECT
