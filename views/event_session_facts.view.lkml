@@ -15,7 +15,7 @@ view: event_session_facts {
       GROUP BY 1, 2, 3, 4, 5, 6
        ;;
   }
-
+#
   measure: count {
     type: count
     drill_fields: [detail*]
