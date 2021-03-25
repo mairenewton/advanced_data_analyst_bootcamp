@@ -44,6 +44,12 @@ explore: order_items {
     relationship:  many_to_one
   }
 
+  join: inventory_facts {
+    type:  left_outer
+    sql_on:  ${products.sku} = ${inventory_facts.product_sku} ;;
+    relationship: one_to_one
+  }
+
 }
 
 explore: events {
