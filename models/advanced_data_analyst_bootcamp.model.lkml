@@ -50,6 +50,18 @@ explore: order_items {
     relationship: many_to_one
   }
 
+  join: ndt_user_facts {
+    type: left_outer
+    sql_on: ${ndt_user_facts.id}=${order_items.user_id} ;;
+    relationship: many_to_one
+  }
+
+  join: ndt_brand_rank {
+    type: left_outer
+    sql_on: ${products.brand} = ${ndt_brand_rank.brand} ;;
+    relationship: many_to_one
+  }
+
 }
 
 explore: events {

@@ -14,6 +14,7 @@ view: inventory_facts {
 
   dimension: product_sku {
     type: string
+    primary_key: yes
     hidden: yes
     sql: ${TABLE}.product_sku ;;
   }
@@ -43,7 +44,8 @@ measure: total_cogs {
 
 measure: percent_of_invetory_sold {
   type: number
-  sql: ${total_cost_1}/${total_cogs} ;;
+  value_format_name: percent_2
+  sql: ${total_cogs}/${total_cost_1} ;;
 }
 
 }
