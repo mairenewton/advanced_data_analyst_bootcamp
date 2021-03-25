@@ -25,6 +25,7 @@ view: ldt_order_facts {
 
 measure: average_items_order {
   type: average
+  value_format_name: decimal_2
   sql: ${item_count} ;;
 }
 
