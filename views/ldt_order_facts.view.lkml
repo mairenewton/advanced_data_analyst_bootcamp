@@ -8,6 +8,7 @@ view: ldt_order_facts {
 
   dimension: order_id {
     hidden: yes
+    primary_key: yes
     type: number
     sql: ${TABLE}.order_id ;;
   }
