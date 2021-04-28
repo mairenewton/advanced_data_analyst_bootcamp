@@ -83,4 +83,16 @@ explore: users {
     sql_on: ${order_items.inventory_item_id} = ${inventory_items.id} ;;
     relationship: many_to_one
   }
+
+  join: user_facts {
+    type: left_outer
+    sql_on: ${users.id} ;;
+    relationship: one_to_one
+  }
+}
+
+
+explore: brand_facts {
+
+
 }
