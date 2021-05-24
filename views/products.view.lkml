@@ -12,8 +12,8 @@ view: products {
       type: string
       sql: ${TABLE}.brand ;;
       link: {
-        label: "Google"
-        url: "http://www.google.com/search?q={{value}}"
+        label: "Google Search for {{ value }}"
+        url: "http://www.google.com/search?q={{ value }}"
         icon_url: "http://google.com/favicon.ico"
       }
     }
@@ -21,6 +21,10 @@ view: products {
   dimension: category {
     type: string
     sql: ${TABLE}.category ;;
+    link: {
+      label: "View Category Detail"
+      url: "/explore/advanced_data_analyst_bootcamp/inventory_items?fields=inventory_items.product_category,inventory_items.product_name,inventory_items.count&f[inventory_items.product_category]={{ value | url_encode }}"
+    }
   }
 
   dimension: cost {
@@ -54,6 +58,33 @@ view: products {
     type: string
     sql: ${TABLE}.sku ;;
   }
+
+  ##parameter example
+
+  parameter: select_product_detail {
+    type: unquoted
+    default_value: "department"
+    allowed_value: {
+      value: "department"
+      label: "Department"
+    }
+    allowed_value: {
+      value: "category"
+      label: "Category"
+    }
+    allowed_value: {
+      value: "brand"
+      label: "Brand"
+    }
+  }
+
+  dimension: product_hierarchy {
+    label_from_parameter: select_product_detail
+    type: string
+    sql: ${TABLE}.{% parameter select_product_detail %}
+      ;;
+  }
+
 
   measure: count {
     type: count
