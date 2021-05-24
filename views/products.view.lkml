@@ -12,9 +12,10 @@ view: products {
       type: string
       sql: ${TABLE}.brand ;;
       link: {
-        label: "Google"
+        label: "GoogleNotYahoo"
         url: "http://www.google.com/search?q={{value}}"
         icon_url: "http://google.com/favicon.ico"
+
       }
     }
 
