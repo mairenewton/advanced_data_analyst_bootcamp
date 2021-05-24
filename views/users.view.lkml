@@ -168,7 +168,8 @@ measure: count {
 dimension: email {
   type: string
   sql: ${TABLE}.email ;;
-}
+  link: {label:"Category Detail dashboard"
+    url: "/dashboard/1813?Email={{ Value | encode_uri"}}
 
 dimension: first_name {
   hidden:  yes
