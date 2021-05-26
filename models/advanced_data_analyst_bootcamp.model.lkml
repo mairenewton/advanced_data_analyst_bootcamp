@@ -84,3 +84,5 @@ explore: users {
     relationship: many_to_one
   }
 }
+
+explore: user_facts {}
