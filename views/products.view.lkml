@@ -78,12 +78,30 @@ view: products {
     }
   }
 
+  # dimension: product_hierarchy {
+  #   label_from_parameter: select_product_detail
+  #   type: string
+  #   sql: ${TABLE}.{% parameter select_product_detail %}
+  #     ;;
+  # }
+
   dimension: product_hierarchy {
     label_from_parameter: select_product_detail
     type: string
-    sql: ${TABLE}.{% parameter select_product_detail %}
-      ;;
+    sql:
+    {% if select_product_detail._parameter_value == 'department' %}
+    ${department}
+    {% elsif select_product_detail._parameter_value == 'category' %}
+    ${category}
+    {% else %}
+    ${brand}
+    {% endif %} ;;
   }
+
+
+
+
+
 
 
   measure: count {
