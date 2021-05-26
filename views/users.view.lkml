@@ -1,5 +1,26 @@
+include: "geography_dimensions.view"
 view: users {
+  extends: [geography_dimensions]
   sql_table_name: public.users ;;
+
+
+filter: incoming_traffic_source {
+  type: string
+  suggest_dimension: users.traffic_source
+  suggest_explore: users
+}
+
+dimension: hidden_traffic_source_filter {
+  hidden: yes
+  type: yesno
+  sql: {% condition incoming_traffic_source %} ${traffic_source} {% endcondition %};;
+}
+
+measure: changeable_count_measure {
+  type: count_distinct
+  sql: ${id};;
+  filters: [hidden_traffic_source_filter: "Yes"]
+}
 
   dimension: id {
 #     hidden:  yes
@@ -35,40 +56,8 @@ dimension: age_tier {
   tiers: [10, 20, 30, 40, 50, 60, 70, 80, 90]
 }
 
-#Geography {
-dimension: city {
-  type: string
-  sql: ${TABLE}.city ;;
-}
+# #Geography {
 
-dimension: country {
-  type: string
-  map_layer_name: countries
-  sql: ${TABLE}.country ;;
-}
-
-dimension: latitude {
-  hidden:  yes
-  type: number
-  sql: ${TABLE}.latitude ;;
-}
-
-dimension: longitude {
-  hidden:  yes
-  type: number
-  sql: ${TABLE}.longitude ;;
-}
-
-dimension: state {
-  type: string
-  sql: ${TABLE}.state ;;
-}
-
-dimension: zip {
-  type: zipcode
-  sql: ${TABLE}.zip ;;
-}
-#}
 
 dimension: years_a_customer {
   type: number
