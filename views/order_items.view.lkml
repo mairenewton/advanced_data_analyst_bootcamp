@@ -224,6 +224,20 @@ measure: average_shipping_time {
   value_format: "0\" days\""
 }
 
+measure: total_sale_price {
+  description: "Sum of sale price"
+  type: sum
+  sql: ${sale_price} ;;
+  value_format_name: usd
+}
+
+measure: total_sales_from_email {
+  type: sum
+  sql: ${sale_price} ;;
+  filters: [users.traffic_source: "email"]
+  value_format_name: usd
+}
+
 
 # ----- Sets of fields for drilling ------
 set: detail {

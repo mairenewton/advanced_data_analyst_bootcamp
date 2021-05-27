@@ -12,7 +12,14 @@ datagroup: default {
   max_cache_age: "24 hours"
 }
 
+datagroup: orders_datagroup {
+  sql_trigger: select max(created_at) from ${order_items.SQL_TABLE_NAME} ;;
+  max_cache_age: "4 hours"
+}
+
 explore: order_items {
+  persist_with: orders_datagroup
+  sql_always_where: ${status}='Complete' ;;
 
   join: users {
     type: left_outer
@@ -84,3 +91,12 @@ explore: users {
     relationship: many_to_one
   }
 }
+#
+# explore: users_2 {
+#   from: users
+#   join: order_items {
+#     type: left_outer
+#     sql_on: ${users_2.id} = ${order_items.user_id} ;;
+#     relationship:  one_to_many
+#   }
+# }

@@ -155,11 +155,6 @@ measure: max_age {
   sql: ${age} ;;
 }
 
-measure: average_age {
-  type: average
-  sql: ${age} ;;
-}
-
 measure: count {
   type: count
   drill_fields: [id, events.count, order_items.count]
