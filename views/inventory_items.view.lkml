@@ -97,4 +97,14 @@ view: inventory_items {
     type: count
     drill_fields: [id, product_name, products.id, products.name, order_items.count]
   }
+
+  dimension: cost_of_goods_sold {
+    type: number
+    sql:  ${TABLE}.cost_of_goods_sold ;;
+  }
+
+  measure: percent_of_inventory_sold {
+    type:  number
+    sql: 1.0 ${cost_of_goods_sold} / nullif(${total_cost}, 0) ;;
+  }
 }
