@@ -14,7 +14,7 @@ datagroup: default {
 
 explore: order_items {
 
-  sql_always_where: ${order_items.created_date} >= "2021-12-12";;
+  always_filter: {filters: [order_items.status: "Complete", users.country: "USA"]}
   #sql_always_having: ${order_items.Total ${test_sales_gs} >= 200;;
 
   join: users {
