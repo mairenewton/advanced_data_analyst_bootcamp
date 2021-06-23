@@ -86,6 +86,17 @@ dimension: traffic_source {
   sql: ${TABLE}.traffic_source ;;
 }
 
+
+dimension: test_citystate_gs {
+  type: string
+  sql: ${city} || ',' || ${state};;
+}
+
+  dimension: test_source_gs {
+    type: string
+    sql: ${traffic_source} = 'Email' ;;
+  }
+
 dimension: region {
 #     map_layer_name: map_regions
 sql: CASE WHEN ${state} = 'Maine' THEN 'Northeast'
@@ -186,4 +197,13 @@ dimension: name {
   type: string
   sql: ${first_name} || ' ' || ${last_name} ;;
 }
+
+  measure: test_percentage_sales_email_source_gs {
+    type: sum
+    sql: ${age};;
+    filters: [
+      users.traffic_source: "Email"
+    ]
+  }
+
 }

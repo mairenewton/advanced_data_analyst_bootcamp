@@ -14,6 +14,9 @@ datagroup: default {
 
 explore: order_items {
 
+  sql_always_where: ${order_items.created_date} >= "2021-12-12";;
+  #sql_always_having: ${order_items.Total ${test_sales_gs} >= 200;;
+
   join: users {
     type: left_outer
     sql_on: ${order_items.user_id} = ${users.id} ;;
@@ -84,3 +87,6 @@ explore: users {
     relationship: many_to_one
   }
 }
+
+
+explore: test_view {}

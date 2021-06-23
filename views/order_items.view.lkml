@@ -165,12 +165,30 @@ dimension: date_filter_measure_one_year_prior {
   sql: {% condition date_range %} ${order_items.created_date} {% endcondition %} ;;
 }
 
+  dimension: test_status_gs {
+    type: yesno
+    sql: ${status} = 'Shipped'  ;;
+  }
+
+dimension: test_datediff_gs {
+  type: number
+  sql: DATEDIFF(day, ${created_date},${delivered_date});;
+}
+
 ## MEASURES ##
 
 measure: order_item_count {
   type: count
   drill_fields: [detail*]
 }
+
+  measure: test_total_sales_email_users_gs {
+    type: sum
+    sql: ${sale_price} ;;
+    filters: [
+      status: "Complete"
+    ]
+  }
 
 measure: total_revenue {
   type: sum
@@ -224,6 +242,30 @@ measure: average_shipping_time {
   value_format: "0\" days\""
 }
 
+measure: test_sales_gs {
+  type: sum
+  sql: ${sale_price} ;;
+}
+
+measure: test_avg_gs {
+  type: average
+  sql: ${sale_price} ;;
+}
+
+measure: test_percentage_sales_email_source_gs {
+  type: sum
+  sql: ${sale_price};;
+  filters: [
+    users.traffic_source: "Email"
+  ]
+}
+
+  measure: test_percentage_sales_email_source2_gs {
+    type: number
+    value_format_name: percent_2
+    sql: 1.0*${test_percentage_sales_email_source_gs}
+      /NULLIF(${sale_price}, 0) ;;
+  }
 
 # ----- Sets of fields for drilling ------
 set: detail {
