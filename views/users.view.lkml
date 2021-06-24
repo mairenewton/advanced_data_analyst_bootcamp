@@ -86,6 +86,12 @@ dimension: traffic_source {
   sql: ${TABLE}.traffic_source ;;
 }
 
+
+filter: incoming_traffic_source {
+  type: string
+  suggest_dimension: users.traffic_source
+  suggest_explore:  users
+}
 dimension: region {
 #     map_layer_name: map_regions
 sql: CASE WHEN ${state} = 'Maine' THEN 'Northeast'
