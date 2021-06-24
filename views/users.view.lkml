@@ -92,6 +92,19 @@ filter: incoming_traffic_source {
   suggest_dimension: users.traffic_source
   suggest_explore:  users
 }
+
+dimension: hidden_traffic_source_filter {
+  type: yesno
+  hidden: yes
+  sql: {% condition incoming_traffic_source %} ${traffic_source}  {% endcondition }%} ;;
+}
+
+measure: changeable_count_measure {
+  type: count_distinct
+  sql: ${id} ;;
+  filters: [hidden_traffic_source_filter: "yes"]
+
+}
 dimension: region {
 #     map_layer_name: map_regions
 sql: CASE WHEN ${state} = 'Maine' THEN 'Northeast'
