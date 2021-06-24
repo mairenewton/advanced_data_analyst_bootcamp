@@ -62,6 +62,10 @@ dimension: longitude {
 dimension: state {
   type: string
   sql: ${TABLE}.state ;;
+  link:  {label:  "Google"
+  url: "http://www.google.com/search?q={{  value  }}"
+  icon_url:  "http://google.com/favicon.ico"}
+
 }
 
 dimension: zip {
@@ -179,6 +183,8 @@ measure: count {
 dimension: email {
   type: string
   sql: ${TABLE}.email ;;
+  link:  {label:  "Category  Detail  Dashboard"
+    url: "/dashboards/1813?Email={{value}}"}
 }
 
 dimension: first_name {

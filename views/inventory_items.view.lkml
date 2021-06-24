@@ -41,6 +41,12 @@ view: inventory_items {
     sql: ${TABLE}.product_brand ;;
   }
 
+  dimension: category {
+    type: string
+    sql: ${TABLE}.category ;;
+    link: {label: "View Category Detail"
+      url: "/explore/advanced_data_analyst_bootcamp/inventory_items?fields=inventory_items.product_category,inventory_items.product_name,inventory_items.count&f[products.category]={{value | url_encode }}"}}
+
   dimension: product_category {
     type: string
     sql: ${TABLE}.product_category ;;
