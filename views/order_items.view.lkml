@@ -50,14 +50,15 @@ view: order_items {
     label_from_parameter: select_timeframe
     type: string
     sql:
-    {% if select_timeframe._parameter_value == 'created_date' %}
-    ${created_date}
-    {% elsif select_timeframe._parameter_value == 'created_week' %}
-    ${created_week}
-    {% else %}
-    ${created_month}
-    {% endif %} ;;
+            CASE
+             WHEN {% parameter select_timeframe %} = 'Date' THEN ${created_date}
+             WHEN {% parameter select_timeframe %} = 'Week' THEN ${created_month}
+             WHEN {% parameter select_timeframe %} = 'Month' THEN ${created_quarter}
+             ELSE NULL
+            END ;;
   }
+
+
 
   dimension_group: delivered {
     description: "When the order was delivered"
