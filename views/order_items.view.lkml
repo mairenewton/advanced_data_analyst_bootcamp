@@ -31,7 +31,7 @@ view: order_items {
 
   parameter: select_timeframe {
     type: unquoted
-    default_value: "created_month"
+    default_value: "Month"
     allowed_value: {
       value: "Date"
       label: "Date"
@@ -50,9 +50,9 @@ view: order_items {
     label_from_parameter: select_timeframe
     type: string
     sql:
-    {% if select_timeframe._parameter_value == 'created_date' %}
+    {% if select_timeframe._parameter_value == 'Date' %}
     ${created_date}
-    {% elsif select_timeframe._parameter_value == 'created_week' %}
+    {% elsif select_timeframe._parameter_value == 'Week' %}
     ${created_week}
     {% else %}
     ${created_month}
