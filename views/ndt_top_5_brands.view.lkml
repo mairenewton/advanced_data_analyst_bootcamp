@@ -8,7 +8,8 @@ view: ndt_top5_brands {
       column: total_revenue {}
       derived_column: brand_rank {
         sql: row_number() over (order by total_revenue desc) ;; }
-    }
+      filters: [order_items.created_date: "365 days"]
+     }
   }
   dimension: brand {primary_key: yes}
   dimension: total_revenue {
