@@ -7,11 +7,10 @@ view: ndt_top5_brands {
       column: brand { field: products.brand }
       column: total_revenue {}
       derived_column: brand_rank {
-        sql: row_number() over( partition by total_revenue desc ) ;;
-        }
+        sql: row_number() over (order by total_revenue desc) ;; }
     }
   }
-  dimension: brand { primary_key: yes}
+  dimension: brand {primary_key: yes}
   dimension: total_revenue {
     value_format: "$#,##0.00"
     type: number
@@ -20,11 +19,10 @@ view: ndt_top5_brands {
   measure: sum_total_revenue {
     type: sum
     sql: ${total_revenue} ;;
+    value_format: "$#,##0.00"
   }
 
-  dimension: brand_rank {
-    sql: ${TABLE}.brand_rank ;;
-  }
+  dimension: brand_rank {}
 
   dimension: is_brand_rank_top_5 {
     type: yesno
@@ -37,4 +35,5 @@ view: ndt_top5_brands {
       ${brand_rank}||') '||${brand}
       else 'Other' end;;
   }
+
 }
