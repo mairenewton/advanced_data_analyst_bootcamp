@@ -9,9 +9,15 @@ view: user_facts {
         ,MAX(order_items.created_at) AS latest_order_date
       FROM order_items
       JOIN users on order_items.user_id = users.id
+      WHERE
+      {% condition date_filter %}
+      order_items.created_at
+      {% endcondition %}
       GROUP BY user_id, state
        ;;
   }
+  filter: date_filter { datatype: date
+    }
 
   measure: count {
     type: count

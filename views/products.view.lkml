@@ -1,6 +1,22 @@
 view: products {
   sql_table_name: public.products ;;
 
+  filter: choose_a_category_to_compare {
+    type: string
+    suggest_explore: inventory_items
+    suggest_dimension: products.category
+  }
+
+  dimension: dymanic_category {
+    type:  string
+    sql:
+    case when {% condition ${choose_a_category_to_compare %}
+      ${category}
+      {% endcondition %}
+      then ${category}
+      else 'All other categories' END
+      ;;
+  }
   dimension: id {
     hidden:  yes
     primary_key: yes
