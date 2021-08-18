@@ -11,7 +11,7 @@ view: ndt_top5_brands {
         }
     }
   }
-  dimension: brand {}
+  dimension: brand { primary_key: yes}
   dimension: total_revenue {
     value_format: "$#,##0.00"
     type: number
@@ -23,6 +23,7 @@ view: ndt_top5_brands {
   }
 
   dimension: brand_rank {
+    sql: ${TABLE}.brand_rank ;;
   }
 
   dimension: is_brand_rank_top_5 {
