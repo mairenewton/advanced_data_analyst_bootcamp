@@ -47,6 +47,11 @@ dimension: country {
   sql: ${TABLE}.country ;;
 }
 
+  dimension: city_state {
+    type:  string
+    sql: CONCAT(${city}, ${state})  ;;
+  }
+
 dimension: latitude {
   hidden:  yes
   type: number
