@@ -189,6 +189,6 @@ dimension: name {
 
 dimension: city_state {
   type: string
-  sql: ${TABLE}.state ||' ' || ${TABLE}.state;;
+  sql: ${TABLE}.city ||' ' || ${TABLE}.state;;
 }
 }
