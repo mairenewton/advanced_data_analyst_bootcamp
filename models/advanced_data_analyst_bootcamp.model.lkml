@@ -71,7 +71,14 @@ explore: inventory_items {
   }
 }
 
+datagroup: default_users {
+  sql_trigger: select current_date ;;
+  max_cache_age: "24 hours"
+}
+
+
 explore: users {
+  persist_with: default_users
   label: "Users, Orders, and Inventory"
   join: order_items {
     type: left_outer
