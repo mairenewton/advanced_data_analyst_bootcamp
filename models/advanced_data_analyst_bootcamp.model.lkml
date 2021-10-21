@@ -12,8 +12,13 @@ datagroup: default {
   max_cache_age: "24 hours"
 }
 
-explore: order_items {
+datagroup: default_order_items {
+  sql_trigger: select max(created_at) from order_items ;;
+  max_cache_age: "4 hours"
+}
 
+explore: order_items {
+  persist_with: default_order_items
   join: users {
     type: left_outer
     sql_on: ${order_items.user_id} = ${users.id} ;;
