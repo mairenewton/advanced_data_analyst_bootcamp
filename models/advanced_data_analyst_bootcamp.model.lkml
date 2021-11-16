@@ -71,6 +71,10 @@ explore: inventory_items {
   }
 }
 
+explore: brand_facts {
+
+}
+
 explore: users {
   label: "Users, Orders, and Inventory"
   join: order_items {
