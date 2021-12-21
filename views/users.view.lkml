@@ -36,10 +36,20 @@ dimension: age_tier {
 }
 
 #Geography {
-dimension: city {
-  type: string
-  sql: ${TABLE}.city ;;
-}
+# dimension: city {
+#   type: string
+#   sql: ${TABLE}.city ;;
+# }
+
+  dimension: city {
+    sql: ${TABLE}.metro ;;
+    link: {
+      label: "Link To An Explore"
+      url: "/explore/model/explore_name?fields=view.field_1,view.field_2,&f[view.filter_1]={{ value }}"
+      icon_url: "https://looker.com/favicon.ico"
+    }
+  }
+
 
 dimension: country {
   type: string
