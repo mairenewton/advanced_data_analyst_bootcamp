@@ -5,6 +5,7 @@ view: user_facts_ndt {
       column: total_revenue {}
       column: order_item_count {}
 
+
     }
   }
   dimension: id {

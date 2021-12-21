@@ -7,6 +7,8 @@ view: brand_order_facts_ndt {
       derived_column: brand_rank {
         sql: row_number() over (order by total_revenue desc) ;;
       }
+      filters: [order_items.created_date: "365 days"]
+
       bind_all_filters: yes
     }
   }
