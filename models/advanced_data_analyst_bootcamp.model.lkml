@@ -84,3 +84,7 @@ explore: users {
     relationship: many_to_one
   }
 }
+
+  explore: order_facts {}
+
+
