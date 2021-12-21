@@ -7,6 +7,7 @@ view: user_facts {
       FROM order_items
       GROUP BY user_id
        ;;
+
   }
 
   dimension: user_id {

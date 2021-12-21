@@ -37,6 +37,11 @@ explore: order_items {
     sql_on: ${products.distribution_center_id} = ${distribution_centers.id} ;;
     relationship: many_to_one
   }
+  join: brand_order_facts_ndt {
+    type: inner
+    sql_on: ${products.brand} = ${brand_order_facts_ndt.brand};;
+    relationship: one_to_one
+  }
 }
 
 explore: events {
@@ -92,4 +97,4 @@ explore: users {
   }
 }
 
-  explore: order_facts {}
+  explore: user_facts_ndt {}
