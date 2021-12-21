@@ -83,8 +83,13 @@ explore: users {
     sql_on: ${order_items.inventory_item_id} = ${inventory_items.id} ;;
     relationship: many_to_one
   }
+  join: user_facts {
+    view_label: "Users"
+    type: left_outer
+    sql_on: ${users.id} = ${user_facts.user_id} ;;
+    relationship: one_to_one
+    fields: [user_facts.average_lifetime_order_count,user_facts.average_lifetime_revenue]
+  }
 }
 
   explore: order_facts {}
-
-
