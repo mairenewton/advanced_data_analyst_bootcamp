@@ -16,7 +16,7 @@ view: products {
   dimension: brand {
     sql: TRIM(${TABLE}.brand) ;;
     link: {
-      label: "Website"
+      label: "Google"
       url: "http://www.google.com/search?q={{ value | encode_uri }}"
       icon_url: "http://www.google.com/s2/favicons?domain=www.{{ value | encode_uri }}.com"
     }
