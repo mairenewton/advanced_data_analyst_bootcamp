@@ -1,10 +1,6 @@
 view: order_items {
   sql_table_name: public.order_items ;;
 
-  filter: date_range {
-    type: date
-  }
-
   dimension: id {
     hidden:  yes
     primary_key: yes
@@ -27,36 +23,6 @@ view: order_items {
       year
     ]
     sql: ${TABLE}.created_at ;;
-  }
-
-  parameter: select_timeframe {
-    type: unquoted
-    default_value: "created_month"
-    allowed_value: {
-      value: "Date"
-      label: "Date"
-    }
-    allowed_value: {
-      value: "Week"
-      label: "Week"
-    }
-    allowed_value: {
-      value: "Month"
-      label: "Month"
-    }
-  }
-
-  dimension: dynamic_timeframe {
-    label_from_parameter: select_timeframe
-    type: string
-    sql:
-    {% if select_timeframe._parameter_value == 'created_date' %}
-    ${created_date}
-    {% elsif select_timeframe._parameter_value == 'created_week' %}
-    ${created_week}
-    {% else %}
-    ${created_month}
-    {% endif %} ;;
   }
 
   dimension_group: delivered {
@@ -153,17 +119,17 @@ dimension: profit {
   sql: ${sale_price} - ${inventory_items.cost} ;;
 }
 
-dimension: date_filter_measure {
-  hidden: yes
-  type: yesno
-  sql: {% condition date_range %} ${order_items.created_date} {% endcondition %} ;;
-}
+# dimension: date_filter_measure {
+#   hidden: yes
+#   type: yesno
+#   sql: {% condition date_range %} ${order_items.created_date} {% endcondition %} ;;
+# }
 
-dimension: date_filter_measure_one_year_prior {
-  hidden: yes
-  type: yesno
-  sql: {% condition date_range %} ${order_items.created_date} {% endcondition %} ;;
-}
+# dimension: date_filter_measure_one_year_prior {
+#   hidden: yes
+#   type: yesno
+#   sql: {% condition date_range %} ${order_items.created_date} {% endcondition %} ;;
+# }
 
 ## MEASURES ##
 
