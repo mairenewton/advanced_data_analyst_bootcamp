@@ -7,7 +7,14 @@ view: users {
   type: number
   sql: ${TABLE}.id ;;
 }
-
+  dimension: email {
+    type: string
+    sql: ${TABLE}.email ;;
+    link: {
+      label: "Category Detail Dashboard"
+      url: "/dashboards/1813?Email={{value}}"
+    }
+  }
 dimension_group: created {
   type: time
   timeframes: [
@@ -175,10 +182,7 @@ measure: count {
   drill_fields: [id, events.count, order_items.count]
 }
 
-dimension: email {
-  type: string
-  sql: ${TABLE}.email ;;
-}
+
 
 dimension: first_name {
   hidden:  yes
