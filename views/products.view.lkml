@@ -20,6 +20,10 @@ view: products {
       url: "http://www.google.com/search?q={{ value | encode_uri }}"
       icon_url: "http://www.google.com/s2/favicons?domain=www.{{ value | encode_uri }}.com"
     }
+    link: {
+     label: " TO a Dashboard"
+      url: "/dashboards/694?brand={{ value | encode_uri }}"
+    }
   }
 
   dimension: category {
