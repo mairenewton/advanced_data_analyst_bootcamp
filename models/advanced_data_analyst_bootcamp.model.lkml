@@ -3,7 +3,6 @@ persist_with: default
 
 # include all the views
 include: "/views/*.view"
-include: "/test.dashboard"
 
 # include all the dashboards
 #include: "*.dashboard"
