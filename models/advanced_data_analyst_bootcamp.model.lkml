@@ -13,10 +13,16 @@ datagroup: default {
 }
 
 explore: order_items {
-
+# fields: [ALL_FIELDS* , -users.days_since_first_order,-users.days_since_last_order]
   join: users {
+    # fields: [user_fields_for_order_items*]
     type: left_outer
     sql_on: ${order_items.user_id} = ${users.id} ;;
+    relationship: many_to_one
+  }
+  join: user_order_facts {
+    type: left_outer
+    sql_on: ${order_items.user_id}  = ${user_order_facts.user_id} ;;
     relationship: many_to_one
   }
 
@@ -55,6 +61,11 @@ explore: events {
     sql_on: ${events.user_id} = ${users.id} ;;
     relationship: many_to_one
   }
+  join: user_order_facts {
+    type: left_outer
+    sql_on: ${events.user_id}  = ${user_order_facts.user_id} ;;
+    relationship: one_to_one
+  }
 }
 
 explore: inventory_items {
@@ -70,9 +81,20 @@ explore: inventory_items {
     relationship: many_to_one
   }
 }
-
+# explore: user_order_facts {}
 explore: users {
   label: "Users, Orders, and Inventory"
+
+  join: user_order_facts {
+    type: left_outer
+    sql_on: ${users.id} = ${user_order_facts.user_id} ;;
+    relationship: one_to_one
+  }
+  # join: users_extends {
+  #   type: left_outer
+  #   sql_on: ${users.id} = ${users_extends.id} ;;
+  #   relationship: one_to_one
+  # }
   join: order_items {
     type: left_outer
     sql_on: ${users.id} = ${order_items.user_id} ;;
@@ -83,4 +105,6 @@ explore: users {
     sql_on: ${order_items.inventory_item_id} = ${inventory_items.id} ;;
     relationship: many_to_one
   }
+
+
 }
