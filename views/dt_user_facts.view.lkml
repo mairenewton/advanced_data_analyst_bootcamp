@@ -27,6 +27,16 @@ view: user_facts {
     sql: ${TABLE}.lifetime_revenue ;;
   }
 
+  measure: average_lifetime_value {
+    type: average
+    sql:  ${TABLE}.lifetime_revenue ;;
+  }
+
+  measure: average_lifetime_order_count {
+    type: average
+    sql:  ${TABLE}.lifetime_order_count ;;
+  }
+
   dimension_group: first_order_date {
     type: time
     sql: ${TABLE}.first_order_date ;;
@@ -37,15 +47,7 @@ view: user_facts {
     sql: ${TABLE}.latest_order_date ;;
   }
 
-  measure: average_lifetime_value {
-    type: average
-    sql:  ${TABLE}.lifetime_revenue ;;
-  }
 
-  measure: average_lifetime_order_count {
-    type: average
-    sql:  ${TABLE}.lifetime_order_count ;;
-  }
   set: detail {
     fields: [user_id, lifetime_order_count, lifetime_revenue, first_order_date_time, latest_order_date_time]
   }
