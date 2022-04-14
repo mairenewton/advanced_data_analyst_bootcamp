@@ -1,4 +1,7 @@
+include: "geography.view"
+
 view: users {
+  extends: [geography]
   sql_table_name: public.users ;;
 
   dimension: id {
@@ -41,44 +44,44 @@ dimension: age_tier {
 #   sql: ${TABLE}.city ;;
 # }
 
-  dimension: city {
-    sql: ${TABLE}.metro ;;
-    link: {
-      label: "Link To An Explore"
-      url: "/explore/model/explore_name?fields=view.field_1,view.field_2,&f[view.filter_1]={{ value }}"
-      icon_url: "https://looker.com/favicon.ico"
-    }
-  }
+#   dimension: city {
+#     sql: ${TABLE}.metro ;;
+#     link: {
+#       label: "Link To An Explore"
+#       url: "/explore/model/explore_name?fields=view.field_1,view.field_2,&f[view.filter_1]={{ value }}"
+#       icon_url: "https://looker.com/favicon.ico"
+#     }
+#   }
 
 
-dimension: country {
-  type: string
-  map_layer_name: countries
-  sql: ${TABLE}.country ;;
-}
+# dimension: country {
+#   type: string
+#   map_layer_name: countries
+#   sql: ${TABLE}.country ;;
+# }
 
-dimension: latitude {
-  hidden:  yes
-  type: number
-  sql: ${TABLE}.latitude ;;
-}
+# dimension: latitude {
+#   hidden:  yes
+#   type: number
+#   sql: ${TABLE}.latitude ;;
+# }
 
-dimension: longitude {
-  hidden:  yes
-  type: number
-  sql: ${TABLE}.longitude ;;
-}
+# dimension: longitude {
+#   hidden:  yes
+#   type: number
+#   sql: ${TABLE}.longitude ;;
+# }
 
-dimension: state {
-  type: string
-  sql: ${TABLE}.state ;;
-}
+# dimension: state {
+#   type: string
+#   sql: ${TABLE}.state ;;
+# }
 
-dimension: zip {
-  type: zipcode
-  sql: ${TABLE}.zip ;;
-}
-#}
+# dimension: zip {
+#   type: zipcode
+#   sql: ${TABLE}.zip ;;
+# }
+# #}
 
 dimension: years_a_customer {
   type: number
@@ -196,4 +199,26 @@ dimension: name {
   type: string
   sql: ${first_name} || ' ' || ${last_name} ;;
 }
+
+
+measure: count_users_selected_traffic_source {
+  type: count_distinct
+  sql: ${id} ;;
+  filters: [
+    is_selected_traffic_source: "Yes"
+  ]
+}
+
+filter:  selected_traffic_source {
+  type: string
+  suggest_explore:  users
+  suggest_dimension: traffic_source
+}
+
+dimension:  is_selected_traffic_source {
+  type: yesno
+  hidden: yes
+  sql: {% condition selected_traffic_source %} ${traffic_source} {% endcondition %} ;;
+}
+
 }

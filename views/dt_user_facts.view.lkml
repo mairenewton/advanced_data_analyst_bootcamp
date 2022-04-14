@@ -4,11 +4,22 @@ view: dt_user_facts {
          order_items.user_id AS user_id
         ,COUNT(distinct order_items.order_id) AS lifetime_order_count
         ,SUM(order_items.sale_price) AS lifetime_revenue
-      ,MIN(order_items.created_at) AS first_order_date
-      ,MAX(order_items.created_at) AS latest_order_date
+        ,MIN(order_items.created_at) AS first_order_date
+        ,MAX(order_items.created_at) AS latest_order_date
       FROM order_items
+
+      WHERE {% condition date_filter %} order_items.created_at {% endcondition %}
+
       GROUP BY user_id
        ;;
+
+  }
+
+  filter: date_filter {
+    type: date
+    suggest_explore: order_items
+    suggest_dimension: order_items.created_at
+
   }
 
   dimension: user_id {
