@@ -1,0 +1,20 @@
+view: ndt_brand_revenue {
+  derived_table: {
+    explore_source: order_items {
+      column: brand { field: products.brand }
+      column: total_revenue {}
+      derived_column: brand_rank {
+        sql:  row_number() over (order by total_revenue desc) ;;
+      }
+    }
+  }
+  dimension: brand {}
+  dimension: total_revenue {
+    value_format: "$#,##0.00"
+    type: number
+  }
+  dimension: brand_rank {
+    type: number
+    sql: ${TABLE}.brand_rank ;;
+  }
+}

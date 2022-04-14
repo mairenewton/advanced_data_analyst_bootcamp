@@ -1,4 +1,4 @@
-view: user_facts {
+view: dt_user_facts {
   derived_table: {
     sql: SELECT
          order_items.user_id AS user_id
@@ -29,11 +29,13 @@ view: user_facts {
 
   measure: average_lifetime_value {
     type: average
+    value_format_name: usd
     sql:  ${TABLE}.lifetime_revenue ;;
   }
 
   measure: average_lifetime_order_count {
     type: average
+    value_format_name: decimal_0
     sql:  ${TABLE}.lifetime_order_count ;;
   }
 

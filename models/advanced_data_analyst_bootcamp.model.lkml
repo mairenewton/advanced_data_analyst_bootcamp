@@ -69,6 +69,12 @@ explore: inventory_items {
     sql_on: ${products.distribution_center_id} = ${distribution_centers.id} ;;
     relationship: many_to_one
   }
+
+  join: dt_product_inventory {
+    type: left_outer
+    sql_on: ${inventory_items.product_sku} = ${dt_product_inventory.product_sku} ;;
+    relationship: many_to_one
+  }
 }
 
 explore: users {
@@ -82,5 +88,10 @@ explore: users {
     type: left_outer
     sql_on: ${order_items.inventory_item_id} = ${inventory_items.id} ;;
     relationship: many_to_one
+  }
+  join: dt_user_facts {
+    type: left_outer
+    sql_on: ${order_items.user_id} = ${dt_user_facts.user_id} ;;
+    relationship: one_to_one
   }
 }
