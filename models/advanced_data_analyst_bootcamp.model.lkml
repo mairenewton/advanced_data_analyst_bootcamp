@@ -37,6 +37,12 @@ explore: order_items {
     sql_on: ${products.distribution_center_id} = ${distribution_centers.id} ;;
     relationship: many_to_one
   }
+
+  join: ndt_brand_revenue {
+    type: left_outer
+    sql_on: ${inventory_items.product_brand} = ${ndt_brand_revenue.brand} ;;
+    relationship:  many_to_one
+  }
 }
 
 explore: events {
@@ -94,4 +100,7 @@ explore: users {
     sql_on: ${order_items.user_id} = ${dt_user_facts.user_id} ;;
     relationship: one_to_one
   }
+}
+
+explore: ndt_brand_revenue {
 }

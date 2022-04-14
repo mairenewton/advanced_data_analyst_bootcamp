@@ -1,6 +1,35 @@
 view: order_items {
   sql_table_name: public.order_items ;;
 
+  parameter: selected_timeframe {
+    type: unquoted
+    allowed_value: {
+      label: "Date"
+      value: "created_date"
+      }
+    allowed_value: {
+      label: "Week"
+      value: "created_week"
+      }
+    allowed_value: {
+      label: "Month"
+      value: "created_month"
+      }
+  }
+
+  dimension: dynamic_timeframe {
+    type: string
+    sql:
+      {% if selected_timeframe._parameter_value == 'created_date' %}
+      ${created_date}
+      {% elsif selected_timeframe._parameter_value == 'created_week' %}
+      ${created_week}
+      {% else %}
+      ${created_month}
+      {% endif %}
+      ;;
+  }
+
   dimension: id {
     hidden:  yes
     primary_key: yes
