@@ -64,9 +64,24 @@ view: event_session_funnel {
     sql: ${event2_time} < ${event3_time} ;;
   }
 
+  parameter:selected_time_in_funnel  {
+    type: unquoted
+    default_value: "sec"
+    allowed_value: {
+      label: "Seconds"
+      value: "sec"
+    }
+    allowed_value: {
+      label: "Minutes"
+      value: "min"
+
+    }
+  }
+
   dimension: time_in_funnel {
     type: number
-    sql: datediff(min, ${event1_raw},COALESCE(${event3_raw},${event2_raw})) ;;
+    sql: datediff( {% parameter selected_time_in_funnel %}, ${event1_raw},COALESCE(${event3_raw},${event2_raw})) ;;
+
   }
 
   measure: count_sessions {

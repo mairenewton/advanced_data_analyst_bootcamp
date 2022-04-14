@@ -3,6 +3,8 @@ view: order_items {
 
   parameter: selected_timeframe {
     type: unquoted
+    default_value: "created_month"
+
     allowed_value: {
       label: "Date"
       value: "created_date"
