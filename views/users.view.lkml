@@ -21,7 +21,16 @@ dimension_group: created {
   ]
   sql: ${TABLE}.created_at ;;
 }
-
+dimension: age_bucket {
+  type: tier
+  style:  integer
+  sql: ${age};;
+  tiers: [18,25,35,45,55,65,75,90 ]
+}
+dimension: city_state {
+  type:  string
+  sql: ${city} || ' ' || ${state}  ;;
+}
 dimension: age {
   type: number
   value_format_name: decimal_0
