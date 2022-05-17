@@ -205,4 +205,37 @@ dimension: name {
   type: string
   sql: ${first_name} || ' ' || ${last_name} ;;
 }
+
+  dimension: days_since_first_order {
+    description: "Days between first order and current date"
+    type: number
+    sql: DATEDIFF(day,${user_order_facts.first_order_date},current_date) ;;
+  }
+  dimension: days_since_last_order {
+    description: "Days between first order and current date"
+    type: number
+    sql: DATEDIFF(day,${user_order_facts.latest_order_date},current_date) ;;
+  }
+set: user_fields_for_order_items {
+ fields: [
+   age,
+  age_tier,
+  city,
+  country,
+  created_date,
+  created_month,
+  email,
+  first_name,
+  last_name,
+  name,
+  gender,
+  state,
+  traffic_source,
+  zip,
+  count,
+  average_age
+
+ ]
+}
+
 }
