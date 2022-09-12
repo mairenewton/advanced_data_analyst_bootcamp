@@ -19,6 +19,8 @@ view: orderdetails
     type: number
   }
   dimension: order_id {
+    primary_key: yes
+
     type: number
   }
 }
