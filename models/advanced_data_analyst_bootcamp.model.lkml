@@ -12,6 +12,8 @@ datagroup: default {
   max_cache_age: "24 hours"
 }
 
+explore:  orderdetails {}
+
 explore: order_items {
 
   join: users {
