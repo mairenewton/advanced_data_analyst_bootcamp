@@ -5,14 +5,21 @@ view: orderdetails
 
  {
   derived_table: {
+    distribution: "order_id"
+    sortkeys: ["order_id"]
+    #datagroup_trigger: order_items
+    persist_for: "8 hours"
+
     explore_source: order_items {
       column: order_item_count {}
       column: average_sale_price {}
       column: order_id {}
-      #derived_column: order_revenue_rank {
-       #sql: rank() over(order by total_revenue desc) ;;
-       #} #(optional)
+
+
     }
+    #derived_column: order_revenue_rank {
+     #  sql: rank() over(order by total_revenue desc) ;;
+      # } (optional) # ei toimi
   }
   dimension: order_item_count {
     type: number
