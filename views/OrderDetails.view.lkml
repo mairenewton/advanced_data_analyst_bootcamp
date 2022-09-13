@@ -9,9 +9,9 @@ view: orderdetails
       column: order_item_count {}
       column: average_sale_price {}
       column: order_id {}
-      derived_column: order_revenue_rank {
-       sql: rank() over(order by total_revenue desc) ;;
-       } #(optional)
+      #derived_column: order_revenue_rank {
+       #sql: rank() over(order by total_revenue desc) ;;
+       #} #(optional)
     }
   }
   dimension: order_item_count {
