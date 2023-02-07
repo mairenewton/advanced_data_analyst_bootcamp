@@ -202,4 +202,17 @@ set: detail {
     inventory_items.product_name
   ]
 }
+
+  set: item_detail {
+    fields: [
+      order_id,
+      status,
+      created_date,
+      sale_price,
+      products.brand,
+      products.name
+    ]
+  }
+
+
 }
