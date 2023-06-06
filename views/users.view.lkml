@@ -2,7 +2,7 @@ view: users {
   sql_table_name: public.users ;;
 
   dimension: id {
-#     hidden:  yes
+    hidden:  yes
   primary_key: yes
   type: number
   sql: ${TABLE}.id ;;
@@ -10,6 +10,7 @@ view: users {
 
 dimension_group: created {
   type: time
+  description: "user created time"
   timeframes: [
     raw,
     time,
@@ -34,6 +35,7 @@ dimension: age_tier {
   sql: ${TABLE}.age ;;
   tiers: [10, 20, 30, 40, 50, 60, 70, 80, 90]
 }
+
 
 #Geography {
 # dimension: city {
@@ -95,6 +97,12 @@ dimension: traffic_source {
   type: string
   sql: ${TABLE}.traffic_source ;;
 }
+
+  dimension: is_email_source {
+    type: yesno
+    sql: ${traffic_source}='Email' ;;
+  }
+
 
 dimension: region {
 #     map_layer_name: map_regions
@@ -168,6 +176,7 @@ measure: max_age {
 measure: average_age {
   type: average
   sql: ${age} ;;
+
 }
 
 measure: count {
@@ -181,13 +190,13 @@ dimension: email {
 }
 
 dimension: first_name {
-  hidden:  yes
+  # hidden:  yes
   type: string
   sql: ${TABLE}.first_name ;;
 }
 
 dimension: last_name {
-  hidden:  yes
+  # hidden:  yes
   type: string
   sql: ${TABLE}.last_name ;;
 }
@@ -218,7 +227,7 @@ set: user_fields_for_order_items {
   email,
   first_name,
   last_name,
-  name,
+  # name,
   gender,
   state,
   traffic_source,

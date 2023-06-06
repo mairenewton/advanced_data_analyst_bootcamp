@@ -84,6 +84,7 @@ explore: inventory_items {
 # explore: user_order_facts {}
 explore: users {
   label: "Users, Orders, and Inventory"
+  persist_with: default
 
   join: user_order_facts {
     type: left_outer

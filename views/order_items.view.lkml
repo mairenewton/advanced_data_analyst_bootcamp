@@ -152,13 +152,6 @@ measure: total_revenue {
 
 
 
-
-measure: order_count {
-  description: "A count of unique orders"
-  type: count_distinct
-  sql: ${order_id} ;;
-}
-
 measure: average_sale_price {
   type: average
   value_format_name: usd
@@ -166,29 +159,16 @@ measure: average_sale_price {
   drill_fields: [detail*]
 }
 
-measure: average_spend_per_user {
-  type: number
-  value_format_name: usd
-  sql: 1.0 * ${total_revenue} / NULLIF(${users.count},0) ;;
-}
+  measure: total_sales_email_users {
+    type: sum
+    sql: ${sale_price} ;;
+    filters: [users.traffic_source: "Email"]
+    value_format_name: usd_0
 
-measure: total_profit {
-  type: sum
-  sql: ${profit} ;;
-  value_format_name: usd
-}
+  }
 
-measure: profit_margin {
-  type: number
-  sql: ${total_profit}/NULLIF(${total_revenue}, 0) ;;
-  value_format_name: percent_2
-}
 
-measure: average_shipping_time {
-  type: average
-  sql: ${shipping_time} ;;
-  value_format: "0\" days\""
-}
+
 
 
 # ----- Sets of fields for drilling ------
